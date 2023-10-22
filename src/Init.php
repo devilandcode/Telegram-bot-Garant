@@ -1,0 +1,11 @@
+<?php
+
+// BOT TOKEN
+const BOT_TOKEN = '6648127615:AAHdnlk9B5lgSWB_P0H24YJ_y-ifLvayxPM';
+
+// CRYPTO WALLETS
+const BTC_WALLET = 'bc1qfk9qvjde2ux0lxmn4xgccdehufap9drqleksze';
+const ETH_WALLET = '0x4956343ff81E661eF1582668AbB6aC2457676f36';
+
+// ADMIN CHAT INFO
+const ADMIN_CHAT_ID = '-1002037545977';
