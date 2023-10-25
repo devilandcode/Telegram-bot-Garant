@@ -231,4 +231,9 @@ class Messages
     {
         return $this->bot->sendMessageToUser($id_telegram, $messageFromBot);
     }
+
+    public function mailToAdminSuccess(string $admin_chat_id)
+    {
+        $this->bot->sendMessageToUser($admin_chat_id, '🔊 Успешно разослано');
+    }
 }

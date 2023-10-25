@@ -127,8 +127,8 @@ if ($messageFromBot === '/start') {
     $app->confrimTermsAndSendDeal();
 } elseif (str_contains($app->bot->getMessageFromAdminChannel(), 'bot:') === true) {
     $app->mailBulkToBot();
-}
-elseif ($app->parser->parseInputInfo()->callBackQuery === 'Not Set') {
+    $app->messages->mailToAdminSuccess(ADMIN_CHAT_ID);
+} elseif ($app->parser->parseInputInfo()->callBackQuery === 'Not Set') {
     $app->messages->unknownCommand();
 }
 

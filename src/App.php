@@ -315,14 +315,12 @@ class App
         $messageToBot = mb_substr($messageFromAdmin, 4);
         foreach($allUsersIdArray as $key => $value) {
             try {
-                $response = $this->messages->mailToBot($value['id_telegram'], $messageToBot);
+                $this->messages->mailToBot($value['id_telegram'], $messageToBot);
             } catch (Exception $e) {
-                $errorData = $e->getMessage();
+                $errorData = $e->getMessage() ??'Not $e';
             }
-            $response = print_r($response, true);
             file_put_contents('response.txt', $errorData . "\n", FILE_APPEND);
         }
-        exit();
     }
 
 }
