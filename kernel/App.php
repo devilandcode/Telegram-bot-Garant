@@ -2,17 +2,19 @@
 
 namespace App\Kernel;
 
+use App\Kernel\Container\Container;
+use App\Kernel\HTTP\BotApi;
+
 class App
 {
-
+    public Container $container;
     public array $inputPhpData;
     public string $message;
 
 
     public function __construct($token)
     {
-        $this->bot = new Api($token);
-        $this->registerServices($token);
+        $this->container = new Container($token);
     }
 
     /**
