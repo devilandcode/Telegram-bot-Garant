@@ -1,11 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Kernel\HTTP;
 
+use App\Kernel\Exeptions\AnswerFromTelegramExeption;
 use GuzzleHttp\Client;
-use JsonException;
- 
-class Api extends Client
+
+class BotApi extends Client
 {
     /**
      *
@@ -30,11 +30,11 @@ class Api extends Client
      * GET INFO FROM PHP INPUT
      * 
      * @return mixed $result - basic chat data
-     * @throws JsonException
+     * @throws AnswerFromTelegramExeption
      */
     public function getInputData(): mixed
     {
-        return json_decode(file_get_contents('php://input'), true, 512, JSON_THROW_ON_ERROR);
+        return json_decode(file_get_contents('php://input'), false, 512, JSON_THROW_ON_ERROR);
     }
  
     /**
@@ -57,7 +57,7 @@ class Api extends Client
      *
      * @param string $message - bot message
      * @return mixed - execution result
-     * @throws JsonException
+     * @throws AnswerFromTelegramExeption
      *
      */
     public function sendMessage(string $message): mixed
@@ -72,7 +72,7 @@ class Api extends Client
      * @param string $message - bot message
      * @param string $chat_id - user message to whom to send
      * @return mixed - execution result
-     * @throws JsonException
+     * @throws AnswerFromTelegramExeption
      *
      */
     public function sendMessageToUser(string $chat_id, string $message): mixed
@@ -98,7 +98,7 @@ class Api extends Client
      *
      * @param string $message
      * @return mixed
-     * @throws JsonException
+     * @throws AnswerFromTelegramExeption
      */
     public function sendCallBackAnswer(string $message): mixed
     {
@@ -112,7 +112,7 @@ class Api extends Client
      *
      * @param string $message
      * @return mixed
-     * @throws JsonException
+     * @throws AnswerFromTelegramExeption
      */
     public function sendMessageCallBack(string $message): mixed
     {
@@ -127,7 +127,7 @@ class Api extends Client
     * @param string $message - bot message
     * @param array $inlineKeyboard - keyboard
     * @return mixed - result of execution
-    * @throws JsonException
+    * @throws AnswerFromTelegramExeption
     */   
     public function sendMessageWithInlineKeyboard(string $message, array $inlineKeyboard): mixed
     {
@@ -145,7 +145,7 @@ class Api extends Client
      * @param string $message
      * @param array $inlineKeyboard
      * @return mixed
-     * @throws JsonException
+     * @throws AnswerFromTelegramExeption
      */
     public function sendMessageWithInlineKeyboardToUser(string $chat_id, string $message, array $inlineKeyboard): mixed
     {
@@ -160,7 +160,7 @@ class Api extends Client
     * @param string $message - bot message
     * @param array $keyboard - keyboard
     * @return mixed $result  - result of execution
-    * @throws JsonException
+    * @throws AnswerFromTelegramExeption
     */
     
     public function sendMessageWithBaseKeyboard(string $message, array $keyboard): mixed
@@ -175,7 +175,7 @@ class Api extends Client
      * @param string $message
      * @param array $keyboard
      * @return mixed
-     * @throws JsonException
+     * @throws AnswerFromTelegramExeption
      */
     public function sendMessageWithBaseKeyboardCallBack(string $message, array $keyboard): mixed
     {

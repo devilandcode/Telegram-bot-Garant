@@ -1,6 +1,8 @@
 <?php
 
 namespace App;
+use App\Kernel\Database\DBDriver;
+
 class UserModel
 {   
     const  NAME_OF_USER_TABLE   = 'users';

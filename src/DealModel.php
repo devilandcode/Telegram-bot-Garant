@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Kernel\Database\DBDriver;
+
 class DealModel
 {
     const NAME_OF_DEALS_TABLE  = 'deals';

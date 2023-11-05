@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\CryptoApi;
 use GuzzleHttp\Client;
 
-class Crypto extends Client
+class CryptoApi extends Client
 {
     public $btcPrice;
     public $ethPrice;

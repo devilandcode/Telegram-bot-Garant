@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Kernel\HTTP\Api;
+
 class Keyboards
 {
     private Api $bot;

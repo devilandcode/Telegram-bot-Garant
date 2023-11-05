@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Kernel\Database;
 
-use \PDO;
+use PDO;
+
 class DBDriver
 {
     const FETCH_ALL = 'all';

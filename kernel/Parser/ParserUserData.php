@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Kernel\Parser;
 class ParserUserData
 {
     public string|null $id_telegram;
@@ -28,11 +28,7 @@ class ParserUserData
         $this->parseInputInfo();
     }
 
-    /**
-     * Parse data from php://input
-     * @return mixed
-     */
-    public function parseInputInfo(): mixed
+    public function parseInputInfo(): self
     {
         if (isset($this->data['message']) && isset($this->data['message']['chat']['username'])) {
             $this->id_telegram = (string)$this->data['message']['chat']['id'];

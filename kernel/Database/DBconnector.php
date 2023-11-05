@@ -1,14 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Kernel\Database;
 
-use \PDO;
+use PDO;
+
 class DBconnector
 {   
     const HOST        = 'localhost';
     const DB_NAME     = 'bot';
-    const DB_USERNAME = 'root_bot';
-    const DB_PASS     = 'root106616';
+    const DB_USERNAME = 'root';
+    const DB_PASS     = '';
     private static $instance;
     
     /**

@@ -1,18 +1,10 @@
 <?php
 
-namespace App;
-
-use \Exception;
+namespace App\Kernel;
 
 class App
 {
-    public Api $bot;
-    public ParserUserData $parser;
-    public UserModel $userManager;
-    public DealModel $dealManager;
-    public Keyboards $keyboards;
-    public Messages $messages;
-    public Crypto $crypto;
+
     public array $inputPhpData;
     public string $message;
 
@@ -21,17 +13,6 @@ class App
     {
         $this->bot = new Api($token);
         $this->registerServices($token);
-    }
-
-    public function registerServices($token): void
-    {
-        $this->inputPhpData = $this->bot->getInputData();
-        $this->parser = new ParserUserData($this->inputPhpData);
-        $this->keyboards = new Keyboards($token);
-        $this->messages = new Messages($token);
-        $this->crypto = new Crypto();
-        $this->userManager = new UserModel(new DBDriver(DBconnector::getConnect()));
-        $this->dealManager = new DealModel(new DBDriver(DBconnector::getConnect()));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Kernel\HTTP\Api;
 use JsonException;
 
 class Messages
