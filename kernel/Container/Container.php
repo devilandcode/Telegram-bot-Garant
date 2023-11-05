@@ -4,7 +4,9 @@ namespace App\Kernel\Container;
 
 use App\CryptoApi\CryptoApi;
 use App\DealModel;
-use App\Kernel\Api\BotApi;
+use App\Kernel\Config\Config;
+use App\Kernel\Config\ConfigInterface;
+use App\Kernel\HTTP\BotApi;
 use App\Kernel\Database\DBconnector;
 use App\Kernel\Database\DBDriver;
 use App\Kernel\Parser\ParserUserData;
@@ -15,6 +17,7 @@ use App\UserModel;
 class Container
 {
     public BotApi $bot;
+    public ConfigInterface $config;
     public ParserUserData $parser;
     public UserModel $userManager;
     public DealModel $dealManager;
@@ -29,8 +32,9 @@ class Container
 
     public function registerServices($token): void
     {
-        $this->inputPhpData = $this->bot->getInputData();
-        $this->parser = new ParserUserData($this->inputPhpData);
+        $this->bot = new BotApi($token);
+        $this->config = new Config();
+        $this->parser = new ParserUserData($this->bot->getInputData());
         $this->keyboards = new Keyboards($token);
         $this->messages = new Messages($token);
         $this->crypto = new CryptoApi();

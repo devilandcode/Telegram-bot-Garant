@@ -6,9 +6,10 @@ ini_set('log_errors', 'On');
 ini_set('error_log', 'errors.log');
 set_include_path(__DIR__);
 
+define('APP_PATH', __DIR__);
 // LOAD AUTOLOADER AND BOT PERSONAL DATA
 require_once 'vendor/autoload.php';
-require_once 'src/bot.php';
+//require_once 'src/bot.php';
 
 // CREATE APP INSTANCES
 $app = new App(BOT_TOKEN);

@@ -2,22 +2,14 @@
 
 namespace App\Kernel\Database;
 
+use App\Kernel\Config\ConfigInterface;
 use PDO;
 
 class DBconnector
-{   
-    const HOST        = 'localhost';
-    const DB_NAME     = 'bot';
-    const DB_USERNAME = 'root';
-    const DB_PASS     = '';
+{
     private static $instance;
-    
-    /**
-     * MAKE STATIC INSTANCE OF CONNECTION
-     *
-     * @return \PDO
-     */
-    public static function getConnect() : \PDO 
+
+    public static function getConnect() : \PDO
     {
         if(self::$instance == null) {
             return self::$instance = self::getPDO();
@@ -25,15 +17,16 @@ class DBconnector
         return self::$instance;
     }
 
-    /**
-     * GET PDO INSTANCE
-     *
-     * @return \PDO
-     */
-    private static function getPDO() : \PDO
+    private static function getPDO(
+        string $driver,
+        string $host,
+        string $database,
+        string $username,
+        string $password
+    ) : \PDO
     {
-        $dbh = sprintf('mysql:host=%s;dbname=%s', self::HOST, self::DB_NAME);
-        $pdo = new PDO($dbh, self::DB_USERNAME, self::DB_PASS);
+        $dbh = sprintf('%s:host=%s;dbname=%s',$driver, $host, $database);
+        $pdo = new PDO($dbh, $username, $password);
         $pdo->exec('SET NAMES UTF8');
 
         return $pdo;
