@@ -2,29 +2,23 @@
 
 namespace App;
 
-use App\Kernel\HTTP\Api;
+use App\Kernel\Config\ConfigInterface;
+use App\Kernel\HTTP\BotApi;
 
 class Keyboards
 {
-    private Api $bot;
+    private BotApi $bot;
 
-    public function __construct($token)
+    public function __construct(
+        public ConfigInterface $config,
+        public string $token)
     {
-        $this->bot = new Api($token);
+        $this->bot = new BotApi($token);
     }
 
     public function start(): void
     {
-        $startKeyboard = array(
-            array(
-                array('text' => '💀 Мой Профиль'),
-                array('text' => '👀 Поиск Пользователя')
-            ),
-            array(
-                array('text' => '🔥 Активные Сделки'),
-                array('text' => '📪 Служба Поддержки')
-            )
-        );
+        $startKeyboard = $this->config->get('keyboard.start');
 
         $this->bot->sendMessageWithBaseKeyboard('Whats up Nigga', $startKeyboard);
     }

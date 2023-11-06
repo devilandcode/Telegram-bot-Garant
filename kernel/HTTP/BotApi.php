@@ -16,7 +16,7 @@ class BotApi extends Client
      */
  
     protected string $conftoken;
-    public array $basicChatData;
+    public \stdClass $basicChatData;
  
     public function __construct($token)
     {
@@ -32,7 +32,7 @@ class BotApi extends Client
      * @return mixed $result - basic chat data
      * @throws AnswerFromTelegramExeption
      */
-    public function getInputData(): mixed
+    public function getInputData(): \stdClass
     {
         return json_decode(file_get_contents('php://input'), false, 512, JSON_THROW_ON_ERROR);
     }
@@ -44,12 +44,12 @@ class BotApi extends Client
      */
     public function getMessage(): mixed
     {
-    return isset($this->basicChatData['message']['text']) ? $this->basicChatData['message']['text'] : 'smth wrong';
+    return isset($this->basicChatData->message->text) ? $this->basicChatData->message->text : 'smth wrong';
     }
 
     public function getMessageFromAdminChannel(): mixed
     {
-        return isset($this->basicChatData['channel_post']['text']) ? $this->basicChatData['channel_post']['text'] : 'no messages from admin';
+        return isset($this->basicChatData->channel_post->text) ? $this->basicChatData->channel_post->text : 'no messages from admin';
     }
 
 
@@ -165,7 +165,7 @@ class BotApi extends Client
     
     public function sendMessageWithBaseKeyboard(string $message, array $keyboard): mixed
     {
-            $params = array('chat_id' => $this->basicChatData['message']['chat']['id'],'text' => $message, 'reply_markup' => array('keyboard' => $keyboard, 'resize_keyboard' => true, 'is_persistent' => true));
+            $params = array('chat_id' => $this->basicChatData->message->chat->id,'text' => $message, 'reply_markup' => array('keyboard' => $keyboard, 'resize_keyboard' => true, 'is_persistent' => true));
             $response = $this->request('POST', "https://api.telegram.org/bot$this->conftoken/sendMessage",['json'=>$params],['http_errors' => false]);
             return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }

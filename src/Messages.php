@@ -2,16 +2,16 @@
 
 namespace App;
 
-use App\Kernel\HTTP\Api;
-use JsonException;
+use App\Kernel\HTTP\BotApi;
+
 
 class Messages
 {
-    private Api $bot;
+    private BotApi $bot;
 
     public function __construct($token)
     {
-        $this->bot = new Api($token);
+        $this->bot = new BotApi($token);
     }
 
     /**

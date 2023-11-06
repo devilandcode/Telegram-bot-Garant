@@ -16,14 +16,17 @@ use App\UserModel;
 
 class Container
 {
-    public BotApi $bot;
-    public ConfigInterface $config;
-    public ParserUserData $parser;
-    public UserModel $userManager;
-    public DealModel $dealManager;
-    public Keyboards $keyboards;
-    public Messages $messages;
-    public CryptoApi $crypto;
+    public readonly BotApi $bot;
+    public readonly DBconnector $DBconnector;
+
+    public readonly DBDriver $DBDriver;
+    public readonly ConfigInterface $config;
+    public readonly ParserUserData $parser;
+    public readonly UserModel $userManager;
+    public readonly DealModel $dealManager;
+    public readonly Keyboards $keyboards;
+    public readonly Messages $messages;
+    public readonly CryptoApi $crypto;
 
     public function __construct($token)
     {
@@ -34,11 +37,13 @@ class Container
     {
         $this->bot = new BotApi($token);
         $this->config = new Config();
+        $this->DBconnector = new DBconnector($this->config);
+        $this->DBDriver = new DBDriver($this->DBconnector->getConnect());
         $this->parser = new ParserUserData($this->bot->getInputData());
-        $this->keyboards = new Keyboards($token);
+        $this->keyboards = new Keyboards($this->config, $token);
         $this->messages = new Messages($token);
         $this->crypto = new CryptoApi();
-        $this->userManager = new UserModel(new DBDriver(DBconnector::getConnect()));
-        $this->dealManager = new DealModel(new DBDriver(DBconnector::getConnect()));
+        $this->userManager = new UserModel($this->DBDriver);
+        $this->dealManager = new DealModel($this->DBDriver);
     }
 }

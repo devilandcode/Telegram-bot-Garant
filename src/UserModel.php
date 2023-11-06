@@ -31,7 +31,7 @@ class UserModel
      * @param string $chat_id
      * @return string|false
      */
-    public function addToUserTable(string $id_telegram, string $username, string $chat_id) : string|false
+    public function addNewUserToTable(string $id_telegram, string $username, string $chat_id) : string|false
     {
         $params = [
             self::ID_TELEGRAM   => $id_telegram,
