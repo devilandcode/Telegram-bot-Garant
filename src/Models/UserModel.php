@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 use App\Kernel\Database\DBDriver;
 
 class UserModel
@@ -103,10 +103,24 @@ class UserModel
      * @param string $id_telegram
      * @return mixed
      */
-    public function getDataOfSeller($id_telegram) : mixed
+    public function showLastSearchData($id_telegram) : mixed
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1', 
         self::NAME_OF_SEACH_TABLE, self::ID_BUYER, self::ID_BUYER);
+        $stm = $this->pdo->select($sql, [self::ID_BUYER => $id_telegram], DBDriver::FETCH_ONE);
+
+        return is_array($stm) ? $stm : null;
+    }
+    /**
+     * GET INFO OF SELLER (WHICH SEARCHED FOR LAST)
+     *
+     * @param string $id_telegram
+     * @return mixed
+     */
+    public function getDataOfSeller($id_telegram) : mixed
+    {
+        $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1',
+            self::NAME_OF_SEACH_TABLE, self::ID_BUYER, self::ID_BUYER);
         $stm = $this->pdo->select($sql, [self::ID_BUYER => $id_telegram], DBDriver::FETCH_ONE);
 
         return is_array($stm) ? $stm : null;

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Kernel\Parser;
+use App\Models\UserModel;
+
 class ParserUserData
 {
     public string|null $id_telegram;
@@ -19,13 +21,14 @@ class ParserUserData
     public string $sellerId;
     public string $amountOfDeal;
     public string $termsOfDeal;
-    private \stdClass $data;
 
-
-    public function __construct($inputData)
+    public function __construct(
+        public \stdClass $data,
+        public UserModel $userDBManager,
+    )
     {
-        $this->data = $inputData;
         $this->parsePhpInput();
+        $this->parseLastSearchedData();
     }
 
     public function parsePhpInput(): self
@@ -52,75 +55,71 @@ class ParserUserData
             $this->chat_id = null;
         }
 
-        if (isset($this->data->callback_query->data)) {
-            $this->callBackQuery = $this->data->callback_query->data;
-        } else {
-            $this->callBackQuery = 'Not Set';
-        }
-
         return $this;
     }
-//
-//    /**
-//     * Parse data from search table
-//     * @param array|null $lastSearchedDataArray
-//     * @return mixed
-//     */
-//    public function parseLastSearchedData($lastSearchedDataArray) : mixed
-//    {
-//        if ($lastSearchedDataArray != null) {
-//            $this->idSearchTable = $lastSearchedDataArray['id'];
-//            $this->idBuyer = $lastSearchedDataArray['id_buyer'];
-//            $this->idSeller = $lastSearchedDataArray['id_seller'];
-//            $this->amount = $this->checkIsIsset($lastSearchedDataArray, 'amount', null, null, 'none');
-//            $this->terms = $this->checkIsIsset($lastSearchedDataArray, 'text', null, null, 'none');
-//            $this->lastSearchedTime = $lastSearchedDataArray['time_in'];
-//        }
-//        return $this;
-//    }
-//
-//    /**
-//     * Get the difference between the current time and the time of the last customer search
-//     * @return void
-//     */
-//    public function getDiffTime() : mixed
-//    {
-//        return $this->difTime = (time() - $this->lastSearchedTime) / 60;
-//
-//    }
-//
-//    public function parseDealData(array $dealDataArray) : void
-//    {
-//        if ($dealDataArray != null) {
-//            $this->idOfDeal = $dealDataArray['id'];
-//            $this->buyerId = $dealDataArray['id_buyer'];
-//            $this->sellerId = $dealDataArray['id_seller'];
-//            $this->amountOfDeal = $dealDataArray['amount'];
-//            $this->termsOfDeal = $dealDataArray['text'];
-//        }
-//    }
-//
-//    /**
-//     * Check is isset passed string
-//     * @param mixed $string
-//     * @param string|null $firstArg
-//     * @param string|null $secondArg
-//     * @param string|null $thirdArg
-//     * @param string|null $ifNot
-//     * @return mixed
-//     */
-//    public function checkIsIsset(mixed $string, string $firstArg = null, string $secondArg = null, string $thirdArg = null, string $ifNot = null): mixed
-//    {
-//        if (is_array($string) && $firstArg === null && $secondArg === null && $thirdArg === null) {
-//            return isset($string) ? $string : $ifNot;
-//        } elseif (is_array($string) && $firstArg !== null && $secondArg === null && $thirdArg === null) {
-//            return isset($string[$firstArg]) ? $string[$firstArg] : $ifNot;
-//        } elseif (is_array($string) && $firstArg !== null && $secondArg !== null && $thirdArg === null) {
-//            return isset($string[$firstArg][$secondArg]) ? $string[$firstArg][$secondArg] : $ifNot;
-//        } elseif (is_array($string) && $firstArg !== null && $secondArg !== null && $thirdArg !== null) {
-//            return isset($string[$firstArg][$secondArg][$thirdArg]) ? $string[$firstArg][$secondArg][$thirdArg] : $ifNot;
-//        } else {
-//            return isset($string) ? $string : $ifNot;
-//        }
-//    }
+
+    /**
+     * Parse data from search table
+     * @param array|null $lastSearchedDataArray
+     * @return mixed
+     */
+    public function parseLastSearchedData() : bool
+    {
+        $lastSearchedDataArray = $this->userDBManager->showLastSearchData($this->id_telegram);
+        if ($lastSearchedDataArray != null) {
+            $this->idSearchTable = $lastSearchedDataArray['id'];
+            $this->idBuyer = $lastSearchedDataArray['id_buyer'];
+            $this->idSeller = $lastSearchedDataArray['id_seller'];
+            $this->amount = $this->checkIsIsset($lastSearchedDataArray, 'amount', null, null, 'none');
+            $this->terms = $this->checkIsIsset($lastSearchedDataArray, 'text', null, null, 'none');
+            $this->lastSearchedTime = $lastSearchedDataArray['time_in'];
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get the difference between the current time and the time of the last customer search
+     * @return void
+     */
+    public function getDiffTime() : mixed
+    {
+        return (int)($this->difTime = (time() - $this->lastSearchedTime) / 60);
+
+    }
+
+    public function parseDealData(array $dealDataArray) : void
+    {
+        if ($dealDataArray != null) {
+            $this->idOfDeal = $dealDataArray['id'];
+            $this->buyerId = $dealDataArray['id_buyer'];
+            $this->sellerId = $dealDataArray['id_seller'];
+            $this->amountOfDeal = $dealDataArray['amount'];
+            $this->termsOfDeal = $dealDataArray['text'];
+        }
+    }
+
+    /**
+     * Check is isset passed string
+     * @param mixed $string
+     * @param string|null $firstArg
+     * @param string|null $secondArg
+     * @param string|null $thirdArg
+     * @param string|null $ifNot
+     * @return mixed
+     */
+    public function checkIsIsset(mixed $string, string $firstArg = null, string $secondArg = null, string $thirdArg = null, string $ifNot = null): mixed
+    {
+        if (is_array($string) && $firstArg === null && $secondArg === null && $thirdArg === null) {
+            return isset($string) ? $string : $ifNot;
+        } elseif (is_array($string) && $firstArg !== null && $secondArg === null && $thirdArg === null) {
+            return isset($string[$firstArg]) ? $string[$firstArg] : $ifNot;
+        } elseif (is_array($string) && $firstArg !== null && $secondArg !== null && $thirdArg === null) {
+            return isset($string[$firstArg][$secondArg]) ? $string[$firstArg][$secondArg] : $ifNot;
+        } elseif (is_array($string) && $firstArg !== null && $secondArg !== null && $thirdArg !== null) {
+            return isset($string[$firstArg][$secondArg][$thirdArg]) ? $string[$firstArg][$secondArg][$thirdArg] : $ifNot;
+        } else {
+            return isset($string) ? $string : $ifNot;
+        }
+    }
 }

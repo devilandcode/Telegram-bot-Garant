@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CryptoApi;
+namespace App\Kernel\HTTP;
 use GuzzleHttp\Client;
 
 class CryptoApi extends Client

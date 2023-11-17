@@ -2,13 +2,12 @@
 
 namespace App\Kernel;
 
-use App\CryptoApi\CryptoApi;
-use App\Kernel\Config\ConfigInterface;
 use App\Kernel\Container\Container;
+use App\Kernel\HTTP\CryptoApi;
 use App\Kernel\Parser\ParserUserData;
 use App\Keyboards;
 use App\Messages;
-use App\UserModel;
+use App\Models\UserModel;
 
 
 class Bot
@@ -34,7 +33,8 @@ class Bot
         $this->container
             ->router
             ->dispatch(
-                $this->container->botApi->getMessage());
+                $this->container->botApi->getMessage()
+            );
     }
 
     public function getMessageFromBot(): string
@@ -42,11 +42,6 @@ class Bot
         return trim($this->container->botApi->getMessage());
     }
 
-    public function start(): void
-    {
-        $this->botKeyboard->start();
-    }
-    
 //
 //    /**
 //     * Check is user exist in bot's table
@@ -102,24 +97,7 @@ class Bot
 //        );
 //    }
 //
-//    /**
-//     * Send to user an invitation to deal with keyboards options (Accept or Cancel)
-//     * @return void
-//     */
-//    public function sendToSellerAcceptOrCancelInvitation(): void
-//    {
-//        $lastSearchedDataArray = $this->userManager->getDataOfSeller($this->parser->id_telegram);
-//        $this->parser->parseLastSearchedData($lastSearchedDataArray);
-//
-//        $this->keyboards->acceptInvitationKeyboard(
-//            $this->parser->idSeller,
-//            $this->parser->idSearchTable,
-//            $this->parser->idBuyer,
-//            $this->userManager->getUserInfoById($this->parser->idBuyer)['username'],
-//            $this->parser->amount,
-//            $this->parser->terms
-//        );
-//    }
+
 //
 //    /**
 //     * Notify sender of acception of deal and show him which crypto wallet he must to top up

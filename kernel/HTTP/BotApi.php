@@ -102,7 +102,7 @@ class BotApi extends Client
      */
     public function sendCallBackAnswer(string $message): mixed
     {
-        $params = array('callback_query_id' => $this->basicChatData['callback_query']['id'],'text'=>$message);
+        $params = array('callback_query_id' => $this->basicChatData->callback_query->id,'text'=>$message);
         $response = $this->request('POST', "https://api.telegram.org/bot$this->conftoken/answerCallbackQuery",['json'=>$params],['http_errors' => false]);
         return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
@@ -116,7 +116,7 @@ class BotApi extends Client
      */
     public function sendMessageCallBack(string $message): mixed
     {
-        $params = array('chat_id' => $this->basicChatData['callback_query']['from']['id'],'text'=>$message,);
+        $params = array('chat_id' => $this->basicChatData->callback_query->from->id,'text'=>$message,);
         $response = $this->request('POST', "https://api.telegram.org/bot$this->conftoken/sendMessage",['json'=>$params],['http_errors' => false]);
         return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
@@ -131,7 +131,7 @@ class BotApi extends Client
     */   
     public function sendMessageWithInlineKeyboard(string $message, array $inlineKeyboard): mixed
     {
-            $params = array('chat_id' => $this->basicChatData['message']['chat']['id'],'text'=>$message,'reply_markup' => json_encode(array('inline_keyboard'=>$inlineKeyboard)));
+            $params = array('chat_id' => $this->basicChatData->message->chat->id,'text'=>$message,'reply_markup' => json_encode(array('inline_keyboard'=>$inlineKeyboard)));
             $response = $this->request('POST', "https://api.telegram.org/bot$this->conftoken/sendMessage",['json'=>$params],['http_errors' => false]);
 
             return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);     

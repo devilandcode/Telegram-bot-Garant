@@ -2,27 +2,27 @@
 
 namespace App\Kernel\Controller;
 
-use App\CryptoApi\CryptoApi;
+use App\Kernel\HTTP\BotApi;
+use App\Kernel\HTTP\CryptoApi;
 use App\Kernel\Parser\ParserUserData;
 use App\Keyboards;
 use App\Messages;
-use App\UserModel;
+use App\Models\UserModel;
 
-class Controller
+abstract class Controller
 {
 
     public function __construct(
-        private Keyboards $botKeyboard,
-        private Messages $botAnswer,
-        private CryptoApi $cryptoApi,
-        private UserModel $userDBManager,
-        private ParserUserData $parser,
+        protected BotApi $botApi,
+        protected Keyboards $botKeyboard,
+        protected Messages $botAnswer,
+        protected CryptoApi $cryptoApi,
+        protected UserModel $userDBManager,
+        protected ParserUserData $parser,
     )
     {
         $this->checkNewUser();
     }
-
-    private Keyboards $botKeyboards;
 
     public function start(): void
     {
@@ -40,12 +40,32 @@ class Controller
         );
     }
 
-    public function search()
+    public function search(): void
     {
-
+        $this->botAnswer->askUserIdToSearch();
     }
 
-    private function checkNewUser(): int|string
+    public function getMyDeals(): void
+    {
+        $this->botAnswer->activeDeals();
+    }
+
+    public function support(): void
+    {
+        $this->botAnswer->explainHowToUseBot();
+    }
+
+    public function unknownCommand(): void
+    {
+        $this->botAnswer->unknownCommand();
+    }
+
+    public function sendCallBackAnswerToTelegram(): void
+    {
+        $this->botApi->sendCallBackAnswer('');
+    }
+
+    public function checkNewUser(): int|string
     {
         if ($this->userDBManager->getUserInfoById($this->parser->id_telegram) == null)
         {
@@ -57,6 +77,27 @@ class Controller
         } else {
             return 'Not New User';
         }
+    }
+
+    /**
+     * The time difference from the last time a buyer was found.
+     * Used to set the time during which a deal can be opened.
+     * if more than 5(i set) minutes have passed, the transaction must be restarted
+     * @return mixed
+     */
+    public function checkDifferenceTime(): mixed
+    {
+        $this->parser->parseLastSearchedData();
+        $this->parser->getDiffTime();
+        return $this->parser->difTime;
+//
+//        if ($time < 5) {
+//
+//            $this->botAnswer->showTimeIsOver();
+//            die;
+//            file_put_contents('time.txt', $time . "\n", FILE_APPEND);
+//
+//        }
     }
 
 }

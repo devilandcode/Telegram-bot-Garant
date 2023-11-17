@@ -28,15 +28,6 @@ class Messages
         $this->bot->sendMessage('😥 Неизвестная команда');
     }
 
-    /**
-     * Send Message with my profile's data
-     * @param string $id_telegram
-     * @param string $username
-     * @param string $btcPrice
-     * @param string $ethPrice
-     * @return void
-     * @throws JsonException
-     */
     public function sendMyProfileData(string $id_telegram, string $username, string $btcPrice, string $ethPrice, string $usdtPrice): void
     {
         $this->bot->sendMessage(
@@ -65,11 +56,6 @@ class Messages
         );
     }
 
-    /**
-     * Send an instruction - how to use the bot
-     * @return void
-     * @throws JsonException
-     */
     public function explainHowToUseBot(): void
     {
         $this->bot->sendMessage(
@@ -88,29 +74,24 @@ class Messages
         );
     }
 
-    /**
-     * Ask user to enter the amount of deal
-     * @param string $btcPrice
-     * @param string $ethPrice
-     * @return mixed
-     * @throws JsonException
-     */
-    public function askAmountOfDeal(string $btcPrice, string $ethPrice): mixed
+    public function showTimeIsOver(): void
+    {
+        $this->bot->sendMessage("❌ Время на создание сделки закончилось\n\n    Начните заново! ");
+    }
+
+    public function askAmountOfDeal(string $btcPrice, string $ethPrice, string $usdtPrice): mixed
     {
         return $this->bot->sendMessageCallBack(
             sprintf(
-                "🔥Введите сумму сделки в криптовалюте\n\n📈 Курс BTC  %s USD\n📉 Курс ETH   %s  USD\n\nНазвание крипты слитно без пробела\n(Пример 0.00235btc)",
+                "🔥Введите сумму сделки в криптовалюте\n\n📈 Курс BTC  %s USD\n📉 Курс ETH   %s  USD\n📈 Курс USDT  %s USD\n\nНазвание крипты слитно без пробела\n(Пример 0.00235btc)",
                 $btcPrice,
-                $ethPrice
+                $ethPrice,
+                $usdtPrice
             )
         );
     }
 
-    /**
-     * Ask user to enter the terms of deal
-     * @return void
-     * @throws JsonException
-     */
+
     public function askTermsOfDeal(): void
     {
         $this->bot->sendMessage(
@@ -135,7 +116,7 @@ class Messages
      * @return void
      * @throws JsonException
      */
-    public function askIdToSearchUser(): void
+    public function askUserIdToSearch(): void
     {
         $this->bot->sendMessage(
             "🎯 Для поиска пользователя:\r\n\r\n 📌  Напишите его User ID:\r\n  💎 Число из 10 цифр \r\n 🧩  Пример - 6648127615\r\n  (Находится там же, где и username, только ниже)"

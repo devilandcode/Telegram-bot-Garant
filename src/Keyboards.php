@@ -31,14 +31,14 @@ class Keyboards
         $this->bot->sendMessageWithBaseKeyboardCallBack('Whats up Nigga', $startKeyboard);
     }
 
-    public function notExistSellerKeyboard(): void
+    public function showGoBackKeyboard(): void
     {
         $goHomeKeyboard = $this->config->get('keyboard.goHome');
 
         $this->bot->sendMessageWithInlineKeyboard('😥 Пользователь не найден 😥', $goHomeKeyboard);
     }
 
-    public function existSellerKeyboard(): void
+    public function showKeyboardUserExist(): void
     {
         $createDealKeyboard = $this->config->get('keyboard.createDeal');
 
@@ -62,8 +62,8 @@ class Keyboards
 
         $this->bot->sendMessageWithInlineKeyboard(
             sprintf(
-                "🧨 Подтверждение сделки № %s\n\n💎 Создал (user id): %s
-💎 Направляет к (user id): %s\n 🗯 Сумма сделки: %s\n 🔊 Предмет Сделки: %s",
+                "🧨 Подтверждение сделки № %s\n\n💎 Покупатель (user id): %s
+💎 Продавец (user id): %s\n 🗯 Сумма сделки: %s\n 🔊 Предмет Сделки: %s",
                 $idSearchTable,
                 $id_telegram,
                 $lastSearchedUser,
