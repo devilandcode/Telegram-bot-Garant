@@ -90,7 +90,7 @@ class BotApi extends Client
     */  
     public function getCallBackQuery(): mixed
     {
-        return $this->basicChatData['callback_query']['data'];
+        return isset($this->basicChatData->callback_query->data) ? $this->basicChatData->callback_query->data : 'NotSet';
     }
     
     /**

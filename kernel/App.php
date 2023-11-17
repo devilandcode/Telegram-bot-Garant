@@ -29,6 +29,14 @@ class App
         $this->setProperties();
     }
 
+    public function run(): void
+    {
+        $this->container
+            ->router
+            ->dispatch(
+                $this->container->bot->getMessage());
+    }
+
     public function getMessageFromBot(): string
     {
         return trim($this->container->bot->getMessage());

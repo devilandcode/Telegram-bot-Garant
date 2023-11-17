@@ -1,5 +1,5 @@
 <?php
-
+$idOfDeal = '';
 return [
   'start' => array(
       array(

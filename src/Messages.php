@@ -2,16 +2,20 @@
 
 namespace App;
 
+use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotApi;
 
 
 class Messages
 {
-    private BotApi $bot;
 
-    public function __construct($token)
+
+    public function __construct(
+        private BotApi $bot,
+        private ConfigInterface $config
+    )
     {
-        $this->bot = new BotApi($token);
+
     }
 
     /**

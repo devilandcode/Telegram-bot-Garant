@@ -13,6 +13,7 @@ require_once 'vendor/autoload.php';
 
 // CREATE APP INSTANCES
 $app = new App();
+$app->run();
 
 // GET MESSAGES WHICH TEXTED IN BOT
 $messageFromBot = $app->getMessageFromBot();
@@ -67,11 +68,11 @@ $app->checkNewUser();
 //    }
 //}
 //
-if ($messageFromBot === '/start') {
-    $app->start();
-} elseif ($messageFromBot === '💀 Мой Профиль') {
-    $app->myProfile();
-}
+//if ($messageFromBot === '/start') {
+//    $app->start();
+//} elseif ($messageFromBot === '💀 Мой Профиль') {
+//    $app->myProfile();
+//}
 //} elseif ($messageFromBot === '🔥 Активные Сделки') {
 //    $app->messages->activeDeals();
 //} elseif ($messageFromBot === '📪 Служба Поддержки') {
