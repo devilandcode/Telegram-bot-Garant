@@ -41,7 +41,7 @@ class Messages
     {
         $this->bot->sendMessage(
             sprintf(
-                "Мой Профиль\r\n\r\n🚀 Telegram ID: %s\r\n💀 Username: %s\r\n🔥 Количество сделок: 0\n\n📈 Курс BTC   %s USD\n📉 Курс ETH     %s USD\n📈 Курс USDT         %s USD\n📌 USDT Tether/TRC20",
+                "💥Мой Профиль💥\r\n\r\n🚀 Telegram ID: %s\r\n💀 Username: %s\r\n🔥 Количество сделок: 0\n\n📈 Курс BTC   %s USD\n📉 Курс ETH     %s USD\n📈 Курс USDT         %s USD\n📌 USDT Tether/TRC20",
                 $id_telegram,
                 $username,
                 $btcPrice,

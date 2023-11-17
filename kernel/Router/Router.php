@@ -12,7 +12,7 @@ class Router
     private string $botCallBackQuery;
 
      public function __construct(
-         private BotApi $bot,
+         private BotApi $botApi,
          private ConfigInterface $config,
          private Controller $controller
      )
@@ -33,12 +33,14 @@ class Router
      {
          match ($message) {
              $this->config->get('messages.start') => call_user_func([$this->controller, 'start']),
+             $this->config->get('messages.profile') => call_user_func([$this->controller, 'profile']),
+             $this->config->get('messages.userSearch') => call_user_func([$this->controller, 'search']),
          };
      }
      public function initBotMessage(): void
      {
-        $this->botMessage = $this->bot->getMessage();
-        $this->botCallBackQuery = $this->bot->getCallBackQuery();
-        file_put_contents('call.txt', $this->botCallBackQuery, FILE_APPEND);
+        $this->botMessage = $this->botApi->getMessage();
+        $this->botCallBackQuery = $this->botApi->getCallBackQuery();
+//        file_put_contents('call.txt', $this->botCallBackQuery, FILE_APPEND);
      }
 }

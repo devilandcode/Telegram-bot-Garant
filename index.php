@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel\App;
+use App\Kernel\Bot;
 use App\Kernel\Config\Config;
 
 ini_set('log_errors', 'On');
@@ -12,11 +12,11 @@ define('APP_PATH', __DIR__);
 require_once 'vendor/autoload.php';
 
 // CREATE APP INSTANCES
-$app = new App();
-$app->run();
+$bot = new Bot();
+$bot->run();
 
 // GET MESSAGES WHICH TEXTED IN BOT
-$messageFromBot = $app->getMessageFromBot();
+//$messageFromBot = $app->getMessageFromBot();
 //$phpInput = $app->container->bot->getInputData();
 //file_put_contents('inputs.txt', $phpInput . "\n", FILE_APPEND);
 
@@ -24,7 +24,7 @@ $messageFromBot = $app->getMessageFromBot();
 //$messagesFromAdmin = $app->container->bot->getMessageFromAdminChannel();
 
 //CHECK NEW USER, IF NEW -> INSERT TO DATABASE
-$app->checkNewUser();
+//$app->checkNewUser();
 
 
 //$input = $app->bot->getInputData();

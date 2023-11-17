@@ -11,7 +11,7 @@ use App\Messages;
 use App\UserModel;
 
 
-class App
+class Bot
 {
     private Container $container;
     private UserModel $userManager;
@@ -26,7 +26,7 @@ class App
     )
     {
         $this->container = new Container();
-        $this->setProperties();
+
     }
 
     public function run(): void
@@ -34,47 +34,19 @@ class App
         $this->container
             ->router
             ->dispatch(
-                $this->container->bot->getMessage());
+                $this->container->botApi->getMessage());
     }
 
     public function getMessageFromBot(): string
     {
-        return trim($this->container->bot->getMessage());
+        return trim($this->container->botApi->getMessage());
     }
 
     public function start(): void
     {
         $this->botKeyboard->start();
     }
-
-    public function myProfile(): void
-    {
-        $this->botMessage->sendMyProfileData(
-            $this->parser->id_telegram,
-            $this->parser->username,
-            $this->crypto->getBtcCurrency()->btcPrice,
-            $this->crypto->getEthCurrency()->ethPrice,
-            $this->crypto->getUSDTCurrency()->usdtPrice
-        );
-    }
-
-    public function checkNewUser(): int|string
-    {
-        if ($this->userManager->getUserInfoById($this->parser->id_telegram) == null &&
-            isset($this->parser->username)) {
-
-            return $this->userManager->addNewUserToTable(
-                $this->parser->id_telegram,
-                $this->parser->username,
-                $this->parser->chat_id);
-        } else {
-            return 'Not New User';
-        }
-    }
-
-
-
-
+    
 //
 //    /**
 //     * Check is user exist in bot's table
@@ -325,14 +297,14 @@ class App
 //            file_put_contents('response.txt', $errorData . "\n", FILE_APPEND);
 //        }
 //    }
-    private function setProperties(): void
-    {
-        $this->crypto = $this->container->crypto;
-        $this->botMessage = $this->container->messages;
-        $this->botKeyboard = $this->container->keyboards;
-        $this->parser = $this->container->parser;
-        $this->userManager = $this->container->userManager;
-    }
+//    private function setProperties(): void
+//    {
+//        $this->crypto = $this->container->crypto;
+//        $this->botMessage = $this->container->messages;
+//        $this->botKeyboard = $this->container->keyboards;
+//        $this->parser = $this->container->parser;
+//        $this->userManager = $this->container->userManager;
+//    }
 
 
 }
