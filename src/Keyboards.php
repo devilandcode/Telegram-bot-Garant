@@ -16,6 +16,7 @@ class Keyboards
         $this->bot = new BotApi($token);
     }
 
+
     public function start(): void
     {
         $startKeyboard = $this->config->get('keyboard.start');
@@ -25,46 +26,28 @@ class Keyboards
 
     public function cancelAndStartHome(): void
     {
-        $startKeyboard = array(
-            array(
-                array('text' => '💀 Мой Профиль'),
-                array('text' => '👀 Поиск Пользователя')
-            ),
-            array(
-                array('text' => '🔥 Активные Сделки'),
-                array('text' => '📪 Служба Поддержки')
-            )
-        );
+        $startKeyboard = $this->config->get('keyboard.start');
 
         $this->bot->sendMessageWithBaseKeyboardCallBack('Whats up Nigga', $startKeyboard);
     }
 
     public function notExistSellerKeyboard(): void
     {
-        $notExistKeyboard = array(
-            array(
-                array('text' => 'Главное Меню', 'callback_data' => 'cancel')
-            )
-        );
+        $goHomeKeyboard = $this->config->get('keyboard.goHome');
 
-        $this->bot->sendMessageWithInlineKeyboard('😥 Пользователь не найден 😥', $notExistKeyboard);
+        $this->bot->sendMessageWithInlineKeyboard('😥 Пользователь не найден 😥', $goHomeKeyboard);
     }
 
     public function existSellerKeyboard(): void
     {
-        $existUserKeyboard = [
-            [
-                ['text' => 'Создать Сделку', 'callback_data' => 'startDeal'],
-                ['text' => 'Отмена', 'callback_data' => 'cancel']
-            ]
-        ];
+        $createDealKeyboard = $this->config->get('keyboard.createDeal');
 
         $this->bot->sendMessageWithInlineKeyboard(
             " 💥Пользователь найден💥\n\n🎰 Выбирите действие: \n
         - Создать сделку\n        - Вернуть в главное меню\n
     ❗️ Нажимая \"Создать сделку\" у Вас есть 5 минут, чтобы описать условия
     ❗️ В противном случае придется начать заново",
-            $existUserKeyboard
+            $createDealKeyboard
         );
     }
 
@@ -75,12 +58,7 @@ class Keyboards
         string $amount,
         string $terms): void
     {
-        $keyboardConfirmAndSendDeal = array(
-            array(
-                array('text' => 'Подтвердить сделку', 'callback_data' => 'confirmAndSendDeal'),
-                array('text' => 'Отмена', 'callback_data' => 'cancel')
-            )
-        );
+        $confirmDealKeyboard = $this->config->get('keyboard.confirmDeal');
 
         $this->bot->sendMessageWithInlineKeyboard(
             sprintf(
@@ -92,7 +70,7 @@ class Keyboards
                 $amount,
                 $terms
             ),
-            $keyboardConfirmAndSendDeal
+            $confirmDealKeyboard
         );
     }
 
@@ -104,12 +82,7 @@ class Keyboards
         string $amount,
         string $terms): void
     {
-        $acceptDealKeyboard = array(
-            array(
-                array('text' => 'Принять Сделку', 'callback_data' => 'acceptDeal'),
-                array('text' => 'Отмена', 'callback_data' => 'cancelInvitationBySeller')
-            )
-        );
+        $acceptDealKeyboard = $this->config->get('keyboard.acceptDeal');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $idSeller,
@@ -139,12 +112,7 @@ class Keyboards
         string $wallet,
     ): void
     {
-        $acceptionKeyboard = array(
-            array(
-                array('text' => 'Оплачено', 'callback_data' => 'paid'),
-                array('text' => 'Отмена', 'callback_data' => 'cancelDealByBuyer')
-            )
-        );
+        $isPaidKeyboard = $this->config->get('keyboard.isPaid');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $userWhichSendMeDeal,
@@ -161,10 +129,9 @@ class Keyboards
                 $termsOfDeal,
                 $wallet
             ),
-            $acceptionKeyboard
+            $isPaidKeyboard
         );
     }
-
 
     public function sendToAdminChannelDataOfDeal(
         string $admin_chat_id,
@@ -179,16 +146,8 @@ class Keyboards
         string $wallet,
     ): void
     {
-        $adminKeyboard = array(
-            array(
-                array('text' => 'Взнос получен', 'callback_data' => $idOfDeal . 'adminAcceptMoney'),
-                array('text' => 'Написать в сделку', 'callback_data' => $idOfDeal . 'sendMessageToDeal')
-            ),
-            array(
-                array('text' => 'Написать в бот ', 'callback_data' => 'sendMessageToBot'),
-                array('text' => 'Закрыть сделку', 'callback_data' => $idOfDeal . 'dealIsResolved')
-            )
-        );
+
+        $adminKeyboard = $this->config->get('keyboard.admin');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $admin_chat_id,
@@ -219,12 +178,7 @@ class Keyboards
         string $termsOfDeal,
         ): void
     {
-        $buyersDealkeyboard = array(
-            array(
-                array('text' => 'Подтвердить', 'callback_data' => 'paid'),
-                array('text' => 'Открыть спор', 'callback_data' => 'cancelDealByBuyer')
-            )
-        );
+        $isCompleteByBuyerKeyboard = $this->config->get('keyboard.isCompleteByBuyer');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $idBuyer,
@@ -239,7 +193,7 @@ class Keyboards
                 $sellerUsername,
                 $termsOfDeal,
             ),
-            $buyersDealkeyboard
+            $isCompleteByBuyerKeyboard
         );
     }
 
@@ -252,12 +206,7 @@ class Keyboards
         string $sellerUsername,
         string $termsOfDeal): void
     {
-        $sellersDealkeyboard = array(
-            array(
-                array('text' => 'Выполнено', 'callback_data' => 'paid'),
-                array('text' => 'Открыть спор', 'callback_data' => 'cancelDealByBuyer')
-            )
-        );
+        $isCompleteBySellerKeyboard = $this->config->get('keyboard.isCompleteBySeller');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $idSeller,
@@ -272,17 +221,7 @@ class Keyboards
                 $sellerUsername,
                 $termsOfDeal,
             ),
-            $sellersDealkeyboard
+            $isCompleteBySellerKeyboard
         );
     }
 }
-
-
-
-
-
-
-
-
-
-

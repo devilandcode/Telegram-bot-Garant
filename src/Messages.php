@@ -33,15 +33,16 @@ class Messages
      * @return void
      * @throws JsonException
      */
-    public function sendMyProfileData(string $id_telegram, string $username, string $btcPrice, string $ethPrice): void
+    public function sendMyProfileData(string $id_telegram, string $username, string $btcPrice, string $ethPrice, string $usdtPrice): void
     {
         $this->bot->sendMessage(
             sprintf(
-                "Мой Профиль\r\n\r\n🚀 Telegram ID: %s\r\n💀 Username: %s\r\n🔥 Количество сделок: 0\n\n📈 Курс BTC  %s USD\n📉 Курс ETH   %s  USD",
+                "Мой Профиль\r\n\r\n🚀 Telegram ID: %s\r\n💀 Username: %s\r\n🔥 Количество сделок: 0\n\n📈 Курс BTC   %s USD\n📉 Курс ETH     %s USD\n📈 Курс USDT         %s USD\n📌 USDT Tether/TRC20",
                 $id_telegram,
                 $username,
                 $btcPrice,
-                $ethPrice
+                $ethPrice,
+                $usdtPrice
             )
         );
     }

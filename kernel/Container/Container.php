@@ -28,20 +28,29 @@ class Container
     public readonly Messages $messages;
     public readonly CryptoApi $crypto;
 
-    public function __construct($token)
+    public function __construct()
     {
-        $this->registerServices($token);
+        $this->setConfig();
+        $this->registerServices($this->getBotToken());
     }
 
-    public function registerServices($token): void
+    public function setConfig()
     {
-        $this->bot = new BotApi($token);
         $this->config = new Config();
+    }
+    public function getBotToken()
+    {
+        return $this->config->get('bot.token');
+    }
+
+    public function registerServices($botToken): void
+    {
+        $this->bot = new BotApi($botToken);
         $this->DBconnector = new DBconnector($this->config);
         $this->DBDriver = new DBDriver($this->DBconnector->getConnect());
         $this->parser = new ParserUserData($this->bot->getInputData());
-        $this->keyboards = new Keyboards($this->config, $token);
-        $this->messages = new Messages($token);
+        $this->keyboards = new Keyboards($this->config, $botToken);
+        $this->messages = new Messages($botToken);
         $this->crypto = new CryptoApi();
         $this->userManager = new UserModel($this->DBDriver);
         $this->dealManager = new DealModel($this->DBDriver);

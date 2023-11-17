@@ -7,6 +7,7 @@ class CryptoApi extends Client
 {
     public $btcPrice;
     public $ethPrice;
+    public $usdtPrice;
 
     /**
      * Get BTC currency
@@ -33,6 +34,15 @@ class CryptoApi extends Client
         $arrayEth = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->ethPrice = isset($arrayEth['0']['price_usd']) ? $arrayEth['0']['price_usd'] : 'Search eth';
+        return $this;
+    }
+
+    public function getUSDTCurrency()
+    {
+        $response = $this->request('POST', "https://api.coinlore.net/api/ticker/?id=518",['http_errors' => false]);
+        $arrayEth = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        $this->usdtPrice = isset($arrayEth['0']['price_usd']) ? $arrayEth['0']['price_usd'] : 'Search usdt';
         return $this;
     }
 }

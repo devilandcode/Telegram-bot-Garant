@@ -23,24 +23,31 @@ class App
 
 
     public function __construct(
-        private ConfigInterface $config,
     )
     {
-        $this->container = new Container($this->getBotToken());
-        $this->setUserManager();
-        $this->setParser();
-        $this->setBotKeyboard();
-        $this->setBotMessage();
-    }
-
-    private function getBotToken()
-    {
-        return $this->config->get('bot.token');
+        $this->container = new Container();
+        $this->setProperties();
     }
 
     public function getMessageFromBot(): string
     {
         return trim($this->container->bot->getMessage());
+    }
+
+    public function start(): void
+    {
+        $this->botKeyboard->start();
+    }
+
+    public function myProfile(): void
+    {
+        $this->botMessage->sendMyProfileData(
+            $this->parser->id_telegram,
+            $this->parser->username,
+            $this->crypto->getBtcCurrency()->btcPrice,
+            $this->crypto->getEthCurrency()->ethPrice,
+            $this->crypto->getUSDTCurrency()->usdtPrice
+        );
     }
 
     public function checkNewUser(): int|string
@@ -57,24 +64,9 @@ class App
         }
     }
 
-    public function start(): void
-    {
-        $this->botKeyboard->start();
-    }
 
-    /**
-     * Send my profile's data if pressed "my profile" button in
-     * @return void
-     */
-    public function myProfile(): void
-    {
-        $this->messages->sendMyProfileData(
-            $this->parser->parseInputInfo()->id_telegram,
-            $this->parser->parseInputInfo()->username,
-            $this->crypto->getBtcCurrency()->btcPrice,
-            $this->crypto->getEthCurrency()->ethPrice
-        );
-    }
+
+
 //
 //    /**
 //     * Check is user exist in bot's table
@@ -325,24 +317,15 @@ class App
 //            file_put_contents('response.txt', $errorData . "\n", FILE_APPEND);
 //        }
 //    }
-    public function setUserManager(): void
+    private function setProperties(): void
     {
+        $this->crypto = $this->container->crypto;
+        $this->botMessage = $this->container->messages;
+        $this->botKeyboard = $this->container->keyboards;
+        $this->parser = $this->container->parser;
         $this->userManager = $this->container->userManager;
     }
 
-    public function setParser(): void
-    {
-        $this->parser = $this->container->parser;
-    }
 
-    public function setBotKeyboard(): void
-    {
-        $this->botKeyboard = $this->container->keyboards;
-    }
-
-    public function setBotMessage(): void
-    {
-        $this->botMessage = $this->container->messages;
-    }
 }
 

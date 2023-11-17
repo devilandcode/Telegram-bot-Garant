@@ -62,7 +62,7 @@ class BotApi extends Client
      */
     public function sendMessage(string $message): mixed
     {
-        $params = array('chat_id' => $this->basicChatData['message']['chat']['id'],'text'=>$message);
+        $params = array('chat_id' => $this->basicChatData->message->chat->id,'text'=>$message);
         $response = $this->request('POST', "https://api.telegram.org/bot$this->conftoken/sendMessage",['json'=>$params],['http_errors' => false]);
         return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }

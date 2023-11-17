@@ -12,7 +12,7 @@ define('APP_PATH', __DIR__);
 require_once 'vendor/autoload.php';
 
 // CREATE APP INSTANCES
-$app = new App(new Config());
+$app = new App();
 
 // GET MESSAGES WHICH TEXTED IN BOT
 $messageFromBot = $app->getMessageFromBot();
