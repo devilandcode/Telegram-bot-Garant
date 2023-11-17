@@ -1,17 +1,14 @@
 <?php
 
 use App\Kernel\Bot;
-use App\Kernel\Config\Config;
 
 ini_set('log_errors', 'On');
 ini_set('error_log', 'errors.log');
-//set_include_path(__DIR__);
 
 define('APP_PATH', __DIR__);
 
 require_once 'vendor/autoload.php';
 
-// CREATE APP INSTANCES
 $bot = new Bot();
 $bot->run();
 

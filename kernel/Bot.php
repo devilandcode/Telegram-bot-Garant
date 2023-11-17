@@ -36,12 +36,7 @@ class Bot
                 $this->container->botApi->getMessage()
             );
     }
-
-    public function getMessageFromBot(): string
-    {
-        return trim($this->container->botApi->getMessage());
-    }
-
+    
 //
 //    /**
 //     * Check is user exist in bot's table
@@ -106,49 +101,6 @@ class Bot
 //     * @param string $walletETH
 //     * @return void
 //     */
-//    public function notifyBuyerAboutAcceptionOfDeal(string $walletBTC, string $walletETH, string $admin_chat_id): void
-//    {
-//        $myDealDataArray = $this->userManager->getDataOfBuyer($this->parser->id_telegram);
-//        $this->parser->parseDealData($myDealDataArray);
-//        $buyerUsername = ($this->userManager->getUserInfoById($this->parser->buyerId))['username'];
-//        $sellerUsername = ($this->userManager->getUserInfoById($this->parser->sellerId))['username'];
-//        if (str_contains($this->parser->amountOfDeal, "btc") !== false) {
-//            $wallet = $walletBTC;
-//            $amountWithComission = $this->parser->amountOfDeal * 1.08;
-//            $resultAmount = $amountWithComission . ' btc';
-//        } else {
-//            $wallet = $walletETH;
-//            $amountWithComission = $this->parser->amountOfDeal * 1.08;
-//            $resultAmount = $amountWithComission . ' eth';
-//        }
-//        if (isset($myDealDataArray)) {
-//            $this->keyboards->notifyAboutAcceptionKeyboard(
-//                $this->parser->buyerId,
-//                $this->parser->idOfDeal,
-//                $this->parser->amountOfDeal,
-//                $resultAmount,
-//                $this->parser->buyerId,
-//                $buyerUsername,
-//                $this->parser->sellerId,
-//                $sellerUsername,
-//                $this->parser->termsOfDeal,
-//                $wallet
-//            );
-//
-//            $this->keyboards->sendToAdminChannelDataOfDeal(
-//                $admin_chat_id,
-//                $this->parser->idOfDeal,
-//                $this->parser->amountOfDeal,
-//                $resultAmount,
-//                $this->parser->buyerId,
-//                $buyerUsername,
-//                $this->parser->sellerId,
-//                $sellerUsername,
-//                $this->parser->termsOfDeal,
-//                $wallet
-//            );
-//        }
-//    }
 //
 //    /**
 //     * Send to admin channel notification of new deal
