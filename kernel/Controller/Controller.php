@@ -71,9 +71,9 @@ abstract class Controller
 
     public function checkNewUser(): int|string
     {
-
+        file_put_contents('c.txt', $this->parser->isChanel, FILE_APPEND);
         if ($this->userDBManager->getUserInfoById($this->parser->id_telegram) == null &&
-            ! $this->parser->isChanel
+            $this->parser->isChanel !== 'channel'
         )
         {
 
@@ -108,7 +108,7 @@ abstract class Controller
         $transationData = [];
 
         $myDealDataArray = $this->userDBManager->getDataOfBuyer($this->parser->id_telegram);
-        $this->parser->parseDealData($myDealDataArray);
+        $this->parser->parseTransactionData($myDealDataArray);
         $transationData['buyer_username'] = ($this->userDBManager->getUserInfoById($this->parser->buyerId))['username'];
         $transationData['seller_username'] = ($this->userDBManager->getUserInfoById($this->parser->sellerId))['username'];
 

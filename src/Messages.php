@@ -202,6 +202,11 @@ class Messages
         $this->bot->sendMessageToUser($admin_chat_id, sprintf("💚 Сделка № %s Успешно Завершена", $idOfDeal));
     }
 
+    public function dealIsAlredyComplete(string $admin_chat_id)
+    {
+        $this->bot->sendMessageToUser($admin_chat_id, '🔴 Сделка уже завершена, Не жми эту кнопку!');
+    }
+
     public function notifyBuyerDealResolved(string $buyerId, string $idOfDeal)
     {
         $this->bot->sendMessageToUser($buyerId, sprintf("💚 Сделка № %s Успешно Завершена", $idOfDeal));

@@ -24,13 +24,15 @@ class Router
         $this->initBotMessage();
     }
 
-    public function dispatch(string $message)
+    public function dispatch(string $message, string $messageFromAdmin)
     {
 
         if ($this->botCallBackQuery !== 'NotSet') {
             $this->dispatchCallbackQuery($this->botCallBackQuery);
         }
-        if (is_numeric($message) && strlen($message) === 10) {
+        if ($messageFromAdmin !== 'no messages from admin') {
+            $this->dispathAdminMessage($messageFromAdmin);
+        } elseif(is_numeric($message) && strlen($message) === 10) {
             $this->dispatchBotNumericMessage($message);
         } elseif($this->isKeyWordsExist($message) !== 'not_exist') {
             $this->dispatchBotMessageWithKeywords($message);
@@ -76,7 +78,20 @@ class Router
             $this->config->get('tg_callbacks.confirm') => call_user_func([$this->userController, 'sendToSellerInvitation']),
             $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
             $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
+            $this->config->get('tg_callbacks.dont_send_deal') => call_user_func([$this->userController, 'cancelFillingDeal']),
+            $this->config->get('tg_callbacks.decline_invitation') => call_user_func([$this->userController, 'declineInvitationBySeller']),
+            $this->config->get('tg_callbacks.cancel_by_buyer') => call_user_func([$this->userController, 'declineDealByBuyer']),
             $this->config->get('tg_callbacks.money_received') => call_user_func([$this->adminController, 'startByAdmin']),
+            $this->config->get('tg_callbacks.deal_complete') => call_user_func([$this->adminController, 'markDealComplete']),
+            $this->config->get('tg_callbacks.bulk_mailing') => call_user_func([$this->adminController, 'askWhatMessageToSend']),
+        };
+    }
+
+    public function dispathAdminMessage(string $messageFromAdmin): void
+    {
+        match ($this->isKeyWordsExist($messageFromAdmin)) {
+            $this->config->get('messages.keyword_admin') => call_user_func([$this->adminController, 'makeBulkMailing'], $messageFromAdmin),
+            default => call_user_func([$this->botAnswer, 'unknownCommand']),
         };
     }
 
@@ -93,10 +108,17 @@ class Router
                 return 'crypto';
             }
         }
-        $dealWords = $this->config->getArray('deal_words');
+        $dealWords = $this->config->getArray('deal_keywords');
         foreach ($dealWords as $word) {
             if (str_contains($message, $word)) {
                 return 'deal';
+            }
+        }
+
+        $adminWords = $this->config->getArray('admin_keywords');
+        foreach ($adminWords as $word) {
+            if (str_contains($message, $word)) {
+                 return 'admin';
             }
         }
         return 'not_exist';

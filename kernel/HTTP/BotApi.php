@@ -179,7 +179,7 @@ class BotApi extends Client
      */
     public function sendMessageWithBaseKeyboardCallBack(string $message, array $keyboard): mixed
     {
-            $params = array('chat_id' => $this->basicChatData['callback_query']['from']['id'],'text' => $message, 'reply_markup' => array('keyboard' => $keyboard, 'resize_keyboard' => true, 'is_persistent' => true));
+            $params = array('chat_id' => $this->basicChatData->callback_query->from->id,'text' => $message, 'reply_markup' => array('keyboard' => $keyboard, 'resize_keyboard' => true, 'is_persistent' => true));
             $response = $this->request('POST', "https://api.telegram.org/bot$this->conftoken/sendMessage",['json'=>$params],['http_errors' => false]);
             return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }

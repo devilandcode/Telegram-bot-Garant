@@ -23,10 +23,9 @@ class Bot
         $this->container
             ->router
             ->dispatch(
-                $this->container->botApi->getMessage()
+                $this->container->botApi->getMessage(),
+                $this->container->botApi->getMessageFromAdminChannel()
             );
-
-
     }
 
 //
@@ -202,7 +201,7 @@ class Bot
 //
 //    public function askAdminToTextHisMessageToBot(string $admin_chat_id)
 //    {
-//        $this->messages->askAdminToTextHisMessageToBot($admin_chat_id);
+//        $this->messages->mailBulkToBot($admin_chat_id);
 //    }
 //
 //    public function mailBulkToBot()

@@ -107,4 +107,48 @@ class UserController extends Controller
         $this->botAnswer->waitingWhenBuyerWillPay();
     }
 
+    public function showPaidByBuyer(): void
+    {
+        $this->botAnswer->notifyAdminDealIsPaid(
+            $this->config->get('bot.admin_chat_id'),
+            $this->parser->idSearchTable,
+            $this->parser->idBuyer
+        );
+
+        $this->botAnswer->checkingBuyersTranssaction();
+    }
+
+    public function cancelFillingDeal(): void
+    {
+        $this->botKeyboard->cancelAndStartHome();
+    }
+
+    public function declineInvitationBySeller(): void
+    {
+        $this->botAnswer->cancelInvitationBySeller();
+
+        $dealData = $this->userDBManager->getDataOfBuyer($this->parser->id_telegram);
+        $this->parser->parseData($dealData);
+
+        $this->botAnswer->notifyToBuyerInvitationWasCanceled(
+            $this->parser->idBuyer,
+            $this->parser->idSearchTable,
+            $this->parser->idSeller
+        );
+    }
+
+    public function declineDealByBuyer(): void
+    {
+        $this->botAnswer->cancelDealByBuyer();
+
+        $dealData = $this->userDBManager->getDataOfSeller($this->parser->id_telegram);
+        $this->parser->parseData($dealData);
+
+        $this->botAnswer->sendForAllThatBuyerCancelDeal(
+            $this->parser->idSeller,
+            $this->config->get('bot.admin_chat_id'),
+            $this->parser->idSearchTable,
+            $this->parser->idBuyer,
+        );
+    }
 }

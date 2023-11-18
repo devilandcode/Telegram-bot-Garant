@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Kernel\Parser;
+use App\Models\DealModel;
 use App\Models\UserModel;
 
 class ParserUserData
@@ -26,6 +27,7 @@ class ParserUserData
     public function __construct(
         public \stdClass $data,
         public UserModel $userDBManager,
+        public DealModel $dealDBManager
     )
     {
         $this->parsePhpInput();
@@ -34,15 +36,17 @@ class ParserUserData
 
     public function parsePhpInput(): self
     {
-        $in = $this->data;
-        $in = print_r($in, true);
-        file_put_contents('inputs.txt', $in . "\n", FILE_APPEND);
 
-        if ($this->data->callback_query->message->chat->type === 'channel') {
-            $this->isChanel = true;
+        if ( isset($this->data->callback_query->message->chat->type)) {
+            if ($this->data->callback_query->message->chat->type === 'channel') {
+                $this->isChanel = 'channel';
+            } else {
+                $this->isChanel = 'not_channel';
+            }
         } else {
-            $this->isChanel = false;
+            $this->isChanel = 'not_channel';
         }
+
 
         if (isset($this->data->message) && isset($this->data->message->chat->username)) {
             $this->id_telegram = $this->data->message->chat->id;
@@ -89,6 +93,20 @@ class ParserUserData
         return false;
     }
 
+    public function parseData(array $dealData) : bool
+    {
+        if ($dealData != null) {
+            $this->idSearchTable = $dealData['id'];
+            $this->idBuyer = $dealData['id_buyer'];
+            $this->idSeller = $dealData['id_seller'];
+            $this->amount = $this->checkIsIsset($dealData, 'amount', null, null, 'none');
+            $this->terms = $this->checkIsIsset($dealData, 'text', null, null, 'none');
+            $this->lastSearchedTime = $dealData['time_in'];
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Get the difference between the current time and the time of the last customer search
      * @return void
@@ -105,13 +123,41 @@ class ParserUserData
             $this->getNumberOfDeal()
         );
 
-        if ($dealDataArray != null) {
+        if ($dealDataArray !== null) {
             $this->idOfDeal = $dealDataArray['id'];
             $this->buyerId = $dealDataArray['id_buyer'];
             $this->sellerId = $dealDataArray['id_seller'];
             $this->amountOfDeal = $dealDataArray['amount'];
             $this->termsOfDeal = $dealDataArray['text'];
         }
+    }
+
+    public function parseDataFromDealTable()
+    {
+        $dealNumber = $this->getNumberOfDeal();
+        $dataDealTable = $this->dealDBManager->getDealData($dealNumber);
+
+        if ($dataDealTable !== null) {
+            $this->idOfDeal = $dataDealTable['id_deal'];
+            $this->buyerId = $dataDealTable['id_buyer'];
+            $this->sellerId = $dataDealTable['id_seller'];
+            $this->amountOfDeal = $dataDealTable['amount'];
+            $this->termsOfDeal = $dataDealTable['text'];
+        }
+
+    }
+
+    public function parseTransactionData(array $array)
+    {
+
+        if ($array !== null) {
+            $this->idOfDeal = $array['id'];
+            $this->buyerId = $array['id_buyer'];
+            $this->sellerId = $array['id_seller'];
+            $this->amountOfDeal = $array['amount'];
+            $this->termsOfDeal = $array['text'];
+        }
+
     }
 
     /**
@@ -141,6 +187,7 @@ class ParserUserData
     public function getNumberOfDeal(): int
     {
         $text = $this->data->callback_query->message->text;
-        return (int)(substr($text, 37, 8));
+        return (int)(substr($text, 37, 15));
     }
+
 }

@@ -51,8 +51,13 @@ class Container
         $this->messages = new Messages($this->botApi,$this->config);
         $this->cryptoApi = new CryptoApi();
         $this->userDBManager = new UserModel($this->DBDriver);
-        $this->parser = new ParserUserData($this->botApi->getInputData(), $this->userDBManager);
         $this->dealManager = new DealModel($this->DBDriver);
+        $this->parser = new ParserUserData(
+            $this->botApi->getInputData(),
+            $this->userDBManager,
+            $this->dealManager
+        );
+
         $this->userController = new UserController(
             $this->botApi,
             $this->keyboards,

@@ -28,7 +28,7 @@ class Keyboards
     {
         $startKeyboard = $this->config->get('keyboard.start');
 
-        $this->bot->sendMessageWithBaseKeyboardCallBack('Whats up Nigga', $startKeyboard);
+        $this->bot->sendMessageWithBaseKeyboardCallBack('🔴 Отменено!', $startKeyboard);
     }
 
     public function showGoBackKeyboard(): void
@@ -87,7 +87,7 @@ class Keyboards
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $idSeller,
             sprintf(
-                "💥 Вам направили запрос на сделку № %s\n\n 🏆 Покупатель:\n       User ID - %s
+                "💥 Запрос на сделку № %s\n\n 🏆 Покупатель:\n       User ID - %s
        Username - %s\n\n 🔥 Cумма сделки: %s\n 🔊 Предмет Сделки: %s ",
                 $idSearchTable,
                 $idBuyer,
