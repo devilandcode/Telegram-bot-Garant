@@ -8,6 +8,7 @@ use App\Kernel\HTTP\CryptoApi;
 use App\Kernel\Parser\ParserUserData;
 use App\Keyboards;
 use App\Messages;
+use App\Models\DealModel;
 use App\Models\UserModel;
 
 abstract class Controller
@@ -20,7 +21,8 @@ abstract class Controller
         protected CryptoApi $cryptoApi,
         protected UserModel $userDBManager,
         protected ParserUserData $parser,
-        protected ConfigInterface $config
+        protected ConfigInterface $config,
+        protected DealModel $dealDBManager,
     )
     {
         $this->checkNewUser();
@@ -69,7 +71,10 @@ abstract class Controller
 
     public function checkNewUser(): int|string
     {
-        if ($this->userDBManager->getUserInfoById($this->parser->id_telegram) == null)
+
+        if ($this->userDBManager->getUserInfoById($this->parser->id_telegram) == null &&
+            ! $this->parser->isChanel
+        )
         {
 
             return $this->userDBManager->addNewUserToTable(

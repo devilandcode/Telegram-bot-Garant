@@ -2,6 +2,7 @@
 
 namespace App\Kernel\Container;
 
+use App\Controllers\AdminController;
 use App\Controllers\UserController;
 use App\Kernel\Config\Config;
 use App\Kernel\Config\ConfigInterface;
@@ -31,6 +32,7 @@ class Container
     public readonly Messages $messages;
     public readonly CryptoApi $cryptoApi;
     public readonly Controller $userController;
+    public readonly Controller $adminController;
     public readonly Router $router;
 
     public function __construct()
@@ -39,14 +41,6 @@ class Container
         $this->registerServices($this->getBotToken());
     }
 
-    public function setConfig()
-    {
-        $this->config = new Config();
-    }
-    public function getBotToken()
-    {
-        return $this->config->get('bot.token');
-    }
 
     public function registerServices($botToken): void
     {
@@ -66,12 +60,34 @@ class Container
             $this->cryptoApi,
             $this->userDBManager,
             $this->parser,
-            $this->config
+            $this->config,
+            $this->dealManager
+        );
+        $this->adminController = new AdminController(
+            $this->botApi,
+            $this->keyboards,
+            $this->messages,
+            $this->cryptoApi,
+            $this->userDBManager,
+            $this->parser,
+            $this->config,
+            $this->dealManager
         );
         $this->router = new Router(
             $this->botApi,
             $this->config,
-            $this->userController
+            $this->userController,
+            $this->adminController,
+            $this->messages
         );
+    }
+
+    private function setConfig()
+    {
+        $this->config = new Config();
+    }
+    private function getBotToken()
+    {
+        return $this->config->get('bot.token');
     }
 }

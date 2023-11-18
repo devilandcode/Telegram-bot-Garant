@@ -2,9 +2,11 @@
 
 namespace App\Kernel\Router;
 
+use App\Controllers\AdminController;
 use App\Controllers\UserController;
 use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotApi;
+use App\Messages;
 
 
 class Router
@@ -15,6 +17,8 @@ class Router
         private BotApi          $botApi,
         private ConfigInterface $config,
         private UserController  $userController,
+        private AdminController $adminController,
+        private Messages        $botAnswer,
     )
     {
         $this->initBotMessage();
@@ -53,7 +57,7 @@ class Router
         match ($this->isKeyWordsExist($message)) {
             $this->config->get('messages.keyword_crypto') => call_user_func([$this->userController, 'setAmountOfDeal'], $message),
             $this->config->get('messages.keyword_deal') => call_user_func([$this->userController, 'setTermOfDeal'], $message),
-            default => call_user_func([$this->userController, 'unknownCommand']),
+            default => call_user_func([$this->botAnswer, 'uncorrectCurrency']),
         };
     }
 
@@ -71,13 +75,14 @@ class Router
             $this->config->get('tg_callbacks.start') => call_user_func([$this->userController, 'askToEnterAmountOfDeal']),
             $this->config->get('tg_callbacks.confirm') => call_user_func([$this->userController, 'sendToSellerInvitation']),
             $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
+            $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
+            $this->config->get('tg_callbacks.money_received') => call_user_func([$this->adminController, 'startByAdmin']),
         };
     }
 
     public function initBotMessage(): void
     {
         $this->botCallBackQuery = $this->botApi->getCallBackQuery();
-        file_put_contents('call.txt', $this->botCallBackQuery . "\n", FILE_APPEND);
     }
 
     private function isKeyWordsExist(string $message): string

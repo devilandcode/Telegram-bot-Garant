@@ -141,7 +141,7 @@ class UserModel
         return is_array($stm) ? $stm : null;
     }
 
-    public function getDataOfDeal(string $idOfDeal)
+    public function getDataOfDeal(int $idOfDeal)
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1',
             self::NAME_OF_SEACH_TABLE, self::ID_OF_SEARCH_TABLE, self::ID_OF_SEARCH_TABLE);

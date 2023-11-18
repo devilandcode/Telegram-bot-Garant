@@ -139,3 +139,8 @@ confirmAndSendToSeller
 acceptDealFromBuyer
 acceptDealFromBuyer
 acceptDealFromBuyer
+NotSet
+NotSet
+startDeal
+NotSet
+paidToEscrowByBuyer

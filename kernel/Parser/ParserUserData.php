@@ -21,6 +21,7 @@ class ParserUserData
     public string $sellerId;
     public string $amountOfDeal;
     public string $termsOfDeal;
+    public string $isChanel;
 
     public function __construct(
         public \stdClass $data,
@@ -33,6 +34,16 @@ class ParserUserData
 
     public function parsePhpInput(): self
     {
+        $in = $this->data;
+        $in = print_r($in, true);
+        file_put_contents('inputs.txt', $in . "\n", FILE_APPEND);
+
+        if ($this->data->callback_query->message->chat->type === 'channel') {
+            $this->isChanel = true;
+        } else {
+            $this->isChanel = false;
+        }
+
         if (isset($this->data->message) && isset($this->data->message->chat->username)) {
             $this->id_telegram = $this->data->message->chat->id;
             $this->username = $this->data->message->chat->username;
@@ -88,8 +99,12 @@ class ParserUserData
 
     }
 
-    public function parseDealData(array $dealDataArray) : void
+    public function parseDealData() : void
     {
+        $dealDataArray = $this->userDBManager->getDataOfDeal(
+            $this->getNumberOfDeal()
+        );
+
         if ($dealDataArray != null) {
             $this->idOfDeal = $dealDataArray['id'];
             $this->buyerId = $dealDataArray['id_buyer'];
@@ -121,5 +136,11 @@ class ParserUserData
         } else {
             return isset($string) ? $string : $ifNot;
         }
+    }
+
+    public function getNumberOfDeal(): int
+    {
+        $text = $this->data->callback_query->message->text;
+        return (int)(substr($text, 37, 8));
     }
 }

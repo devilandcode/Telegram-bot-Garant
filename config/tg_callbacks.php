@@ -3,5 +3,7 @@
 return [
     'start' => 'startDeal',
     'confirm' => 'confirmAndSendToSeller',
-    'accept' => 'acceptDealFromBuyer'
+    'accept' => 'acceptDealFromBuyer',
+    'paid' => 'paidToEscrowByBuyer',
+    'money_received' => 'adminReceivedMoney',
 ];

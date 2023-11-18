@@ -1,5 +1,5 @@
 <?php
-$idOfDeal = '';
+
 return [
   'start' => array(
       array(
@@ -48,12 +48,12 @@ return [
 
   'admin' => array(
       array(
-          array('text' => 'Взнос получен', 'callback_data' => $idOfDeal . 'adminReceivedMoney'),
-          array('text' => 'Написать в сделку', 'callback_data' => $idOfDeal . 'sendMessageToDeal')
+          array('text' => 'Взнос получен', 'callback_data' => 'adminReceivedMoney'),
+          array('text' => 'Написать в сделку', 'callback_data' => 'sendMessageToDeal')
       ),
       array(
           array('text' => 'Написать в бот ', 'callback_data' => 'sendMessageToBot'),
-          array('text' => 'Закрыть сделку', 'callback_data' => $idOfDeal . 'dealIsResolved')
+          array('text' => 'Закрыть сделку', 'callback_data' => 'dealIsResolved')
       )
   ),
 

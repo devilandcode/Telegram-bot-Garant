@@ -3,21 +3,11 @@
 namespace App\Kernel;
 
 use App\Kernel\Container\Container;
-use App\Kernel\HTTP\CryptoApi;
-use App\Kernel\Parser\ParserUserData;
-use App\Keyboards;
-use App\Messages;
-use App\Models\UserModel;
-
 
 class Bot
 {
     private Container $container;
-    private UserModel $userManager;
-    private ParserUserData $parser;
-    private Keyboards $botKeyboard;
-    private Messages $botMessage;
-    private CryptoApi $crypto;
+
     public string $message;
 
 
@@ -35,6 +25,8 @@ class Bot
             ->dispatch(
                 $this->container->botApi->getMessage()
             );
+
+
     }
 
 //
