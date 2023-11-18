@@ -36,7 +36,7 @@ class Bot
                 $this->container->botApi->getMessage()
             );
     }
-    
+
 //
 //    /**
 //     * Check is user exist in bot's table

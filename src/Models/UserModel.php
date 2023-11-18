@@ -103,7 +103,7 @@ class UserModel
      * @param string $id_telegram
      * @return mixed
      */
-    public function showLastSearchData($id_telegram) : mixed
+    public function showLastSearchData($id_telegram) : ?array
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1', 
         self::NAME_OF_SEACH_TABLE, self::ID_BUYER, self::ID_BUYER);
@@ -117,7 +117,7 @@ class UserModel
      * @param string $id_telegram
      * @return mixed
      */
-    public function getDataOfSeller($id_telegram) : mixed
+    public function getDataOfSeller($id_telegram) : ?array
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1',
             self::NAME_OF_SEACH_TABLE, self::ID_BUYER, self::ID_BUYER);

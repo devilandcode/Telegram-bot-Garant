@@ -65,7 +65,8 @@ class Container
             $this->messages,
             $this->cryptoApi,
             $this->userDBManager,
-            $this->parser
+            $this->parser,
+            $this->config
         );
         $this->router = new Router(
             $this->botApi,

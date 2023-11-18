@@ -2,6 +2,7 @@
 
 namespace App\Kernel\Controller;
 
+use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotApi;
 use App\Kernel\HTTP\CryptoApi;
 use App\Kernel\Parser\ParserUserData;
@@ -19,6 +20,7 @@ abstract class Controller
         protected CryptoApi $cryptoApi,
         protected UserModel $userDBManager,
         protected ParserUserData $parser,
+        protected ConfigInterface $config
     )
     {
         $this->checkNewUser();
@@ -85,19 +87,47 @@ abstract class Controller
      * if more than 5(i set) minutes have passed, the transaction must be restarted
      * @return mixed
      */
-    public function checkDifferenceTime(): mixed
+    protected function checkIsTimeOver(): void
     {
         $this->parser->parseLastSearchedData();
-        $this->parser->getDiffTime();
-        return $this->parser->difTime;
-//
-//        if ($time < 5) {
-//
-//            $this->botAnswer->showTimeIsOver();
-//            die;
-//            file_put_contents('time.txt', $time . "\n", FILE_APPEND);
-//
-//        }
+        $time = $this->parser->getDiffTime();
+        file_put_contents('time.txt', $time . "\n", FILE_APPEND);
+        if ($time > 5) {
+            $this->botAnswer->showTimeIsOver();
+            die;
+        }
     }
+
+    protected function getTransactionData(): array
+    {
+        $transationData = [];
+
+        $myDealDataArray = $this->userDBManager->getDataOfBuyer($this->parser->id_telegram);
+        $this->parser->parseDealData($myDealDataArray);
+        $transationData['buyer_username'] = ($this->userDBManager->getUserInfoById($this->parser->buyerId))['username'];
+        $transationData['seller_username'] = ($this->userDBManager->getUserInfoById($this->parser->sellerId))['username'];
+
+        if (str_contains($this->parser->amountOfDeal, "btc") !== false) {
+            $transationData['wallet'] = $this->config->get('bot.btc_wallet');
+            $amountWithComission = $this->parser->amountOfDeal * 1.08;
+            $transationData['result_amount'] = $amountWithComission . ' btc';
+            return $transationData;
+        } elseif (str_contains($this->parser->amountOfDeal, "usdt") !== false) {
+            $transationData['wallet'] = $this->config->get('bot.usdt_wallet');
+            $amountWithComission = $this->parser->amountOfDeal * 1.08;
+            $transationData['result_amount'] = $amountWithComission . ' usdt';
+            return $transationData;
+        } elseif (str_contains($this->parser->amountOfDeal, "eth") !== false) {
+            $transationData['wallet'] = $this->config->get('bot.eth_wallet');
+            $amountWithComission = $this->parser->amountOfDeal * 1.08;
+            $transationData['result_amount'] = $amountWithComission . ' eth';
+            return $transationData;
+        } else {
+            $this->botAnswer->uncorrectCurrency();
+            die;
+        }
+    }
+
+
 
 }

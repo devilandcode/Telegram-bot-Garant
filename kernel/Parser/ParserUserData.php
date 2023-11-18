@@ -84,7 +84,7 @@ class ParserUserData
      */
     public function getDiffTime() : mixed
     {
-        return (int)($this->difTime = (time() - $this->lastSearchedTime) / 60);
+        return $this->difTime = (time() - $this->lastSearchedTime) / 60;
 
     }
 

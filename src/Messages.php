@@ -76,7 +76,7 @@ class Messages
 
     public function showTimeIsOver(): void
     {
-        $this->bot->sendMessage("❌ Время на создание сделки закончилось\n\n    Начните заново! ");
+        $this->bot->sendMessage("❌ Время на создание сделки закончилось\n\n   🗯 Начните заново! ");
     }
 
     public function askAmountOfDeal(string $btcPrice, string $ethPrice, string $usdtPrice): mixed
@@ -89,6 +89,11 @@ class Messages
                 $usdtPrice
             )
         );
+    }
+
+    public function uncorrectCurrency(): void
+    {
+        $this->bot->sendMessage("❌ Указанную крипту не принимаем!\n  Начните заново!");
     }
 
 

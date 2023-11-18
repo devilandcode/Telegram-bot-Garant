@@ -29,18 +29,19 @@ class UserController extends Controller
 
     public function setAmountOfDeal(string $message): void
     {
-        $time = $this->checkDifferenceTime();
+        $this->checkIsTimeOver();
 
         if ($this->parser->parseLastSearchedData()) {
             $idOfSearchTable = $this->parser->idSearchTable;
             $this->userDBManager->addCryptoAmountToSeacrhTable($message, $idOfSearchTable);
+
             $this->botAnswer->askTermsOfDeal();
         }
     }
 
     public function setTermOfDeal(string $message)
     {
-        $this->checkDifferenceTime();
+        $this->checkIsTimeOver();
 
         if ($this->parser->parseLastSearchedData()) {
             $idOfSearchTable = $this->parser->idSearchTable;
@@ -73,49 +74,37 @@ class UserController extends Controller
 
     public function notifyBuyerAboutAcceptionOfDeal(): void
     {
-        $myDealDataArray = $this->userDBManager->getDataOfBuyer($this->parser->id_telegram);
-        $this->parser->parseDealData($myDealDataArray);
-        $buyerUsername = ($this->userDBManager->getUserInfoById($this->parser->buyerId))['username'];
-        $sellerUsername = ($this->userDBManager->getUserInfoById($this->parser->sellerId))['username'];
-        if (str_contains($this->parser->amountOfDeal, "btc") !== false) {
-            $wallet = 'walletBTC';
-            $amountWithComission = $this->parser->amountOfDeal * 1.08;
-            $resultAmount = $amountWithComission . ' btc';
-        } else {
-            $wallet = 'walletETH';
-            $amountWithComission = $this->parser->amountOfDeal * 1.08;
-            $resultAmount = $amountWithComission . ' eth';
-        }
-        if (isset($myDealDataArray)) {
+        $transactionData = $this->getTransactionData();
+
+        if (! empty($transactionData)) {
             $this->botKeyboard->notifyAboutAcceptionKeyboard(
                 $this->parser->buyerId,
                 $this->parser->idOfDeal,
                 $this->parser->amountOfDeal,
-                $resultAmount,
+                $transactionData['result_amount'],
                 $this->parser->buyerId,
-                $buyerUsername,
+                $transactionData['buyer_username'],
                 $this->parser->sellerId,
-                $sellerUsername,
+                $transactionData['seller_username'],
                 $this->parser->termsOfDeal,
-                $wallet
+                $transactionData['wallet']
             );
 
-//            $this->botKeyboard->sendToAdminChannelDataOfDeal(
-//                's',
-//                $this->parser->idOfDeal,
-//                $this->parser->amountOfDeal,
-//                $resultAmount,
-//                $this->parser->buyerId,
-//                $buyerUsername,
-//                $this->parser->sellerId,
-//                $sellerUsername,
-//                $this->parser->termsOfDeal,
-//                $wallet
-//            );
+            $this->botKeyboard->sendToAdminChannelDataOfDeal(
+                $this->config->get('bot.admin_chat_id'),
+                $this->parser->idOfDeal,
+                $this->parser->amountOfDeal,
+                $transactionData['result_amount'],
+                $this->parser->buyerId,
+                $transactionData['buyer_username'],
+                $this->parser->sellerId,
+                $transactionData['seller_username'],
+                $this->parser->termsOfDeal,
+                $transactionData['wallet']
+            );
         }
 
         $this->botAnswer->waitingWhenBuyerWillPay();
     }
-
 
 }
