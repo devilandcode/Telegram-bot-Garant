@@ -6,7 +6,7 @@ use App\Kernel\Database\DBDriver;
 class UserModel
 {   
     const  NAME_OF_USER_TABLE   = 'users';
-    const  NAME_OF_SEACH_TABLE  = 'searchHistory';
+    const  NAME_OF_SEACH_TABLE  = 'search_history';
     const  ID_OF_SEARCH_TABLE   = 'id';
     const  ID_TELEGRAM          = 'id_telegram';
     const  ID_BUYER             = 'id_buyer';
@@ -16,11 +16,11 @@ class UserModel
     const  AMOUNT_OF_DEAL       = 'amount';
     const  ID_SELLER             = 'id_seller';
     const TIME_WHEN_SEARCHED    = 'time_in';
-    private DBDriver $pdo;
 
-    public function __construct(DBDriver $pdo)
+
+    public function __construct(
+        private DBDriver $pdo)
     {
-        $this->pdo = $pdo;
     }
 
 
@@ -40,9 +40,9 @@ class UserModel
     {   
         $time_in = time();
         $params = [
-            self::ID_BUYER                    => $id_telegram,
-            self::ID_SELLER                   => $idSeller,
-            self::TIME_WHEN_SEARCHED          => $time_in
+            self::ID_BUYER             => $id_telegram,
+            self::ID_SELLER            => $idSeller,
+            self::TIME_WHEN_SEARCHED   => $time_in
         ];
 
         return $this->pdo->insert(self::NAME_OF_SEACH_TABLE, $params);
@@ -59,7 +59,7 @@ class UserModel
 
     public function getAllUsersID() : ?array
     {
-        $sql = sprintf('SELECT * FROM %s', self::NAME_OF_USER_TABLE);
+        $sql = sprintf('SELECT id FROM %s', self::NAME_OF_USER_TABLE);
         $stm = $this->pdo->select($sql);
 
         return is_array($stm) ? $stm : null;
