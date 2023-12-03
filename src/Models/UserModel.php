@@ -23,14 +23,7 @@ class UserModel
         $this->pdo = $pdo;
     }
 
-    /**
-     * ADD TO USER'S TABLE IF ITS NEW USER
-     *
-     * @param string $id_telegram
-     * @param string $username
-     * @param string $chat_id
-     * @return string|false
-     */
+
     public function addNewUserToTable(string $id_telegram, string $username, string $chat_id) : string|false
     {
         $params = [
@@ -42,13 +35,7 @@ class UserModel
         return $this->pdo->insert(self::NAME_OF_USER_TABLE, $params);
     }
 
-    /**
-     * ADD TO SEARCH TABLE 
-     *
-     * @param string $id_telegram
-     * @param string $idToLookUp
-     * @return mixed
-     */
+
     public function addToSearchTable(string $id_telegram, string $idSeller) : mixed
     {   
         $time_in = time();
@@ -70,11 +57,6 @@ class UserModel
         );
     }
 
-    /**
-     * GET ALL TELEGRAM ID FROM USER TABLE
-     *
-     * @return array|null
-     */
     public function getAllUsersID() : ?array
     {
         $sql = sprintf('SELECT * FROM %s', self::NAME_OF_USER_TABLE);
@@ -82,81 +64,70 @@ class UserModel
 
         return is_array($stm) ? $stm : null;
     }
-    /**
-     * GET USER INFO BY TELEGRAM ID (USER ID)
-     *
-     * @param string $id_telegram
-     * @return array|null
-     */
+
     public function getUserInfoById($id_telegram) : ?array
     {
-        $sql = sprintf('SELECT * FROM %s WHERE %s = :%s', self::NAME_OF_USER_TABLE, 
-        self::ID_TELEGRAM, self::ID_TELEGRAM);
-        $stm = $this->pdo->select($sql, [self::ID_TELEGRAM => $id_telegram], DBDriver::FETCH_ONE);
+        $sql = sprintf('SELECT * FROM %s WHERE %s = :%s',
+            self::NAME_OF_USER_TABLE,
+                    self::ID_TELEGRAM,
+                    self::ID_TELEGRAM
+                );
 
+        $stm = $this->pdo->select($sql, [self::ID_TELEGRAM => $id_telegram], DBDriver::FETCH_ONE);
         return is_array($stm) ? $stm : null;
     }
 
-    /**
-     * GET INFO OF SELLER (WHICH SEARCHED FOR LAST)
-     *
-     * @param string $id_telegram
-     * @return mixed
-     */
+
     public function showLastSearchData($id_telegram) : ?array
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1', 
-        self::NAME_OF_SEACH_TABLE, self::ID_BUYER, self::ID_BUYER);
-        $stm = $this->pdo->select($sql, [self::ID_BUYER => $id_telegram], DBDriver::FETCH_ONE);
+            self::NAME_OF_SEACH_TABLE,
+                    self::ID_BUYER,
+                    self::ID_BUYER
+                );
 
+        $stm = $this->pdo->select($sql, [self::ID_BUYER => $id_telegram], DBDriver::FETCH_ONE);
         return is_array($stm) ? $stm : null;
     }
-    /**
-     * GET INFO OF SELLER (WHICH SEARCHED FOR LAST)
-     *
-     * @param string $id_telegram
-     * @return mixed
-     */
+
+
     public function getDataOfSeller($id_telegram) : ?array
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1',
-            self::NAME_OF_SEACH_TABLE, self::ID_BUYER, self::ID_BUYER);
-        $stm = $this->pdo->select($sql, [self::ID_BUYER => $id_telegram], DBDriver::FETCH_ONE);
+            self::NAME_OF_SEACH_TABLE,
+                    self::ID_BUYER,
+                    self::ID_BUYER
+                );
 
+        $stm = $this->pdo->select($sql, [self::ID_BUYER => $id_telegram], DBDriver::FETCH_ONE);
         return is_array($stm) ? $stm : null;
     }
 
-    /**
-     * GET INFO OF BUYER (WHICH SEARCHED FOR LAST)
-     *
-     * @param $id_telegram
-     * @return array|null
-     */
     public function getDataOfBuyer($id_telegram)
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1', 
-        self::NAME_OF_SEACH_TABLE, self::ID_SELLER, self::ID_SELLER);
-        $stm = $this->pdo->select($sql, [self::ID_SELLER => $id_telegram], DBDriver::FETCH_ONE);
+            self::NAME_OF_SEACH_TABLE,
+                    self::ID_SELLER,
+                    self::ID_SELLER
+                );
 
+        $stm = $this->pdo->select($sql, [self::ID_SELLER => $id_telegram], DBDriver::FETCH_ONE);
         return is_array($stm) ? $stm : null;
     }
 
     public function getDataOfDeal(int $idOfDeal)
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1',
-            self::NAME_OF_SEACH_TABLE, self::ID_OF_SEARCH_TABLE, self::ID_OF_SEARCH_TABLE);
-        $stm = $this->pdo->select($sql, [self::ID_OF_SEARCH_TABLE => $idOfDeal], DBDriver::FETCH_ONE);
+            self::NAME_OF_SEACH_TABLE,
+                    self::ID_OF_SEARCH_TABLE,
+                    self::ID_OF_SEARCH_TABLE
+                );
 
+        $stm = $this->pdo->select($sql, [self::ID_OF_SEARCH_TABLE => $idOfDeal], DBDriver::FETCH_ONE);
         return is_array($stm) ? $stm : null;
     }
 
-    /**
-     * ADD CRYPTO AMOUNT OF DEAL TO SEARCH'S TABLE
-     *
-     * @param string $amount
-     * @param string $idSearchTable
-     * @return int   Returns the number of rows affected by the last SQL statement 
-     */
+
     public function addCryptoAmountToSeacrhTable(string $amount, string $idSearchTable)
     {
         $stm = $this->pdo->update(self::NAME_OF_SEACH_TABLE,
@@ -166,16 +137,11 @@ class UserModel
             [
                 self::ID_OF_SEARCH_TABLE => $idSearchTable
             ] );
+
         return $stm;    
     }
 
-    /**
-     * ADD DESCRIPTION OF DEAL TO SEARCH'S TABLE
-     *
-     * @param string $text
-     * @param string $idSearchTable
-     * @return int   Returns the number of rows affected by the last SQL statement 
-     */ 
+
     public function addTermsOfDealToSearchTable(string $text, string $idSearchTable)
     {
         $stm = $this->pdo->update(self::NAME_OF_SEACH_TABLE,
