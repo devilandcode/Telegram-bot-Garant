@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\HomeServices\Handlers;
+namespace App\Services\HomeService\Handlers;
 
 
 use App\Kernel\HTTP\BotApi;

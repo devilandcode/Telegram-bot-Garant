@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\HomeServices;
+namespace App\Services\HomeService;
 
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
-use App\Services\HomeServices\Handlers\ProfileInfoHomeHandler;
+use App\Services\HomeService\Handlers\ProfileInfoHomeHandler;
 
 class HomeService
 {
@@ -16,12 +16,12 @@ class HomeService
     {
     }
 
-    public function sendStartMenu()
+    public function sendStartMenu(): void
     {
         $this->botKeyboards->start();
     }
 
-    public function sendProfileInfo()
+    public function sendProfileInfo(): void
     {
         $profileArray = $this->profileInfoHomeHandler->getProfileInfo();
         extract($profileArray);
@@ -33,5 +33,20 @@ class HomeService
             $ethPrice,
             $usdtPrice,
         );
+    }
+
+    public function sendSearchStartMessage()
+    {
+        $this->botAnswer->askUserIdToSearch();
+    }
+
+    public function sendUserDealsInfo()
+    {
+        $this->botAnswer->activeDeals();
+    }
+
+    public function sendBotInstruction()
+    {
+        $this->botAnswer->explainHowToUseBot();
     }
 }

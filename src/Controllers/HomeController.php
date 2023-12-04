@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Services\HomeServices\HomeService;
+use App\Services\HomeService\HomeService;
 
 class HomeController
 {
@@ -22,22 +22,22 @@ class HomeController
     {
         $this->service->sendProfileInfo();
     }
-//
-//    public function search(): void
-//    {
-//        $this->botAnswer->askUserIdToSearch();
-//    }
-//
-//    public function getMyDeals(): void
-//    {
-//        $this->botAnswer->activeDeals();
-//    }
-//
-//    public function support(): void
-//    {
-//        $this->botAnswer->explainHowToUseBot();
-//    }
-//
+
+    public function search(): void
+    {
+        $this->service->sendSearchStartMessage();
+    }
+
+    public function getMyDeals(): void
+    {
+        $this->service->sendUserDealsInfo();
+    }
+
+    public function support(): void
+    {
+        $this->service->sendBotInstruction();
+    }
+
 //    public function unknownCommand(): void
 //    {
 //        $this->botAnswer->unknownCommand();

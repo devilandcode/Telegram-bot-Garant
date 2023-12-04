@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\HomeServices\Handlers;
+namespace App\Services\HomeService\Handlers;
 
 use App\Kernel\Config\Config;
 use App\Kernel\Config\ConfigInterface;

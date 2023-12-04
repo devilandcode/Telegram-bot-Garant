@@ -20,9 +20,9 @@ use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\DealModel;
-use App\Services\HomeServices\Handlers\BaseHomeHandler;
-use App\Services\HomeServices\Handlers\ProfileInfoHomeHandler;
-use App\Services\HomeServices\HomeService;
+use App\Services\HomeService\Handlers\BaseHomeHandler;
+use App\Services\HomeService\Handlers\ProfileInfoHomeHandler;
+use App\Services\HomeService\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class Container
