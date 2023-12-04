@@ -20,12 +20,15 @@ use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\DealModel;
+use App\Services\HomeServices\Handlers\BaseHomeHandler;
+use App\Services\HomeServices\Handlers\ProfileInfoHomeHandler;
 use App\Services\HomeServices\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class Container
 {
     public readonly BotApi $botApi;
+    public readonly CryptoApi $cryptoApi;
     public readonly ConfigInterface $config;
     public readonly Messages $botMessages;
     public readonly Keyboards $botKeyboards;
@@ -38,6 +41,8 @@ class Container
     public readonly MiddlewareInterface $isNewUser;
     public readonly MiddlewareInterface $isUsernameExist;
     public readonly ParserUserData $parser;
+    public readonly BaseHomeHandler $baseHomeHandler;
+    public readonly ProfileInfoHomeHandler $profileInfoHomeHandler;
     public readonly HomeService $homeService;
     public readonly HomeController $homeController;
     public readonly UserController $userController;
@@ -45,7 +50,7 @@ class Container
     public readonly DealModel $dealManager;
 
 
-    public readonly CryptoApi $cryptoApi;
+
 
     public readonly Controller $adminController;
     public readonly Router $router;
@@ -60,6 +65,7 @@ class Container
     public function registerServices($botToken): void
     {
         $this->botApi = new BotApi($botToken);
+        $this->cryptoApi = new CryptoApi();
         $this->botMessages = new Messages($this->botApi, $this->config);
         $this->botKeyboards = new Keyboards($this->botApi, $this->config);
         $this->DBconnector = new DBconnector($this->config);
@@ -68,7 +74,8 @@ class Container
         $this->isNewUser = new AddIfNewUser($this->newUserRepository);
         $this->isUsernameExist = new StopIfUsernameNotExist($this->botMessages);
         $this->parser = new ParserUserData($this->botApi->phpInput());
-        $this->homeService = new HomeService($this->botMessages, $this->botKeyboards);
+        $this->profileInfoHomeHandler = new ProfileInfoHomeHandler($this->botApi, $this->cryptoApi);
+        $this->homeService = new HomeService($this->botMessages, $this->botKeyboards, $this->profileInfoHomeHandler);
         $this->homeController = new HomeController($this->homeService);
         $this->userController = new UserController();
 //        $this->keyboards = new Keyboards($this->config, $botToken);

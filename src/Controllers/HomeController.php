@@ -18,16 +18,10 @@ class HomeController
         $this->service->sendStartMenu();
     }
 
-//    public function profile(): void
-//    {
-//        $this->botAnswer->sendMyProfileData(
-//            $this->parser->id_telegram,
-//            $this->parser->username,
-//            $this->cryptoApi->getBtcCurrency()->btcPrice,
-//            $this->cryptoApi->getEthCurrency()->ethPrice,
-//            $this->cryptoApi->getUSDTCurrency()->usdtPrice
-//        );
-//    }
+    public function profile(): void
+    {
+        $this->service->sendProfileInfo();
+    }
 //
 //    public function search(): void
 //    {
