@@ -29,6 +29,11 @@ class Messages
         $this->bot->sendMessage('😥 Неизвестная команда');
     }
 
+    public function askUserToSetUsername(): void
+    {
+        $this->bot->sendMessage("❌ У вас не задан Username\n\n   🗯 Установиьт и начните заново! ");
+    }
+
     public function sendMyProfileData(string $id_telegram, string $username, string $btcPrice, string $ethPrice, string $usdtPrice): void
     {
         $this->bot->sendMessage(

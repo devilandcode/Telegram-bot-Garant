@@ -3,12 +3,17 @@
 namespace App\Kernel\Router;
 
 
+use App\Kernel\Config\ConfigInterface;
+use App\Kernel\Middlewares\MiddlewareInterface;
+
 class Router
 {
-    private string $botCallBackQuery;
 
     public function __construct(
-        private \stdClass $phpInput
+        private \stdClass $phpInput,
+        private MiddlewareInterface $isUsernameExist,
+        private MiddlewareInterface $isNewUser,
+        private ConfigInterface $config,
     )
     {
 
@@ -34,7 +39,17 @@ class Router
 
     private function dispatchTextMessageFromBot()
     {
+        $this->goUsernameMiddleware();
+        $this->goNewUserMiddleware();
 
+        match ($this->phpInput->message->text) {
+            $this->config->get('messages.start') => call_user_func([$this->homeController, 'start']),
+            $this->config->get('messages.profile') => call_user_func([$this->homeController, 'profile']),
+            $this->config->get('messages.userSearch') => call_user_func([$this->homeController, 'search']),
+            $this->config->get('messages.activeDeals') => call_user_func([$this->homeController, 'getMyDeals']),
+            $this->config->get('messages.supportService') => call_user_func([$this->homeController, 'support']),
+            default => call_user_func([$this->userController, 'dispatch']),
+        };
     }
 
     private function dispatchTextMessageFromAdminChannel()
@@ -61,6 +76,23 @@ class Router
     {
         return isset($this->phpInput->callback_query->data) ? true : false;
     }
+
+    private function goUsernameMiddleware()
+    {
+        $phpInput = $this->phpInput;
+
+        $this->isUsernameExist->check(compact('phpInput'));
+    }
+
+    private function goNewUserMiddleware()
+    {
+        $idTelegram = $this->phpInput->message->from->id;
+        $username   = $this->phpInput->message->from->username;
+        $idChat     = $this->phpInput->message->chat->id;
+
+        $this->isNewUser->check(compact('idTelegram', 'username', 'idChat'));
+    }
+
 //
 //    public function dispatchBotMessage(string $message): void
 //    {

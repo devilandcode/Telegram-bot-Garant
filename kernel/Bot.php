@@ -7,7 +7,7 @@ use App\Kernel\Container\Container;
 class Bot
 {
     private Container $container;
-    
+
     public function __construct()
     {
         $this->container = new Container();

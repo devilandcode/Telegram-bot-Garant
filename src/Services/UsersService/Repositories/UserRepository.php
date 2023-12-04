@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\UsersService\Repository;
+namespace App\Services\UsersService\Repositories;
 
 use App\Kernel\Database\DBDriver;
 
@@ -22,18 +22,6 @@ class UserRepository
     public function __construct(
         private DBDriver $pdo)
     {
-    }
-
-
-    public function addNewUserToTable(string $id_telegram, string $username, string $chat_id) : string|false
-    {
-        $params = [
-            self::ID_TELEGRAM   => $id_telegram,
-            self::USERNAME      => $username,
-            self::CHAT_ID       => $chat_id
-        ];
-
-        return $this->pdo->insert(self::NAME_OF_USER_TABLE, $params);
     }
 
 

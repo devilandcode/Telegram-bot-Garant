@@ -53,25 +53,7 @@ abstract class Controller
 //        $this->botApi->sendCallBackAnswer('');
 //    }
 //
-//    public function checkNewUser(): int|string
-//    {
-//        $input = $this->botApi->getInputData();
-//        $input = print_r($input, true);
-//        file_put_contents('inputs.txt', $input, FILE_APPEND);
-//        die;
-//        if ($this->userDBManager->getUserInfoById($this->parser->id_telegram) == null &&
-//            $this->parser->isChanel !== 'channel'
-//        )
-//        {
-//
-//            return $this->userDBManager->addNewUserToTable(
-//                $this->parser->id_telegram,
-//                $this->parser->username,
-//                $this->parser->chat_id);
-//        } else {
-//            return 'Not New User';
-//        }
-//    }
+
 //
 //    /**
 //     * The time difference from the last time a buyer was found.
