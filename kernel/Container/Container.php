@@ -2,8 +2,6 @@
 
 namespace App\Kernel\Container;
 
-use App\Controllers\AdminController;
-use App\Controllers\UserController;
 use App\Kernel\Config\Config;
 use App\Kernel\Config\ConfigInterface;
 use App\Kernel\Controller\Controller;
@@ -13,10 +11,10 @@ use App\Kernel\HTTP\BotApi;
 use App\Kernel\HTTP\CryptoApi;
 use App\Kernel\Parser\ParserUserData;
 use App\Kernel\Router\Router;
-use App\Keyboards;
-use App\Messages;
+use App\Keyboards\Keyboards;
+use App\Messages\Messages;
 use App\Models\DealModel;
-use App\Models\UserModel;
+use App\Services\UsersService\Repository\UserRepository;
 
 class Container
 {
@@ -26,7 +24,7 @@ class Container
     public readonly DBDriver $DBDriver;
     public readonly ConfigInterface $config;
     public readonly ParserUserData $parser;
-    public readonly UserModel $userDBManager;
+    public readonly UserRepository  $userRepository;
     public readonly DealModel $dealManager;
     public readonly Keyboards $keyboards;
     public readonly Messages $messages;
@@ -47,44 +45,38 @@ class Container
         $this->botApi = new BotApi($botToken);
         $this->DBconnector = new DBconnector($this->config);
         $this->DBDriver = new DBDriver($this->DBconnector->getConnect());
-        $this->keyboards = new Keyboards($this->config, $botToken);
-        $this->messages = new Messages($this->botApi,$this->config);
-        $this->cryptoApi = new CryptoApi();
-        $this->userDBManager = new UserModel($this->DBDriver);
-        $this->dealManager = new DealModel($this->DBDriver);
-        $this->parser = new ParserUserData(
-            $this->botApi->getInputData(),
-            $this->userDBManager,
-            $this->dealManager
-        );
-
-        $this->userController = new UserController(
-            $this->botApi,
-            $this->keyboards,
-            $this->messages,
-            $this->cryptoApi,
-            $this->userDBManager,
-            $this->parser,
-            $this->config,
-            $this->dealManager
-        );
-        $this->adminController = new AdminController(
-            $this->botApi,
-            $this->keyboards,
-            $this->messages,
-            $this->cryptoApi,
-            $this->userDBManager,
-            $this->parser,
-            $this->config,
-            $this->dealManager
-        );
-        $this->router = new Router(
-            $this->botApi,
-            $this->config,
-            $this->userController,
-            $this->adminController,
-            $this->messages
-        );
+//        $this->keyboards = new Keyboards($this->config, $botToken);
+//        $this->messages = new Messages($this->botApi,$this->config);
+//        $this->cryptoApi = new CryptoApi();
+//        $this->userRepository = new UserRepository($this->DBDriver);
+//        $this->dealManager = new DealModel($this->DBDriver);
+//        $this->parser = new ParserUserData(
+//            $this->botApi->getInputData(),
+//            $this->userRepository,
+//            $this->dealManager
+//        );
+//
+//        $this->userController = new UserController(
+//            $this->botApi,
+//            $this->keyboards,
+//            $this->messages,
+//            $this->cryptoApi,
+//            $this->userRepository,
+//            $this->parser,
+//            $this->config,
+//            $this->dealManager
+//        );
+//        $this->adminController = new AdminController(
+//            $this->botApi,
+//            $this->keyboards,
+//            $this->messages,
+//            $this->cryptoApi,
+//            $this->userRepository,
+//            $this->parser,
+//            $this->config,
+//            $this->dealManager
+//        );
+        $this->router = new Router($this->botApi->phpInput());
     }
 
     private function setConfig()

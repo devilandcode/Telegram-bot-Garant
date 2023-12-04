@@ -3,6 +3,7 @@
 namespace App\Kernel\Parser;
 use App\Models\DealModel;
 use App\Models\UserModel;
+use App\Services\UsersService\Repository\UserRepository;
 
 class ParserUserData
 {
@@ -26,7 +27,7 @@ class ParserUserData
 
     public function __construct(
         public \stdClass $data,
-        public UserModel $userDBManager,
+        public UserRepository $userDBManager,
         public DealModel $dealDBManager
     )
     {

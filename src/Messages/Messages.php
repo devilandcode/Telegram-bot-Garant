@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Messages;
 
+use App\JsonException;
 use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotApi;
 

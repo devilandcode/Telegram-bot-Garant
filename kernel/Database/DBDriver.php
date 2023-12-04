@@ -16,14 +16,6 @@ class DBDriver
         $this->pdo = $pdo;
     }
 
-    /**
-     * MAKE FETCH OR FETCHALL FROM TABLE DEPENDING OF INPUT PARAMS
-     *
-     * @param string $sql
-     * @param array $params
-     * @param [type] $fetch
-     * @return mixed
-     */
     public function select(string $sql, array $params = [], $fetch = self::FETCH_ALL) : mixed
     {
         $stm = $this->pdo->prepare($sql);
@@ -32,13 +24,7 @@ class DBDriver
         return $fetch === self::FETCH_ALL ? $stm->fetchAll(PDO::FETCH_ASSOC) : $stm->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * INSERT INTO ANY TABLE DEPENDING OF INPUT PARAMS
-     *
-     * @param string $table
-     * @param array $params
-     * @return string|false
-     */
+
     public function insert(string $table, array $params) : string|false
     {
         $columns = sprintf('(%s)', implode(',', array_keys($params)));
@@ -51,14 +37,7 @@ class DBDriver
         return $this->pdo->lastInsertId();
     }
 
-    /**
-     * UPDATE ANY TABLE DEPENDING OF INPUT PARAMS
-     *
-     * @param string $table
-     * @param array $params
-     * @param array $where
-     * @return integer Returns the number of rows affected by the last SQL statement 
-     */
+
     public function update(string $table, array $params, array $where) : int
     {   
         foreach($params as $k => $v) {

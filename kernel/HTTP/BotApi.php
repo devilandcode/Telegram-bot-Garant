@@ -22,17 +22,10 @@ class BotApi extends Client
     {
         parent::__construct();
         $this->conftoken = $token;
-        $this->basicChatData = $this->getInputData();
     }
  
- 
-    /**
-     * GET INFO FROM PHP INPUT
-     * 
-     * @return mixed $result - basic chat data
-     * @throws AnswerFromTelegramExeption
-     */
-    public function getInputData(): \stdClass
+
+    public function phpInput(): \stdClass
     {
         return json_decode(file_get_contents('php://input'), false, 512, JSON_THROW_ON_ERROR);
     }

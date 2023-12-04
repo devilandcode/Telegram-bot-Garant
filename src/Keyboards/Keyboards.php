@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Keyboards;
 
 use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotApi;

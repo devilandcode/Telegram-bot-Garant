@@ -2,30 +2,14 @@
 
 namespace App\Kernel\Controller;
 
-use App\Kernel\Config\ConfigInterface;
-use App\Kernel\HTTP\BotApi;
-use App\Kernel\HTTP\CryptoApi;
-use App\Kernel\Parser\ParserUserData;
-use App\Keyboards;
-use App\Messages;
-use App\Models\DealModel;
 use App\Models\UserModel;
 
 abstract class Controller
 {
 
     public function __construct(
-        protected BotApi $botApi,
-        protected Keyboards $botKeyboard,
-        protected Messages $botAnswer,
-        protected CryptoApi $cryptoApi,
-        protected UserModel $userDBManager,
-        protected ParserUserData $parser,
-        protected ConfigInterface $config,
-        protected DealModel $dealDBManager,
     )
     {
-        $this->checkNewUser();
     }
 
     public function start(): void
@@ -63,75 +47,78 @@ abstract class Controller
     {
         $this->botAnswer->unknownCommand();
     }
-
-    public function sendCallBackAnswerToTelegram(): void
-    {
-        $this->botApi->sendCallBackAnswer('');
-    }
-
-    public function checkNewUser(): int|string
-    {
-        file_put_contents('c.txt', $this->parser->isChanel, FILE_APPEND);
-        if ($this->userDBManager->getUserInfoById($this->parser->id_telegram) == null &&
-            $this->parser->isChanel !== 'channel'
-        )
-        {
-
-            return $this->userDBManager->addNewUserToTable(
-                $this->parser->id_telegram,
-                $this->parser->username,
-                $this->parser->chat_id);
-        } else {
-            return 'Not New User';
-        }
-    }
-
-    /**
-     * The time difference from the last time a buyer was found.
-     * Used to set the time during which a deal can be opened.
-     * if more than 5(i set) minutes have passed, the transaction must be restarted
-     * @return mixed
-     */
-    protected function checkIsTimeOver(): void
-    {
-        $this->parser->parseLastSearchedData();
-        $time = $this->parser->getDiffTime();
-        file_put_contents('time.txt', $time . "\n", FILE_APPEND);
-        if ($time > 5) {
-            $this->botAnswer->showTimeIsOver();
-            die;
-        }
-    }
-
-    protected function getTransactionData(): array
-    {
-        $transationData = [];
-
-        $myDealDataArray = $this->userDBManager->getDataOfBuyer($this->parser->id_telegram);
-        $this->parser->parseTransactionData($myDealDataArray);
-        $transationData['buyer_username'] = ($this->userDBManager->getUserInfoById($this->parser->buyerId))['username'];
-        $transationData['seller_username'] = ($this->userDBManager->getUserInfoById($this->parser->sellerId))['username'];
-
-        if (str_contains($this->parser->amountOfDeal, "btc") !== false) {
-            $transationData['wallet'] = $this->config->get('bot.btc_wallet');
-            $amountWithComission = $this->parser->amountOfDeal * 1.08;
-            $transationData['result_amount'] = $amountWithComission . ' btc';
-            return $transationData;
-        } elseif (str_contains($this->parser->amountOfDeal, "usdt") !== false) {
-            $transationData['wallet'] = $this->config->get('bot.usdt_wallet');
-            $amountWithComission = $this->parser->amountOfDeal * 1.08;
-            $transationData['result_amount'] = $amountWithComission . ' usdt';
-            return $transationData;
-        } elseif (str_contains($this->parser->amountOfDeal, "eth") !== false) {
-            $transationData['wallet'] = $this->config->get('bot.eth_wallet');
-            $amountWithComission = $this->parser->amountOfDeal * 1.08;
-            $transationData['result_amount'] = $amountWithComission . ' eth';
-            return $transationData;
-        } else {
-            $this->botAnswer->uncorrectCurrency();
-            die;
-        }
-    }
+//
+//    public function sendCallBackAnswerToTelegram(): void
+//    {
+//        $this->botApi->sendCallBackAnswer('');
+//    }
+//
+//    public function checkNewUser(): int|string
+//    {
+//        $input = $this->botApi->getInputData();
+//        $input = print_r($input, true);
+//        file_put_contents('inputs.txt', $input, FILE_APPEND);
+//        die;
+//        if ($this->userDBManager->getUserInfoById($this->parser->id_telegram) == null &&
+//            $this->parser->isChanel !== 'channel'
+//        )
+//        {
+//
+//            return $this->userDBManager->addNewUserToTable(
+//                $this->parser->id_telegram,
+//                $this->parser->username,
+//                $this->parser->chat_id);
+//        } else {
+//            return 'Not New User';
+//        }
+//    }
+//
+//    /**
+//     * The time difference from the last time a buyer was found.
+//     * Used to set the time during which a deal can be opened.
+//     * if more than 5(i set) minutes have passed, the transaction must be restarted
+//     * @return mixed
+//     */
+//    protected function checkIsTimeOver(): void
+//    {
+//        $this->parser->parseLastSearchedData();
+//        $time = $this->parser->getDiffTime();
+//        file_put_contents('time.txt', $time . "\n", FILE_APPEND);
+//        if ($time > 5) {
+//            $this->botAnswer->showTimeIsOver();
+//            die;
+//        }
+//    }
+//
+//    protected function getTransactionData(): array
+//    {
+//        $transationData = [];
+//
+//        $myDealDataArray = $this->userDBManager->getDataOfBuyer($this->parser->id_telegram);
+//        $this->parser->parseTransactionData($myDealDataArray);
+//        $transationData['buyer_username'] = ($this->userDBManager->getUserInfoById($this->parser->buyerId))['username'];
+//        $transationData['seller_username'] = ($this->userDBManager->getUserInfoById($this->parser->sellerId))['username'];
+//
+//        if (str_contains($this->parser->amountOfDeal, "btc") !== false) {
+//            $transationData['wallet'] = $this->config->get('bot.btc_wallet');
+//            $amountWithComission = $this->parser->amountOfDeal * 1.08;
+//            $transationData['result_amount'] = $amountWithComission . ' btc';
+//            return $transationData;
+//        } elseif (str_contains($this->parser->amountOfDeal, "usdt") !== false) {
+//            $transationData['wallet'] = $this->config->get('bot.usdt_wallet');
+//            $amountWithComission = $this->parser->amountOfDeal * 1.08;
+//            $transationData['result_amount'] = $amountWithComission . ' usdt';
+//            return $transationData;
+//        } elseif (str_contains($this->parser->amountOfDeal, "eth") !== false) {
+//            $transationData['wallet'] = $this->config->get('bot.eth_wallet');
+//            $amountWithComission = $this->parser->amountOfDeal * 1.08;
+//            $transationData['result_amount'] = $amountWithComission . ' eth';
+//            return $transationData;
+//        } else {
+//            $this->botAnswer->uncorrectCurrency();
+//            die;
+//        }
+//    }
 
 
 

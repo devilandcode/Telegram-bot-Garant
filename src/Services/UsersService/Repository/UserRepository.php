@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Services\UsersService\Repository;
+
 use App\Kernel\Database\DBDriver;
 
-class UserModel
+class UserRepository
 {   
     const  NAME_OF_USER_TABLE   = 'users';
     const  NAME_OF_SEACH_TABLE  = 'search_history';
