@@ -38,9 +38,4 @@ class HomeController
         $this->service->sendBotInstruction();
     }
 
-//    public function unknownCommand(): void
-//    {
-//        $this->botAnswer->unknownCommand();
-//    }
-
 }

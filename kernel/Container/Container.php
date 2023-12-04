@@ -24,6 +24,7 @@ use App\Services\HomeService\Handlers\BaseHomeHandler;
 use App\Services\HomeService\Handlers\ProfileInfoHomeHandler;
 use App\Services\HomeService\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
+use App\Services\UsersService\UserService;
 
 class Container
 {
@@ -45,6 +46,7 @@ class Container
     public readonly ProfileInfoHomeHandler $profileInfoHomeHandler;
     public readonly HomeService $homeService;
     public readonly HomeController $homeController;
+    public readonly UserService $userService;
     public readonly UserController $userController;
     public readonly UserRepository  $userRepository;
     public readonly DealModel $dealManager;
@@ -77,7 +79,8 @@ class Container
         $this->profileInfoHomeHandler = new ProfileInfoHomeHandler($this->botApi, $this->cryptoApi);
         $this->homeService = new HomeService($this->botMessages, $this->botKeyboards, $this->profileInfoHomeHandler);
         $this->homeController = new HomeController($this->homeService);
-        $this->userController = new UserController();
+        $this->userService = new UserService();
+        $this->userController = new UserController($this->userService);
 //        $this->keyboards = new Keyboards($this->config, $botToken);
 //        $this->messages = new Messages($this->botApi,$this->config);
 //        $this->cryptoApi = new CryptoApi();

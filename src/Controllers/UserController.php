@@ -3,9 +3,15 @@
 namespace App\Controllers;
 
 use App\Kernel\Controller\Controller;
+use App\Services\UsersService\UserService;
 
 class UserController
 {
+    public function __construct(
+        private UserService $service
+    )
+    {
+    }
 
     public function dispatch()
     {
