@@ -7,13 +7,12 @@ use App\Kernel\HTTP\BotApi;
 
 class Keyboards
 {
-    private BotApi $bot;
 
     public function __construct(
-        public ConfigInterface $config,
-        public string $token)
+        private BotApi $bot,
+        private ConfigInterface $config,
+    )
     {
-        $this->bot = new BotApi($token);
     }
 
 

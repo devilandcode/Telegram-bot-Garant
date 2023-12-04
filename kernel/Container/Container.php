@@ -2,6 +2,8 @@
 
 namespace App\Kernel\Container;
 
+use App\Controllers\HomeController;
+use App\Controllers\UserController;
 use App\Kernel\Config\Config;
 use App\Kernel\Config\ConfigInterface;
 use App\Kernel\Controller\Controller;
@@ -18,6 +20,7 @@ use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\DealModel;
+use App\Services\HomeServices\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class Container
@@ -25,6 +28,7 @@ class Container
     public readonly BotApi $botApi;
     public readonly ConfigInterface $config;
     public readonly Messages $botMessages;
+    public readonly Keyboards $botKeyboards;
     public readonly DBconnector $DBconnector;
 
     public readonly DBDriver $DBDriver;
@@ -34,12 +38,15 @@ class Container
     public readonly MiddlewareInterface $isNewUser;
     public readonly MiddlewareInterface $isUsernameExist;
     public readonly ParserUserData $parser;
+    public readonly HomeService $homeService;
+    public readonly HomeController $homeController;
+    public readonly UserController $userController;
     public readonly UserRepository  $userRepository;
     public readonly DealModel $dealManager;
-    public readonly Keyboards $keyboards;
+
 
     public readonly CryptoApi $cryptoApi;
-    public readonly Controller $userController;
+
     public readonly Controller $adminController;
     public readonly Router $router;
 
@@ -54,15 +61,16 @@ class Container
     {
         $this->botApi = new BotApi($botToken);
         $this->botMessages = new Messages($this->botApi, $this->config);
+        $this->botKeyboards = new Keyboards($this->botApi, $this->config);
         $this->DBconnector = new DBconnector($this->config);
         $this->DBDriver = new DBDriver($this->DBconnector->getConnect());
-        $this->newUserRepository = new NewUserRepository(
-            $this->DBDriver,
-            $this->config
-        );
+        $this->newUserRepository = new NewUserRepository($this->DBDriver, $this->config);
         $this->isNewUser = new AddIfNewUser($this->newUserRepository);
         $this->isUsernameExist = new StopIfUsernameNotExist($this->botMessages);
         $this->parser = new ParserUserData($this->botApi->phpInput());
+        $this->homeService = new HomeService($this->botMessages, $this->botKeyboards);
+        $this->homeController = new HomeController($this->homeService);
+        $this->userController = new UserController();
 //        $this->keyboards = new Keyboards($this->config, $botToken);
 //        $this->messages = new Messages($this->botApi,$this->config);
 //        $this->cryptoApi = new CryptoApi();
@@ -99,6 +107,8 @@ class Container
             $this->isUsernameExist,
             $this->isNewUser,
             $this->config,
+            $this->homeController,
+            $this->userController,
         );
     }
 

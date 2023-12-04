@@ -22,6 +22,8 @@ class BotApi extends Client
     {
         parent::__construct();
         $this->conftoken = $token;
+        $this->basicChatData = $this->phpInput();
+
     }
  
 

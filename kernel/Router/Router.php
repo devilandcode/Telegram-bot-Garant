@@ -3,6 +3,8 @@
 namespace App\Kernel\Router;
 
 
+use App\Controllers\HomeController;
+use App\Controllers\UserController;
 use App\Kernel\Config\ConfigInterface;
 use App\Kernel\Middlewares\MiddlewareInterface;
 
@@ -14,6 +16,8 @@ class Router
         private MiddlewareInterface $isUsernameExist,
         private MiddlewareInterface $isNewUser,
         private ConfigInterface $config,
+        private HomeController $homeController,
+        private UserController $userController,
     )
     {
 
@@ -33,7 +37,6 @@ class Router
 
         if ($this->isTextMessageFromAdminChannel()) {
             $this->dispatchTextMessageFromAdminChannel();
-            return;
         }
     }
 
