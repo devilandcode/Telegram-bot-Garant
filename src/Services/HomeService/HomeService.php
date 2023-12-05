@@ -8,12 +8,13 @@ use App\Services\HomeService\Handlers\ProfileInfoHomeHandler;
 
 class HomeService
 {
+    private ProfileInfoHomeHandler $profileInfoHomeHandler;
     public function __construct(
         private Messages $botAnswer,
         private Keyboards $botKeyboards,
-        private ProfileInfoHomeHandler $profileInfoHomeHandler,
     )
     {
+        $this->profileInfoHomeHandler = new ProfileInfoHomeHandler();
     }
 
     public function sendStartMenu(): void

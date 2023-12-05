@@ -9,11 +9,15 @@ use App\Kernel\HTTP\CryptoApi;
 
 class BaseHomeHandler
 {
+    protected BotApi $botApi;
+    protected CryptoApi $cryptoApi;
+    protected ConfigInterface $config;
     public function __construct(
-        protected BotApi $botApi,
-        protected CryptoApi $cryptoApi,
     )
     {
+        $this->config = new Config();
+        $this->botApi = new BotApi($this->config->get('bot.token'));
+        $this->cryptoApi = new CryptoApi();
     }
 
 }

@@ -20,8 +20,6 @@ use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\DealModel;
-use App\Services\HomeService\Handlers\BaseHomeHandler;
-use App\Services\HomeService\Handlers\ProfileInfoHomeHandler;
 use App\Services\HomeService\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
 use App\Services\UsersService\UserService;
@@ -42,8 +40,6 @@ class Container
     public readonly MiddlewareInterface $isNewUser;
     public readonly MiddlewareInterface $isUsernameExist;
     public readonly ParserUserData $parser;
-    public readonly BaseHomeHandler $baseHomeHandler;
-    public readonly ProfileInfoHomeHandler $profileInfoHomeHandler;
     public readonly HomeService $homeService;
     public readonly HomeController $homeController;
     public readonly UserService $userService;
@@ -76,8 +72,7 @@ class Container
         $this->isNewUser = new AddIfNewUser($this->newUserRepository);
         $this->isUsernameExist = new StopIfUsernameNotExist($this->botMessages);
         $this->parser = new ParserUserData($this->botApi->phpInput());
-        $this->profileInfoHomeHandler = new ProfileInfoHomeHandler($this->botApi, $this->cryptoApi);
-        $this->homeService = new HomeService($this->botMessages, $this->botKeyboards, $this->profileInfoHomeHandler);
+        $this->homeService = new HomeService($this->botMessages, $this->botKeyboards);
         $this->homeController = new HomeController($this->homeService);
         $this->userService = new UserService();
         $this->userController = new UserController($this->userService);

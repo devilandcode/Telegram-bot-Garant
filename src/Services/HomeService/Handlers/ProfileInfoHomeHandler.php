@@ -8,9 +8,9 @@ use App\Kernel\HTTP\CryptoApi;
 
 class ProfileInfoHomeHandler extends BaseHomeHandler
 {
-    public function __construct(BotApi $botApi, CryptoApi $cryptoApi)
+    public function __construct()
     {
-        parent::__construct($botApi, $cryptoApi);
+        parent::__construct();
     }
 
     public function getProfileInfo(): array
