@@ -13,9 +13,11 @@ class UserController
     {
     }
 
-    public function dispatch()
+    public function analyze(string $messageFromBot)
     {
+        if ($this->service->isTelegramId($messageFromBot)) {
 
+        }
     }
 //    public function checkIsUserExist(string $message): void
 //    {

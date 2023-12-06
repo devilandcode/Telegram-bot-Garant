@@ -6,7 +6,9 @@ namespace App\Kernel\Router;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Kernel\Config\ConfigInterface;
+use App\Kernel\Middlewares\AddIfNewUser;
 use App\Kernel\Middlewares\MiddlewareInterface;
+use App\Kernel\Middlewares\StopIfUsernameNotExist;
 
 class Router
 {
@@ -51,7 +53,10 @@ class Router
             $this->config->get('messages.userSearch') => call_user_func([$this->homeController, 'search']),
             $this->config->get('messages.activeDeals') => call_user_func([$this->homeController, 'getMyDeals']),
             $this->config->get('messages.supportService') => call_user_func([$this->homeController, 'support']),
-            default => call_user_func([$this->userController, 'dispatch']),
+            default => call_user_func(
+                [$this->userController, 'analyze'],
+                $this->phpInput->message->text
+            ),
         };
     }
 
@@ -92,6 +97,7 @@ class Router
         $idTelegram = $this->phpInput->message->from->id;
         $username   = $this->phpInput->message->from->username;
         $idChat     = $this->phpInput->message->chat->id;
+
 
         $this->isNewUser->check(compact('idTelegram', 'username', 'idChat'));
     }

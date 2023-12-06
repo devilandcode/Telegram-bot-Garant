@@ -12,7 +12,6 @@ use App\Kernel\Database\DBDriver;
 use App\Kernel\HTTP\BotApi;
 use App\Kernel\HTTP\CryptoApi;
 use App\Kernel\Middlewares\AddIfNewUser;
-use App\Kernel\Middlewares\MiddlewareInterface;
 use App\Kernel\Middlewares\Repositories\NewUserRepository;
 use App\Kernel\Middlewares\StopIfUsernameNotExist;
 use App\Kernel\Parser\ParserUserData;
@@ -37,8 +36,8 @@ class Container
 
     public readonly NewUserRepository $newUserRepository;
 
-    public readonly MiddlewareInterface $isNewUser;
-    public readonly MiddlewareInterface $isUsernameExist;
+    public readonly AddIfNewUser $isNewUser;
+    public readonly StopIfUsernameNotExist $isUsernameExist;
     public readonly ParserUserData $parser;
     public readonly HomeService $homeService;
     public readonly HomeController $homeController;

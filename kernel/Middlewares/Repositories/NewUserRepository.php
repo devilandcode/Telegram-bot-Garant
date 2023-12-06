@@ -14,10 +14,10 @@ class NewUserRepository
     {
     }
 
-    public function checkIsUserExist($idTelegram) : bool
+    public function checkIsUserExist($idTelegram): bool
     {
         $nameOfUsersTable = $this->config->get('database.name_of_users_table');
-        $nameOfColumnIdTelegram = $this->config->get('database.name_of_column_with_id_telegram');
+        $nameOfColumnIdTelegram = $this->config->get('database.users_name_of_column_with_id_telegram');
 
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s',
             $nameOfUsersTable,
@@ -26,15 +26,16 @@ class NewUserRepository
         );
 
         $stm = $this->db->select($sql, [$nameOfColumnIdTelegram => $idTelegram], DBDriver::FETCH_ONE);
-        return isset($stm) ? true : false;
+
+        return is_array($stm) ? true : false;
     }
 
     public function addNewUserToTable(string $idTelegram, string $username, string $idChat): string|false
     {
         $nameOfUsersTable = $this->config->get('database.name_of_users_table');
-        $nameOfColumnIdTelegram = $this->config->get('database.name_of_column_with_id_telegram');
-        $nameOfColumnUsername = $this->config->get('database.name_of_column_with_username');
-        $nameOfColumnIdChat = $this->config->get('database.name_of_column_with_id_chat');
+        $nameOfColumnIdTelegram = $this->config->get('database.users_name_of_column_with_id_telegram');
+        $nameOfColumnUsername = $this->config->get('database.users_name_of_column_with_username');
+        $nameOfColumnIdChat = $this->config->get('database.users_name_of_column_with_id_chat');
 
         $params = [
             $nameOfColumnIdTelegram   => $idTelegram,
