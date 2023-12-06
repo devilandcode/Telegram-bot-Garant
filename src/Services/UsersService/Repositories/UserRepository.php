@@ -67,7 +67,7 @@ class UserRepository
         return is_array($stm) ? $stm : null;
     }
 
-    public function getUserInfoById($id_telegram) : ?array
+    public function getUserInfoById($id_telegram) : array|bool
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s = :%s',
                     $this->usersTableName,
@@ -76,7 +76,19 @@ class UserRepository
                 );
 
         $stm = $this->pdo->select($sql, [$this->nameOfColumnIdTelegram => $id_telegram], DBDriver::FETCH_ONE);
-        return is_array($stm) ? $stm : null;
+        return is_array($stm) ? $stm : false;
+    }
+
+    public function checkIsUserExistByTelegramId($id_telegram): bool
+    {
+        $sql = sprintf('SELECT * FROM %s WHERE %s = :%s',
+            $this->usersTableName,
+            $this->nameOfColumnIdTelegram,
+            $this->nameOfColumnIdTelegram
+        );
+
+        $stm = $this->pdo->select($sql, [$this->nameOfColumnIdTelegram => $id_telegram], DBDriver::FETCH_ONE);
+        return is_array($stm) ? true : false;
     }
 
 

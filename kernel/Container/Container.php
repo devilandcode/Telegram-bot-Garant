@@ -2,6 +2,7 @@
 
 namespace App\Kernel\Container;
 
+use App\Controllers\CallBackQueryController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Kernel\Config\Config;
@@ -19,6 +20,7 @@ use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\DealModel;
+use App\Services\CallBackService\CallBackService;
 use App\Services\HomeService\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
 use App\Services\UsersService\UserService;
@@ -44,7 +46,8 @@ class Container
     public readonly UserService $userService;
     public readonly UserController $userController;
     public readonly UserRepository  $userRepository;
-    public readonly DealModel $dealManager;
+    public readonly CallBackService  $callBackService;
+    public readonly CallBackQueryController $callBackQueryController;
 
 
 
@@ -73,8 +76,11 @@ class Container
         $this->parser = new ParserUserData($this->botApi->phpInput());
         $this->homeService = new HomeService($this->botMessages, $this->botKeyboards);
         $this->homeController = new HomeController($this->homeService);
-        $this->userService = new UserService();
+        $this->userRepository = new UserRepository($this->DBDriver);
+        $this->userService = new UserService($this->botApi, $this->botKeyboards, $this->botMessages,$this->userRepository);
+        $this->callBackService = new CallBackService($this->botApi, $this->botKeyboards, $this->botMessages,$this->userRepository);
         $this->userController = new UserController($this->userService);
+        $this->callBackQueryController = new CallBackQueryController($this->callBackService);
 //        $this->keyboards = new Keyboards($this->config, $botToken);
 //        $this->messages = new Messages($this->botApi,$this->config);
 //        $this->cryptoApi = new CryptoApi();
@@ -113,6 +119,7 @@ class Container
             $this->config,
             $this->homeController,
             $this->userController,
+            $this->callBackQueryController
         );
     }
 

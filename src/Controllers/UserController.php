@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Kernel\Controller\Controller;
+
 use App\Services\UsersService\UserService;
 
 class UserController
@@ -16,8 +16,11 @@ class UserController
     public function analyze(string $messageFromBot)
     {
         if ($this->service->isTelegramId($messageFromBot)) {
-
+            $this->service->handleSellerId($messageFromBot);
+            return;
         }
+
+
     }
 //    public function checkIsUserExist(string $message): void
 //    {

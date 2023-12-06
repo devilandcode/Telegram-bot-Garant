@@ -2,13 +2,11 @@
 
 namespace App\Kernel\Router;
 
-
+use App\Controllers\CallBackQueryController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Kernel\Config\ConfigInterface;
-use App\Kernel\Middlewares\AddIfNewUser;
 use App\Kernel\Middlewares\MiddlewareInterface;
-use App\Kernel\Middlewares\StopIfUsernameNotExist;
 
 class Router
 {
@@ -20,9 +18,9 @@ class Router
         private ConfigInterface $config,
         private HomeController $homeController,
         private UserController $userController,
+        private CallBackQueryController $callBackQueryController,
     )
     {
-
     }
 
     public function dispatch(): void
@@ -67,6 +65,20 @@ class Router
 
     private function dispatchCallBackQueryFromBot()
     {
+        call_user_func([$this->callBackQueryController,'sendCallBackAnswerToTelegram']);
+
+        match ($this->phpInput->callback_query->data) {
+            $this->config->get('tg_callbacks.start') => call_user_func([$this->callBackQueryController, 'askToEnterAmountOfDeal']),
+//            $this->config->get('tg_callbacks.confirm') => call_user_func([$this->userController, 'sendToSellerInvitation']),
+//            $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
+//            $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
+//            $this->config->get('tg_callbacks.dont_send_deal') => call_user_func([$this->userController, 'cancelFillingDeal']),
+//            $this->config->get('tg_callbacks.decline_invitation') => call_user_func([$this->userController, 'declineInvitationBySeller']),
+//            $this->config->get('tg_callbacks.cancel_by_buyer') => call_user_func([$this->userController, 'declineDealByBuyer']),
+//            $this->config->get('tg_callbacks.money_received') => call_user_func([$this->adminController, 'startByAdmin']),
+//            $this->config->get('tg_callbacks.deal_complete') => call_user_func([$this->adminController, 'markDealComplete']),
+//            $this->config->get('tg_callbacks.bulk_mailing') => call_user_func([$this->adminController, 'askWhatMessageToSend']),
+        };
 
     }
 
