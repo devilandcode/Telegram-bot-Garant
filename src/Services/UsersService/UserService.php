@@ -6,7 +6,7 @@ use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotapiInterface;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
-use App\Services\UsersService\Handlers\CheckIsTimeForCreateDealIsOver;
+use App\Services\UsersService\Handlers\IsTimeForCreateDealIsOver;
 use App\Services\UsersService\Handlers\GetCryptoCurrencyOfDeal;
 use App\Services\UsersService\Handlers\isKeywordExistInMessageFromBot;
 use App\Services\UsersService\Repositories\UserRepository;
@@ -63,14 +63,14 @@ class UserService
 
     public function handleAmmoutOfDeal(string $messageFromBot)
     {
-        $isTimeForCreateDealIsOver = (new CheckIsTimeForCreateDealIsOver())
+        $isTimeForCreateDealIsOver = (new IsTimeForCreateDealIsOver())
             ->check(
                 $this->repository,
                 $this->botApi,
                 $this->config
             );
 
-        $cryptoCurrency = (new GetCryptoCurrencyOfDeal())->get($messageFromBot);
+//        $cryptoCurrency = (new GetCryptoCurrencyOfDeal())->get($messageFromBot);
 
 
     }
