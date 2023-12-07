@@ -65,6 +65,7 @@ class Router
 
     private function dispatchCallBackQueryFromBot()
     {
+        /** Reply to Telegram that the callbackQuery has been received by us.*/
         call_user_func([$this->callBackQueryController,'sendCallBackAnswerToTelegram']);
 
         match ($this->phpInput->callback_query->data) {

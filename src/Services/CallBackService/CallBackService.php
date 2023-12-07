@@ -5,6 +5,7 @@ namespace App\Services\CallBackService;
 use App\Kernel\HTTP\BotApi;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
+use App\Services\CallBackService\Handlers\GetCryptoPrice;
 
 class CallBackService
 {
@@ -16,12 +17,15 @@ class CallBackService
     {
     }
 
-    public function askBuyerToEnterAmountOfDeal()
+    public function askBuyerToEnterAmountOfDeal(): void
     {
-        $this->botMessages->askAmountOfDeal('', '', '');
+        $arrayOfCryptoPrices = (new GetCryptoPrice())->getCryptoCurrencyPrice();
+        extract($arrayOfCryptoPrices);
+
+        $this->botMessages->askAmountOfDeal($btcPrice, $ethPrice, $usdtPrice);
     }
 
-    public function sendCallBackAnswer()
+    public function sendCallBackAnswer(): void
     {
         $this->botApi->sendCallBackAnswer('');
     }
