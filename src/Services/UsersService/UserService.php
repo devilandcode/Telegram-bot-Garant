@@ -49,17 +49,17 @@ class UserService
     public function handleSellerId(string $sellerId): void
     {
 
-            if ($this->isUserExistInUsersTable($sellerId)) {
+        if ($this->isUserExistInUsersTable($sellerId)) {
 
-                $this->botKeyboards->showKeyboardUserExist();
-                $this->repository->addToSearchTable(
-                    $this->botApi->phpInput()->message->from->id,
-                    $sellerId
-                );
+            $this->botKeyboards->showKeyboardUserExist();
+            $this->repository->addToSearchTable(
+                $this->botApi->phpInput()->message->from->id,
+                $sellerId
+            );
 
-            }else {
-                $this->botKeyboards->showGoBackKeyboard();
-            }
+        }else {
+            $this->botKeyboards->showGoBackKeyboard();
+        }
 
     }
 

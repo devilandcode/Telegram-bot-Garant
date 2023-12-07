@@ -7,7 +7,7 @@ use App\Models\Search;
 
 class IsTimeForCreateDealIsOver
 {
-    public function check(Search $searchModel, ConfigInterface $config): string
+    public function check(Search $searchModel, ConfigInterface $config): bool
     {
         /** Set up at config/timeToOpenDeal.php */
         $timeToOpenDeal = $config->get('timeToOpenDeal.time');
@@ -18,9 +18,9 @@ class IsTimeForCreateDealIsOver
         $howLongTimeFromSearch = (time() - (int)$timeWhenDealStart)/60;
 
         if ($howLongTimeFromSearch > (int) $timeToOpenDeal) {
-            return 'true';
+            return true;
         } else {
-            return 'false';
+            return false;
         }
     }
 }
