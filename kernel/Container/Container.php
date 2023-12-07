@@ -11,7 +11,9 @@ use App\Kernel\Controller\Controller;
 use App\Kernel\Database\DBconnector;
 use App\Kernel\Database\DBDriver;
 use App\Kernel\HTTP\BotApi;
+use App\Kernel\HTTP\BotapiInterface;
 use App\Kernel\HTTP\CryptoApi;
+use App\Kernel\HTTP\CryptoapiInterface;
 use App\Kernel\Middlewares\AddIfNewUser;
 use App\Kernel\Middlewares\Repositories\NewUserRepository;
 use App\Kernel\Middlewares\StopIfUsernameNotExist;
@@ -19,7 +21,6 @@ use App\Kernel\Parser\ParserUserData;
 use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
-use App\Models\DealModel;
 use App\Services\CallBackService\CallBackService;
 use App\Services\HomeService\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
@@ -40,7 +41,6 @@ class Container
 
     public readonly AddIfNewUser $isNewUser;
     public readonly StopIfUsernameNotExist $isUsernameExist;
-    public readonly ParserUserData $parser;
     public readonly HomeService $homeService;
     public readonly HomeController $homeController;
     public readonly UserService $userService;
@@ -48,10 +48,6 @@ class Container
     public readonly UserRepository  $userRepository;
     public readonly CallBackService  $callBackService;
     public readonly CallBackQueryController $callBackQueryController;
-
-
-
-
     public readonly Controller $adminController;
     public readonly Router $router;
 
@@ -73,11 +69,16 @@ class Container
         $this->newUserRepository = new NewUserRepository($this->DBDriver, $this->config);
         $this->isNewUser = new AddIfNewUser($this->newUserRepository);
         $this->isUsernameExist = new StopIfUsernameNotExist($this->botMessages);
-        $this->parser = new ParserUserData($this->botApi->phpInput());
         $this->homeService = new HomeService($this->botMessages, $this->botKeyboards);
         $this->homeController = new HomeController($this->homeService);
         $this->userRepository = new UserRepository($this->DBDriver);
-        $this->userService = new UserService($this->botApi, $this->botKeyboards, $this->botMessages,$this->userRepository);
+        $this->userService = new UserService(
+            $this->botApi,
+            $this->config,
+            $this->botKeyboards,
+            $this->botMessages,
+            $this->userRepository
+        );
         $this->callBackService = new CallBackService($this->botApi, $this->botKeyboards, $this->botMessages,$this->userRepository);
         $this->userController = new UserController($this->userService);
         $this->callBackQueryController = new CallBackQueryController($this->callBackService);

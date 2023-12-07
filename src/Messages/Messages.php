@@ -2,9 +2,8 @@
 
 namespace App\Messages;
 
-use App\JsonException;
 use App\Kernel\Config\ConfigInterface;
-use App\Kernel\HTTP\BotApi;
+use App\Kernel\HTTP\BotapiInterface;
 
 
 class Messages
@@ -12,18 +11,13 @@ class Messages
 
 
     public function __construct(
-        private BotApi $bot,
+        private BotapiInterface $bot,
         private ConfigInterface $config
     )
     {
 
     }
 
-    /**
-     * Send answer if user texted unknown command
-     * @return void
-     * @throws JsonException
-     */
     public function unknownCommand(): void
     {
         $this->bot->sendMessage('😥 Неизвестная команда');
@@ -112,21 +106,11 @@ class Messages
         );
     }
 
-    /**
-     * notify the sender that the request has been sent
-     * @return void
-     * @throws JsonException
-     */
     public function notifyBuyerAboutSendingRequest(): void
     {
         $this->bot->sendMessageCallBack('Запрос отправлен, ожидаем подтверждения');
     }
 
-    /**
-     * Ask User to input telegram user id to search it
-     * @return void
-     * @throws JsonException
-     */
     public function askUserIdToSearch(): void
     {
         $this->bot->sendMessage(
@@ -134,11 +118,7 @@ class Messages
         );
     }
 
-    /**
-     * Notify user which accepted the deal that we wait when creator of deal send money to garant's wallet
-     * @return void
-     * @throws JsonException
-     */
+
     public function waitingWhenBuyerWillPay()
     {
         $this->bot->sendMessageCallBack("🕯 Ожидаем оплаты от пользователя");

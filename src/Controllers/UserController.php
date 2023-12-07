@@ -20,6 +20,12 @@ class UserController
             return;
         }
 
+        /** Amount keywords are exist in config/amountKeywords.php */
+        if ($this->service->hasAmoutKeywords($messageFromBot)) {
+            $this->service->handleAmmoutOfDeal($messageFromBot);
+            return;
+        }
+
 
     }
 //    public function checkIsUserExist(string $message): void

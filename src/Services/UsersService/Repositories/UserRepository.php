@@ -26,14 +26,14 @@ class UserRepository
         $this->config = new Config();
         $this->searchTableName  = $this->config->get('database.name_of_search_table');
         $this->buyerColumnName  = $this->config->get('database.search_name_of_column_with_id_buyer');
-        $this->sellerColumnName = $this->config->get('database.search_name_of_column_with_id_buyer');
-        $this->timeColumnName   = $this->config->get('database.search_name_of_column_with_id_buyer');
+        $this->sellerColumnName = $this->config->get('database.search_name_of_column_with_id_seller');
+        $this->nameOfAmountColumnInSearchTable = $this->config->get('database.search_name_of_column_with_crypto_amount');
+        $this->nameOfTermsColumnInSearchTable = $this->config->get('database.search_name_of_column_with_terms_of_deal');
+        $this->timeColumnName   = $this->config->get('database.search_name_of_column_with_start_search_time');
         $this->usersTableName   = $this->config->get('database.name_of_users_table');
         $this->nameOfColumnUsername = $this->config->get('database.users_name_of_column_with_username');
         $this->nameOfColumnIdTelegram = $this->config->get('database.users_name_of_column_with_id_telegram');
         $this->searchTablePrimaryKeyName = $this->config->get('database.search_name_of_primary_key');
-        $this->nameOfAmountColumnInSearchTable = $this->config->get('database.search_name_of_column_with_crypto_amount');
-        $this->nameOfTermsColumnInSearchTable = $this->config->get('database.search_name_of_column_with_terms_of_deal');
 
     }
 

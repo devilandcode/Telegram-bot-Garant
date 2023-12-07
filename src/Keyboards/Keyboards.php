@@ -3,13 +3,13 @@
 namespace App\Keyboards;
 
 use App\Kernel\Config\ConfigInterface;
-use App\Kernel\HTTP\BotApi;
+use App\Kernel\HTTP\BotapiInterface;
 
 class Keyboards
 {
 
     public function __construct(
-        private BotApi $bot,
+        private BotapiInterface $bot,
         private ConfigInterface $config,
     )
     {

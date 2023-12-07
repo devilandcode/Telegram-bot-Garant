@@ -2,7 +2,8 @@
 
 namespace App\Services\UsersService;
 
-use App\Kernel\HTTP\BotApi;
+use App\Kernel\Config\ConfigInterface;
+use App\Kernel\HTTP\BotapiInterface;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Services\UsersService\Repositories\UserRepository;
@@ -11,7 +12,8 @@ class UserService
 {
 
     public function __construct(
-        private BotApi $botApi,
+        private BotapiInterface $botApi,
+        private ConfigInterface $config,
         private Keyboards $botKeyboards,
         private Messages $botMessages,
         private UserRepository $repository
@@ -28,8 +30,19 @@ class UserService
         return false;
     }
 
+    public function hasAmoutKeywords(string $messageFromBot): bool
+    {
+
+    }
+
+    public function hasDealKeyword()
+    {
+
+    }
+
     public function handleSellerId(string $sellerId)
     {
+
             if ($this->isUserExistInUsersTable($sellerId)) {
 
                 $this->botKeyboards->showKeyboardUserExist();
@@ -43,6 +56,12 @@ class UserService
             }
 
     }
+
+    public function handleAmmoutOfDeal()
+    {
+
+    }
+
 
     private function isUserExistInUsersTable(string $telegramId): bool
     {

@@ -3,7 +3,7 @@
 namespace App\Kernel\HTTP;
 use GuzzleHttp\Client;
 
-class CryptoApi extends Client
+class CryptoApi extends Client implements CryptoapiInterface
 {
     public $btcPrice;
     public $ethPrice;
