@@ -6,6 +6,9 @@ use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotapiInterface;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
+use App\Services\UsersService\Handlers\CheckIsTimeForCreateDealIsOver;
+use App\Services\UsersService\Handlers\GetCryptoCurrencyOfDeal;
+use App\Services\UsersService\Handlers\isKeywordExistInMessageFromBot;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class UserService
@@ -30,9 +33,10 @@ class UserService
         return false;
     }
 
-    public function hasAmoutKeywords(string $messageFromBot): bool
+    public function hasAmountKeywords(string $messageFromBot): bool
     {
-
+        /** IsKeywordExistInMessageFromBot Handler*/
+        return (new isKeywordExistInMessageFromBot())->check($messageFromBot);
     }
 
     public function hasDealKeyword()
@@ -40,7 +44,7 @@ class UserService
 
     }
 
-    public function handleSellerId(string $sellerId)
+    public function handleSellerId(string $sellerId): void
     {
 
             if ($this->isUserExistInUsersTable($sellerId)) {
@@ -57,8 +61,17 @@ class UserService
 
     }
 
-    public function handleAmmoutOfDeal()
+    public function handleAmmoutOfDeal(string $messageFromBot)
     {
+        $isTimeForCreateDealIsOver = (new CheckIsTimeForCreateDealIsOver())
+            ->check(
+                $this->repository,
+                $this->botApi,
+                $this->config
+            );
+
+        $cryptoCurrency = (new GetCryptoCurrencyOfDeal())->get($messageFromBot);
+
 
     }
 

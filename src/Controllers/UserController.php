@@ -21,7 +21,7 @@ class UserController
         }
 
         /** Amount keywords are exist in config/amountKeywords.php */
-        if ($this->service->hasAmoutKeywords($messageFromBot)) {
+        if ($this->service->hasAmountKeywords($messageFromBot)) {
             $this->service->handleAmmoutOfDeal($messageFromBot);
             return;
         }
