@@ -6,6 +6,7 @@ use App\Kernel\Config\ConfigInterface;
 use App\Kernel\HTTP\BotapiInterface;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
+use App\Models\Search;
 use App\Services\UsersService\Handlers\IsTimeForCreateDealIsOver;
 use App\Services\UsersService\Handlers\GetCryptoCurrencyOfDeal;
 use App\Services\UsersService\Handlers\isKeywordExistInMessageFromBot;
@@ -65,14 +66,15 @@ class UserService
     {
         $isTimeForCreateDealIsOver = (new IsTimeForCreateDealIsOver())
             ->check(
-                $this->repository,
-                $this->botApi,
+                $this->getSearchModel(),
                 $this->config
             );
 
-//        $cryptoCurrency = (new GetCryptoCurrencyOfDeal())->get($messageFromBot);
-
-
+        if ($isTimeForCreateDealIsOver) {
+            $this->botMessages->showTimeIsOver();
+        }else {
+            $cryptoCurrency = (new GetCryptoCurrencyOfDeal())->get($messageFromBot);
+        }
     }
 
 
@@ -81,5 +83,28 @@ class UserService
         return $this->repository->checkIsUserExistByTelegramId($telegramId);
     }
 
+    private function getSearchModel(): Search
+    {
+        $telegramId = $this->botApi->phpInput()->message->from->id;
+        $getBuyersLastSearchedArray = $this->repository->showLastSearchData($telegramId);
+
+        /** Get Names of columns at search_history table*/
+        $id = $this->config->get('database.search_name_of_primary_key');
+        $idBuyer = $this->config->get('database.search_name_of_column_with_id_buyer');
+        $idSeller = $this->config->get('database.search_name_of_column_with_id_seller');
+        $amount = $this->config->get('database.search_name_of_column_with_crypto_amount');
+        $terms = $this->config->get('database.search_name_of_column_with_terms_of_deal');
+        $startTime = $this->config->get('database.search_name_of_column_with_start_search_time');
+
+        /** @var Search */
+        return new Search(
+            $getBuyersLastSearchedArray[$id],
+            $getBuyersLastSearchedArray[$idBuyer],
+            $getBuyersLastSearchedArray[$idSeller],
+            $getBuyersLastSearchedArray[$amount],
+            $getBuyersLastSearchedArray[$terms],
+            $getBuyersLastSearchedArray[$startTime]
+        );
+    }
 
 }
