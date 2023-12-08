@@ -81,6 +81,7 @@ class UserService
                 $amountOfDeal,
                 $searchModel->id()
             );
+            $this->askBuyerToInputTermsOfDeal();
         }
     }
 
@@ -97,5 +98,9 @@ class UserService
             $this->repository,
             $this->config
         );
+    }
+    private function askBuyerToInputTermsOfDeal(): void
+    {
+        $this->botMessages->askTermsOfDeal();
     }
 }
