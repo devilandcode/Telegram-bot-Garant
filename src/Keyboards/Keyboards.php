@@ -98,7 +98,7 @@ class Keyboards
         );
     }
 
-    public function showBuyerThatSellerAcceptInvitation(
+    public function showBuyerThatSellerAcceptInvitationKeyboard(
         string $userWhichSendMeDeal,
         string $idOfDeal,
         string $amountofDeal,

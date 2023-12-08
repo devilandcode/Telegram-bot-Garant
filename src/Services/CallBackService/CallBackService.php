@@ -11,6 +11,7 @@ use App\Models\Search;
 use App\Services\CallBackService\Handlers\GetBuyerModel;
 use App\Services\CallBackService\Handlers\GetCryptoPrice;
 use App\Services\CallBackService\Handlers\GetSearchModel;
+use App\Services\CallBackService\Handlers\GetDealModel;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class CallBackService
@@ -72,7 +73,14 @@ class CallBackService
     public function notifyBuyerAboutAcceptionOfDeal()
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
-        $dealData = $this->repository->getDataOfDeal($numberOfDeal);
+        $searchModel = $this->getSearchModelByDealId($numberOfDeal);
+
+        $this->botKeyboard->showBuyerThatSellerAcceptInvitationKeyboard(
+            $searchModel->idBuyer(),
+            $searchModel->id(),
+            $searchModel->amount(),
+
+        );
 
         $dealData = print_r($dealData, true);
         file_put_contents('res.txt', $dealData, FILE_APPEND);
@@ -96,6 +104,13 @@ class CallBackService
             $this->config,
             $this->repository
         );
+    }
+
+    private function getDealModel(int $numberOfDeal): Search
+    {
+        return (new GetDealModel()->get(
+
+        ))
     }
 
     private function getNumberOfDealFromCallBackMessage(): int
