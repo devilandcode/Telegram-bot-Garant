@@ -58,9 +58,25 @@ class CallBackService
         );
     }
 
+
     public function notifyBuyerInvitatinWasSent()
     {
         $this->botMessages->notifyBuyerInvitatinWasSent();
+    }
+
+    public function showBuyerThatHeCancledConfirm()
+    {
+        $this->botKeyboard->cancelAndStartHome();
+    }
+
+    public function notifyBuyerAboutAcceptionOfDeal()
+    {
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $dealData = $this->repository->getDataOfDeal($numberOfDeal);
+
+        $dealData = print_r($dealData, true);
+        file_put_contents('res.txt', $dealData, FILE_APPEND);
+
     }
 
 
@@ -80,5 +96,15 @@ class CallBackService
             $this->config,
             $this->repository
         );
+    }
+
+    private function getNumberOfDealFromCallBackMessage(): int
+    {
+        $text = $this->botApi->phpInput()->callback_query->message->text;
+        $elemPos = mb_strpos($text,'№');
+        $startPos = $elemPos + 2;
+        $str = mb_substr($text, $startPos, 10);
+
+        return (int)$str;
     }
 }

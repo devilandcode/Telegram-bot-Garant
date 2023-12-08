@@ -98,7 +98,7 @@ class Keyboards
         );
     }
 
-    public function notifyAboutAcceptionKeyboard(
+    public function showBuyerThatSellerAcceptInvitation(
         string $userWhichSendMeDeal,
         string $idOfDeal,
         string $amountofDeal,
@@ -111,7 +111,7 @@ class Keyboards
         string $wallet,
     ): void
     {
-        $isPaidKeyboard = $this->config->get('keyboard.isPaid');
+        $isPaidKeyboard = $this->config->get('keyboard.isPaidMenu');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $userWhichSendMeDeal,

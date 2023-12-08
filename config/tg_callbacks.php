@@ -6,12 +6,14 @@ return [
     'cancelStart' => 'cancelStartDeal',
     'confirm' => 'confirmAndSendToSeller',
     'cancelConfirm' => 'cancelConfirmDeal',
-    'accept' => 'acceptDealFromBuyer',
+    'accept' => 'acceptInvitationFromBuyer',
+
+
     'paid' => 'paidToEscrowByBuyer',
     'money_received' => 'adminReceivedMoney',
     'deal_complete' => 'dealIsResolved',
     'bulk_mailing' => 'sendMessageToBot',
-    'dont_send_deal' => 'cancel',
+
     'decline_invitation' => 'cancelInvitationBySeller',
     'cancel_by_buyer' => 'cancelDealByBuyer'
 ];

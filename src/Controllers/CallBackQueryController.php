@@ -34,6 +34,15 @@ class CallBackQueryController
         $this->service->notifyBuyerInvitatinWasSent();
     }
 
+    public function cancelConfirmDeal()
+    {
+        $this->service->showBuyerThatHeCancledConfirm();
+    }
+
+    public function acceptInvitationFromBuyer()
+    {
+        $this->service->notifyBuyerAboutAcceptionOfDeal();
+    }
 
 
 
