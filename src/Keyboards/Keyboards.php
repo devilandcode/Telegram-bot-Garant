@@ -20,7 +20,7 @@ class Keyboards
     {
         $startKeyboard = $this->config->get('keyboard.start');
 
-        $this->bot->sendMessageWithBaseKeyboard('Whats up Nigga', $startKeyboard);
+        $this->bot->sendMessageWithBaseKeyboard('Whats up Man', $startKeyboard);
     }
 
     public function cancelAndStartHome(): void
@@ -73,7 +73,7 @@ class Keyboards
         );
     }
 
-    public function acceptInvitationKeyboard(
+    public function showInvitationKeyboardToSeller(
         string $idSeller,
         string $idSearchTable,
         string $idBuyer,

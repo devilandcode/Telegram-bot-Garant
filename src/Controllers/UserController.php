@@ -20,13 +20,13 @@ class UserController
             return;
         }
 
-        /** Amount keywords are exist in config/amountKeywords.php */
+        /** If exist amount keywords from config/amountKeywords.php */
         if ($this->service->hasAmountKeywords($messageFromBot)) {
             $this->service->handleAmmoutOfDeal($messageFromBot);
             return;
         }
 
-        /** Deal keywords are exist in config/dealKeywords.php */
+        /** If exist deal keywords from config/dealKeywords.php */
         if ($this->service->hasDealKeyword($messageFromBot)) {
             $this->service->handleTermsOfDeal($messageFromBot);
             return;

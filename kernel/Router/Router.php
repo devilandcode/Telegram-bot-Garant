@@ -70,7 +70,8 @@ class Router
 
         match ($this->phpInput->callback_query->data) {
             $this->config->get('tg_callbacks.start') => call_user_func([$this->callBackQueryController, 'askToEnterAmountOfDeal']),
-//            $this->config->get('tg_callbacks.confirm') => call_user_func([$this->userController, 'sendToSellerInvitation']),
+            $this->config->get('tg_callbacks.cancelStart') => call_user_func([$this->callBackQueryController, 'cancelStartDeal']),
+            $this->config->get('tg_callbacks.confirm') => call_user_func([$this->callBackQueryController, 'sendToSellerInvitation']),
 //            $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
 //            $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
 //            $this->config->get('tg_callbacks.dont_send_deal') => call_user_func([$this->userController, 'cancelFillingDeal']),

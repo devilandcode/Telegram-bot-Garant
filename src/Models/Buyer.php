@@ -6,38 +6,37 @@ class Buyer
 {
     public function __construct(
         private int $id,
-        private int $id_telegram,
+        private string $idTelegram,
         private string $username,
-        private string $category,
-        private string $image,
-        private array $reviews = []
+        private string $idChat,
+        private string|null $isModerate,
     )
     {
     }
 
-    public function id(): int
+    public function id(): string
     {
         return $this->id;
     }
 
-    public function name(): string
+    public function idTelegram(): string
     {
-        return $this->name;
+        return $this->idTelegram;
     }
 
-    public function description(): string
+    public function username(): string
     {
-        return $this->description;
+        return $this->username;
     }
 
-    public function category(): string
+    public function idChat(): string
     {
-        return $this->category;
+        return $this->idChat;
     }
 
-    public function image(): string
+    public function isModerate(): string
     {
-        return $this->image;
+        return $this->isModerate;
     }
 
 }

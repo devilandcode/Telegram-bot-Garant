@@ -37,5 +37,4 @@ class HomeController
     {
         $this->service->sendBotInstruction();
     }
-
 }

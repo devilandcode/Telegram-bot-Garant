@@ -23,6 +23,17 @@ class CallBackQueryController
         $this->service->askBuyerToEnterAmountOfDeal();
     }
 
+    public function cancelStartDeal()
+    {
+        $this->service->cancelAndGoStartMenu();
+    }
+
+    public function sendToSellerInvitation()
+    {
+        $this->service->sendInvitationToSeller();
+        $this->service->notifyBuyerInvitatinWasSent();
+    }
+
 
 
 

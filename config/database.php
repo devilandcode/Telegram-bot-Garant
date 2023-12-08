@@ -11,9 +11,11 @@ return [
 
 // Users Table
     'name_of_users_table' => 'users',
+    'users_name_of_primary_key' => 'id',
     'users_name_of_column_with_id_telegram' => 'id_telegram',
     'users_name_of_column_with_username' => 'username',
     'users_name_of_column_with_id_chat' => 'chat_id',
+    'users_name_of_column_with_moderate' => 'is_moderate',
 
 // Search_history table
     'name_of_search_table' => 'search_history',

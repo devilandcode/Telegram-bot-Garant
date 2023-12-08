@@ -109,7 +109,6 @@ class UserService
 
             $this->askBuyerToConfirmDealData();
         }
-
     }
 
 

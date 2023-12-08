@@ -21,21 +21,21 @@ return [
   'createDeal' =>  array(
       array(
           array('text' => 'Создать Сделку', 'callback_data' => 'startDeal'),
-          array('text' => 'Отмена', 'callback_data' => 'cancel')
+          array('text' => 'Отмена', 'callback_data' => 'cancelStartDeal')
       )
   ),
 
   'confirmDeal' => array(
       array(
           array('text' => 'Подтвердить сделку', 'callback_data' => 'confirmAndSendToSeller'),
-          array('text' => 'Отмена', 'callback_data' => 'cancel')
+          array('text' => 'Отмена', 'callback_data' => 'cancelConfirmDeal')
       )
   ),
 
   'acceptDeal' => array(
       array(
-          array('text' => 'Принять Сделку', 'callback_data' => 'acceptDealFromBuyer'),
-          array('text' => 'Отмена', 'callback_data' => 'cancelInvitationBySeller')
+          array('text' => 'Принять Сделку', 'callback_data' => 'acceptInvitationFromBuyer'),
+          array('text' => 'Отмена', 'callback_data' => 'cancelInvitationFromBuyer')
       )
   ),
 

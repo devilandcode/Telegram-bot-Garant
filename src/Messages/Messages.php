@@ -106,7 +106,7 @@ class Messages
         );
     }
 
-    public function notifyBuyerAboutSendingRequest(): void
+    public function notifyBuyerInvitatinWasSent(): void
     {
         $this->bot->sendMessageCallBack('Запрос отправлен, ожидаем подтверждения');
     }

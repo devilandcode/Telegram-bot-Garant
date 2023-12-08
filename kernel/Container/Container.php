@@ -79,7 +79,13 @@ class Container
             $this->botMessages,
             $this->userRepository
         );
-        $this->callBackService = new CallBackService($this->botApi, $this->botKeyboards, $this->botMessages,$this->userRepository);
+        $this->callBackService = new CallBackService(
+            $this->botApi,
+            $this->botKeyboards,
+            $this->botMessages,
+            $this->userRepository,
+            $this->config
+        );
         $this->userController = new UserController($this->userService);
         $this->callBackQueryController = new CallBackQueryController($this->callBackService);
 //        $this->keyboards = new Keyboards($this->config, $botToken);
