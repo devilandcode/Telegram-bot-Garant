@@ -89,6 +89,26 @@ class UserService
 
     public function handleTermsOfDeal(string $messageFromBot)
     {
+        $searchModel = $this->getSearchModel();
+
+        $isTimeForCreateDealIsOver = (new IsTimeForCreateDealIsOver())
+            ->check(
+                $searchModel,
+                $this->config
+            );
+
+        if ($isTimeForCreateDealIsOver) {
+            $this->botMessages->showTimeIsOver();
+        }else {
+            $termsOfDeal = trim($messageFromBot);
+
+            $this->repository->addTermsOfDealToSearchTable(
+                $termsOfDeal,
+                $searchModel->id(),
+            );
+
+            $this->askBuyerToConfirmDealData();
+        }
 
     }
 
@@ -110,4 +130,18 @@ class UserService
     {
         $this->botMessages->askTermsOfDeal();
     }
+
+    private function askBuyerToConfirmDealData()
+    {
+        $searchModel = $this->getSearchModel();
+
+        $this->botKeyboards->sendConfirmationKeyboard(
+            $searchModel->id(),
+            $searchModel->idBuyer(),
+            $searchModel->idSeller(),
+            $searchModel->amount(),
+            $searchModel->terms()
+        );
+    }
+
 }

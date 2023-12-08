@@ -26,8 +26,10 @@ class UserController
             return;
         }
 
+        /** Deal keywords are exist in config/dealKeywords.php */
         if ($this->service->hasDealKeyword($messageFromBot)) {
-
+            $this->service->handleTermsOfDeal($messageFromBot);
+            return;
         }
 
 

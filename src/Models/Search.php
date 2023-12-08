@@ -35,6 +35,11 @@ class Search
         return $this->amount;
     }
 
+    public function terms(): string
+    {
+        return $this->terms;
+    }
+
     public function startTime(): string
     {
         return $this->startTime;
