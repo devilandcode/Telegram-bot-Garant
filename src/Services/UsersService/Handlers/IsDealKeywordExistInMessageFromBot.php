@@ -2,11 +2,11 @@
 
 namespace App\Services\UsersService\Handlers;
 
-class isKeywordExistInMessageFromBot
+class IsDealKeywordExistInMessageFromBot
 {
     public function check(string $messageFromBot): bool
     {
-        $amountKeywords = require_once APP_PATH .'/config/amountKeywords.php';
+        $amountKeywords = require_once APP_PATH .'/config/dealKeywords.php';
 
         foreach ($amountKeywords as $word) {
             if (str_contains($messageFromBot, $word)) {
@@ -16,5 +16,4 @@ class isKeywordExistInMessageFromBot
 
         return false;
     }
-
 }

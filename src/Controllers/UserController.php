@@ -26,6 +26,10 @@ class UserController
             return;
         }
 
+        if ($this->service->hasDealKeyword($messageFromBot)) {
+
+        }
+
 
     }
 //    public function checkIsUserExist(string $message): void

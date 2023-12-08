@@ -8,9 +8,10 @@ use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\Search;
 use App\Services\UsersService\Handlers\GetSearchModel;
+use App\Services\UsersService\Handlers\IsDealKeywordExistInMessageFromBot;
 use App\Services\UsersService\Handlers\IsTimeForCreateDealIsOver;
 use App\Services\UsersService\Handlers\GetCryptoCurrencyOfDeal;
-use App\Services\UsersService\Handlers\isKeywordExistInMessageFromBot;
+use App\Services\UsersService\Handlers\isAmountKeywordExistInMessageFromBot;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class UserService
@@ -37,13 +38,14 @@ class UserService
 
     public function hasAmountKeywords(string $messageFromBot): bool
     {
-        /** IsKeywordExistInMessageFromBot Handler*/
-        return (new isKeywordExistInMessageFromBot())->check($messageFromBot);
+        /** IsAmountKeywordExistInMessageFromBot Handler*/
+        return (new isAmountKeywordExistInMessageFromBot())->check($messageFromBot);
     }
 
-    public function hasDealKeyword()
+    public function hasDealKeyword(string $messageFromBot)
     {
-
+        /** IsDealKeywordExistInMessageFromBot Handler*/
+        return (new IsDealKeywordExistInMessageFromBot())->check($messageFromBot);
     }
 
     public function handleSellerId(string $sellerId): void
@@ -83,6 +85,11 @@ class UserService
             );
             $this->askBuyerToInputTermsOfDeal();
         }
+    }
+
+    public function handleTermsOfDeal(string $messageFromBot)
+    {
+
     }
 
 
