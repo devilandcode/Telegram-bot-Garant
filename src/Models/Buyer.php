@@ -7,7 +7,7 @@ class Buyer
     public function __construct(
         private int $id,
         private string $idTelegram,
-        private string $username,
+        private string|null $username,
         private string $idChat,
         private string|null $isModerate,
     )
@@ -24,7 +24,7 @@ class Buyer
         return $this->idTelegram;
     }
 
-    public function username(): string
+    public function username(): string|null
     {
         return $this->username;
     }

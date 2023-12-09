@@ -7,11 +7,14 @@ use App\Kernel\HTTP\BotapiInterface;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\Buyer;
+use App\Models\Deal;
 use App\Models\Search;
+use App\Models\Seller;
 use App\Services\CallBackService\Handlers\GetBuyerModel;
 use App\Services\CallBackService\Handlers\GetCryptoPrice;
 use App\Services\CallBackService\Handlers\GetSearchModel;
 use App\Services\CallBackService\Handlers\GetDealModel;
+use App\Services\CallBackService\Handlers\GetSellerModel;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class CallBackService
@@ -67,19 +70,24 @@ class CallBackService
     public function notifyBuyerAboutAcceptionOfDeal()
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $dealModel = $this->generateDealModel($numberOfDeal);
 
-
-    }
-
-
-    private function getSearchModel(int $numberOfDeal): Search
-    {
-        return (new GetSearchModel())->get(
-            $numberOfDeal,
-            $this->repository,
-            $this->config
+        $this->botKeyboard->showBuyerThatSellerAcceptInvitationKeyboard(
+            $dealModel->idBuyer(),
+            $dealModel->id(),
+            $dealModel->amount(),
+            $dealModel->currency(),
+            $dealModel->resultAmount(),
+            $dealModel->idBuyer(),
+            $dealModel->usernameBuyer(),
+            $dealModel->idSeller(),
+            $dealModel->usernameSeller(),
+            $dealModel->terms(),
+            $dealModel->cryptoWallet(),
         );
+
     }
+
 
     private function getBuyerModelByTelegramId(string $buyerIdTelegram): Buyer
     {
@@ -90,9 +98,42 @@ class CallBackService
         );
     }
 
-    private function getDealModel(int $numberOfDeal)
+    private function getSellerModelByTelegramId(string $sellerIdTelegram): Seller
     {
+        return (new GetSellerModel())->get(
+            $sellerIdTelegram,
+            $this->config,
+            $this->repository
+        );
+    }
 
+    private function getSearchModel(int $numberOfDeal): Search
+    {
+        return (new GetSearchModel())->get(
+            $numberOfDeal,
+            $this->repository,
+            $this->config
+        );
+    }
+
+    private function getDealModel(Buyer $buyerModel, Seller $sellerModel, Search $searchModel): Deal
+    {
+        return (new GetDealModel())->get(
+            $buyerModel,
+            $sellerModel,
+            $searchModel,
+            $this->config
+        );
+
+    }
+
+    private function generateDealModel(int $numberOfDeal): Deal
+    {
+        $searchModel = $this->getSearchModel($numberOfDeal);
+        $buyerModel = $this->getBuyerModelByTelegramId($searchModel->idBuyer());
+        $sellerModel = $this->getSellerModelByTelegramId($searchModel->idSeller());
+
+        return $this->getDealModel($buyerModel, $sellerModel, $searchModel);
     }
 
     private function getNumberOfDealFromCallBackMessage(): int

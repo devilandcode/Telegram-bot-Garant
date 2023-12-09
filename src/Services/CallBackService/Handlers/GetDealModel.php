@@ -3,32 +3,35 @@
 namespace App\Services\CallBackService\Handlers;
 
 use App\Kernel\Config\ConfigInterface;
-use App\Kernel\HTTP\BotapiInterface;
+use App\Models\Buyer;
+use App\Models\Deal;
 use App\Models\Search;
-use App\Services\UsersService\Repositories\UserRepository;
+use App\Models\Seller;
+
 
 class GetDealModel
 {
-    public function get(int $numberOfDeal, ConfigInterface $config, UserRepository $repository)
+    public function get(Buyer $buyerModel, Seller $sellerModel, Search $searchModel, ConfigInterface $config)
     {
-        $delaData = $repository->getDataOfDeal($numberOfDeal);
+        $currency = $searchModel->currency();
+        $cryptoWallet = $config->get("cryptoWallets.$currency");
 
-        /** Get Names of columns at search_history table*/
-        $id = $config->get('database.search_name_of_primary_key');
-        $idBuyer = $config->get('database.search_name_of_column_with_id_buyer');
-        $idSeller = $config->get('database.search_name_of_column_with_id_seller');
-        $amount = $config->get('database.search_name_of_column_with_crypto_amount');
-        $terms = $config->get('database.search_name_of_column_with_terms_of_deal');
-        $startTime = $config->get('database.search_name_of_column_with_start_search_time');
+        $garantPercent = $config->get('guarantorСommission.percent');
+        $resultAmount = (float)($searchModel->amount())/100 * (100 +(int)$garantPercent);
+
 
         /** @var Deal */
         return new Deal(
-            $delaData[$id],
-            $delaData[$idBuyer],
-            $delaData[$idSeller],
-            $delaData[$amount],
-            $delaData[$terms],
-            $delaData[$startTime]
+            $searchModel->id(),
+            $searchModel->idBuyer(),
+            $buyerModel->username(),
+            $searchModel->idSeller(),
+            $sellerModel->username(),
+            $searchModel->amount(),
+            $searchModel->currency(),
+            $resultAmount,
+            $searchModel->terms(),
+            $cryptoWallet,
         );
 
     }
