@@ -147,7 +147,7 @@ class Messages
     {
 
         $this->bot->sendMessageToUser($idBuyer,
-            sprintf("❌️ Запрос на сделку № %s\n Отклонен продавцом User ID - %s", $idSearchTable, $idSeller)
+            sprintf("❌️ Запрос на сделку № %s\n Отклонен покупателем User ID - %s", $idSearchTable, $idSeller)
         );
     }
 

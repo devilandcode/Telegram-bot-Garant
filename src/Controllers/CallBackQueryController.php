@@ -45,6 +45,12 @@ class CallBackQueryController
         $this->service->showSellerThatHeAcceptTheInvitation();
     }
 
+    public function cancelInvitationFromBuyer()
+    {
+        $this->service->showBuyerThatSellerCancelInvitation();
+        $this->service->cancelAndGoStartMenu();
+    }
+
 
 
 }

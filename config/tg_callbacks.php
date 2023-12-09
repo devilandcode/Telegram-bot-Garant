@@ -7,6 +7,7 @@ return [
     'confirm' => 'confirmAndSendToSeller',
     'cancelConfirm' => 'cancelConfirmDeal',
     'accept' => 'acceptInvitationFromBuyer',
+    'cancelInvite' => 'cancelInvitationFromBuyer',
 
 
     'paid' => 'paidToEscrowByBuyer',

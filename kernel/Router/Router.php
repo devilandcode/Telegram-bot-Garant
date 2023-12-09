@@ -74,6 +74,7 @@ class Router
             $this->config->get('tg_callbacks.confirm') => call_user_func([$this->callBackQueryController, 'sendToSellerInvitation']),
             $this->config->get('tg_callbacks.cancelConfirm') => call_user_func([$this->callBackQueryController, 'cancelConfirmDeal']),
             $this->config->get('tg_callbacks.accept') => call_user_func([$this->callBackQueryController, 'acceptInvitationFromBuyer']),
+            $this->config->get('tg_callbacks.cancelInvite') => call_user_func([$this->callBackQueryController, 'cancelInvitationFromBuyer']),
 //            $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
 //            $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
 //            $this->config->get('tg_callbacks.dont_send_deal') => call_user_func([$this->userController, 'cancelFillingDeal']),

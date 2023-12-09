@@ -80,6 +80,18 @@ class CallBackService
         $this->botMessages->waitingWhenBuyerWillPay();
     }
 
+    public function showBuyerThatSellerCancelInvitation()
+    {
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $searchModel = $this->getSearchModel($numberOfDeal);
+
+        $this->botMessages->notifyToBuyerInvitationWasCanceled(
+            $searchModel->idBuyer(),
+            $searchModel->id(),
+            $searchModel->idSeller()
+        );
+    }
+
     private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
     {
         $dealModel = $this->generateDealModel($numberOfDeal);
