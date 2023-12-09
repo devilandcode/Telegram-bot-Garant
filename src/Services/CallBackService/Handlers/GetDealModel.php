@@ -21,8 +21,8 @@ class GetDealModel
         $terms = $config->get('database.search_name_of_column_with_terms_of_deal');
         $startTime = $config->get('database.search_name_of_column_with_start_search_time');
 
-        /** @var Search */
-        return new Search(
+        /** @var Deal */
+        return new Deal(
             $delaData[$id],
             $delaData[$idBuyer],
             $delaData[$idSeller],

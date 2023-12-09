@@ -15,7 +15,6 @@ class Deal
         private string|null $resultAmount,
         private string|null $terms,
         private string|null $cryptoWallet,
-        private string $startTime
     )
     {
     }
@@ -45,8 +44,43 @@ class Deal
         return $this->terms;
     }
 
-    public function startTime(): string
+    /**
+     * @return string
+     */
+    public function usernameBuyer(): string
     {
-        return $this->startTime;
+        return $this->usernameBuyer;
+    }
+
+    /**
+     * @return string
+     */
+    public function usernameSeller(): string
+    {
+        return $this->usernameSeller;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function currency(): ?string
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function resultAmount(): ?string
+    {
+        return $this->resultAmount;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function cryptoWallet(): ?string
+    {
+        return $this->cryptoWallet;
     }
 }

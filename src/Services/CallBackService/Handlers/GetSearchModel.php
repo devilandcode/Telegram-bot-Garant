@@ -9,10 +9,10 @@ use App\Services\UsersService\Repositories\UserRepository;
 
 class GetSearchModel
 {
-    public function get(BotapiInterface $botapi, UserRepository $repository, ConfigInterface $config): Search
+    public function get(int $numberOfDeal, UserRepository $repository, ConfigInterface $config): Search
     {
-        $telegramId = $botapi->phpInput()->callback_query->from->id;
-        $getBuyersLastSearchedArray = $repository->showLastSearchData($telegramId);
+
+        $getBuyersLastSearchedArray = $repository->getDataOfDeal($numberOfDeal);
 
         /** Get Names of columns at search_history table*/
         $id = $config->get('database.search_name_of_primary_key');

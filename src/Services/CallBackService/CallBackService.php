@@ -46,17 +46,11 @@ class CallBackService
 
     public function sendInvitationToSeller()
     {
-        $searchModel = $this->getSearchModel();
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $searchModel = $this->getSearchModel($numberOfDeal);
         $buyerModel = $this->getBuyerModelByTelegramId($searchModel->idBuyer());
 
-        $this->botKeyboard->showInvitationKeyboardToSeller(
-            $searchModel->idSeller(),
-            $searchModel->id(),
-            $searchModel->idBuyer(),
-            $buyerModel->username(),
-            $searchModel->amount(),
-            $searchModel->terms()
-        );
+        $this->inviteSeller($searchModel, $buyerModel);
     }
 
 
@@ -73,44 +67,32 @@ class CallBackService
     public function notifyBuyerAboutAcceptionOfDeal()
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
-        $searchModel = $this->getSearchModelByDealId($numberOfDeal);
 
-        $this->botKeyboard->showBuyerThatSellerAcceptInvitationKeyboard(
-            $searchModel->idBuyer(),
-            $searchModel->id(),
-            $searchModel->amount(),
-
-        );
-
-        $dealData = print_r($dealData, true);
-        file_put_contents('res.txt', $dealData, FILE_APPEND);
 
     }
 
 
-    private function getSearchModel(): Search
+    private function getSearchModel(int $numberOfDeal): Search
     {
         return (new GetSearchModel())->get(
-            $this->botApi,
+            $numberOfDeal,
             $this->repository,
             $this->config
         );
     }
 
-    private function getBuyerModelByTelegramId(string $idTelegram): Buyer
+    private function getBuyerModelByTelegramId(string $buyerIdTelegram): Buyer
     {
         return (new GetBuyerModel())->get(
-            $idTelegram,
+            $buyerIdTelegram,
             $this->config,
             $this->repository
         );
     }
 
-    private function getDealModel(int $numberOfDeal): Search
+    private function getDealModel(int $numberOfDeal)
     {
-        return (new GetDealModel()->get(
 
-        ))
     }
 
     private function getNumberOfDealFromCallBackMessage(): int
@@ -121,5 +103,17 @@ class CallBackService
         $str = mb_substr($text, $startPos, 10);
 
         return (int)$str;
+    }
+
+    private function inviteSeller(Search $searchModel, Buyer $buyerModel): void
+    {
+        $this->botKeyboard->showInvitationKeyboardToSeller(
+            $searchModel->idSeller(),
+            $searchModel->id(),
+            $searchModel->idBuyer(),
+            $buyerModel->username(),
+            $searchModel->amount(),
+            $searchModel->terms()
+        );
     }
 }

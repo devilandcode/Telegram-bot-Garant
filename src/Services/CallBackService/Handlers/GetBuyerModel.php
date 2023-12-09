@@ -8,7 +8,7 @@ use App\Services\UsersService\Repositories\UserRepository;
 
 class GetBuyerModel
 {
-    public function get(string $idTelegram, ConfigInterface $config, UserRepository $repository)
+    public function get(string $buyerIdTelegram, ConfigInterface $config, UserRepository $repository)
     {
         /** Get Names of columns from users table*/
         $id = $config->get('database.users_name_of_primary_key');
@@ -17,7 +17,7 @@ class GetBuyerModel
         $idChat = $config->get('database.users_name_of_column_with_id_chat');
         $isModerate = $config->get('database.users_name_of_column_with_moderate');
 
-        $getBuyerDataFromUsersTable = $repository->getUserInfoById($idTelegram);
+        $getBuyerDataFromUsersTable = $repository->getUserInfoById($buyerIdTelegram);
 
         /** @var Buyer */
         return new Buyer(
