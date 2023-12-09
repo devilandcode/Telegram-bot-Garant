@@ -143,6 +143,7 @@ class UserService
             $searchModel->idBuyer(),
             $searchModel->idSeller(),
             $searchModel->amount(),
+            $searchModel->currency(),
             $searchModel->terms()
         );
     }

@@ -113,6 +113,7 @@ class CallBackService
             $searchModel->idBuyer(),
             $buyerModel->username(),
             $searchModel->amount(),
+            $searchModel->currency(),
             $searchModel->terms()
         );
     }

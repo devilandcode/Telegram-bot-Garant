@@ -55,6 +55,7 @@ class Keyboards
         string $id_telegram,
         string $lastSearchedUser,
         string $amount,
+        string $currency,
         string $terms): void
     {
         $confirmDealKeyboard = $this->config->get('keyboard.confirmDeal');
@@ -62,11 +63,12 @@ class Keyboards
         $this->bot->sendMessageWithInlineKeyboard(
             sprintf(
                 "🧨 Подтверждение сделки № %s\n\n💎 Покупатель (user id): %s
-💎 Продавец (user id): %s\n 🗯 Сумма сделки: %s\n 🔊 Предмет Сделки: %s",
+💎 Продавец (user id): %s\n 🗯 Сумма сделки: %s\n 🏴‍☠️ Валюта: %s\n  🔊 Предмет Сделки: %s",
                 $idSearchTable,
                 $id_telegram,
                 $lastSearchedUser,
                 $amount,
+                $currency,
                 $terms
             ),
             $confirmDealKeyboard
@@ -79,6 +81,7 @@ class Keyboards
         string $idBuyer,
         string $usernameBuyer,
         string $amount,
+        string $currency,
         string $terms): void
     {
         $acceptDealKeyboard = $this->config->get('keyboard.acceptDeal');
@@ -87,11 +90,12 @@ class Keyboards
             $idSeller,
             sprintf(
                 "💥 Запрос на сделку № %s\n\n 🏆 Покупатель:\n       User ID - %s
-       Username - %s\n\n 🔥 Cумма сделки: %s\n 🔊 Предмет Сделки: %s ",
+       Username - %s\n\n 🔥 Cумма сделки: %s\n  🏴‍☠️ Валюта: %s\n 🔊 Предмет Сделки: %s ",
                 $idSearchTable,
                 $idBuyer,
                 $usernameBuyer,
                 $amount,
+                $currency,
                 $terms
             ),
             $acceptDealKeyboard
