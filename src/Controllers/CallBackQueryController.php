@@ -42,6 +42,7 @@ class CallBackQueryController
     public function acceptInvitationFromBuyer()
     {
         $this->service->notifyBuyerAndAdminThatSellerAcceptInvitation();
+        $this->service->showSellerThatHeAcceptTheInvitation();
     }
 
 

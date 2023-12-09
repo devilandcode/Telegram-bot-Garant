@@ -121,7 +121,7 @@ class Messages
 
     public function waitingWhenBuyerWillPay()
     {
-        $this->bot->sendMessageCallBack("🕯 Ожидаем оплаты от пользователя");
+        $this->bot->sendMessageCallBack("🕯 Ожидаем оплаты от покупателя");
     }
 
     public function checkingBuyersTranssaction()

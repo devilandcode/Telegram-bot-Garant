@@ -75,6 +75,11 @@ class CallBackService
         $this->sendToAdminChannelThatSellerAcceptInvitation($numberOfDeal);
     }
 
+    public function showSellerThatHeAcceptTheInvitation()
+    {
+        $this->botMessages->waitingWhenBuyerWillPay();
+    }
+
     private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
     {
         $dealModel = $this->generateDealModel($numberOfDeal);
