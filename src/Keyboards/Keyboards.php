@@ -143,6 +143,7 @@ class Keyboards
         string $admin_chat_id,
         string $idOfDeal,
         string $amountofDeal,
+        string $currencyofDeal,
         string $resultAmount,
         string $idBuyer,
         string $buyerUsername,
@@ -159,10 +160,12 @@ class Keyboards
             $admin_chat_id,
             sprintf(
                 "🚀 Создана Сделка № %s\n\n
- 💎 Сумма сделки: %s \n 🎖 Сумма сделки c проц: %s\n______________________________\n 💥 Покупатель:\n - ID: %s\n - Username: %s\n______________________________\n 💥 Продавец:\n - ID: %s\n - Username: %s\n ______________________________\n 📌 Предмет Сделки: %s\n ______________________________\n🏦 Кошелек пополнения:\n\n %s\n",
+ 💎 Сумма сделки: %s %s\n 🎖 С услугами гаранта: %s %s\n______________________________\n 💥 Покупатель:\n - ID: %s\n - Username: %s\n______________________________\n 💥 Продавец:\n - ID: %s\n - Username: %s\n ______________________________\n 📌 Предмет Сделки: %s\n ______________________________\n🏦 Кошелек пополнения:\n\n %s\n",
                 $idOfDeal,
                 $amountofDeal,
+                $currencyofDeal,
                 $resultAmount,
+                $currencyofDeal,
                 $idBuyer,
                 $buyerUsername,
                 $idSeller,

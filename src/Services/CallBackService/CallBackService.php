@@ -67,9 +67,16 @@ class CallBackService
         $this->botKeyboard->cancelAndStartHome();
     }
 
-    public function notifyBuyerAboutAcceptionOfDeal()
+    public function notifyBuyerAndAdminThatSellerAcceptInvitation()
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+
+        $this->sendToBuyerThatSellerAcceptInvitation($numberOfDeal);
+        $this->sendToAdminChannelThatSellerAcceptInvitation($numberOfDeal);
+    }
+
+    private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
+    {
         $dealModel = $this->generateDealModel($numberOfDeal);
 
         $this->botKeyboard->showBuyerThatSellerAcceptInvitationKeyboard(
@@ -86,6 +93,25 @@ class CallBackService
             $dealModel->cryptoWallet(),
         );
 
+    }
+
+    private function sendToAdminChannelThatSellerAcceptInvitation(int $numberOfDeal)
+    {
+        $dealModel = $this->generateDealModel($numberOfDeal);
+
+        $this->botKeyboard->sendToAdminChannelDataOfDeal(
+            $this->config->get('bot.admin_chat_id'),
+            $dealModel->id(),
+            $dealModel->amount(),
+            $dealModel->currency(),
+            $dealModel->resultAmount(),
+            $dealModel->idBuyer(),
+            $dealModel->usernameBuyer(),
+            $dealModel->idSeller(),
+            $dealModel->usernameSeller(),
+            $dealModel->terms(),
+            $dealModel->cryptoWallet(),
+        );
     }
 
 
