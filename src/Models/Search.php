@@ -9,6 +9,7 @@ class Search
         private string $idBuyer,
         private string $idSeller,
         private string|null $amount,
+        private string|null $currency,
         private string|null $terms,
         private string $startTime
     )
@@ -43,5 +44,13 @@ class Search
     public function startTime(): string
     {
         return $this->startTime;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function currency(): ?string
+    {
+        return $this->currency;
     }
 }

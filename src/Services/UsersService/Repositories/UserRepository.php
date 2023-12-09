@@ -19,6 +19,7 @@ class UserRepository
     private string $usersTableName;
     private string $nameOfColumnIdTelegram;
     private string $nameOfColumnUsername;
+    private string $nameOfCurrencyColumnInSearchTable;
 
     public function __construct(
         private DBDriver $pdo)
@@ -28,6 +29,7 @@ class UserRepository
         $this->buyerColumnName  = $this->config->get('database.search_name_of_column_with_id_buyer');
         $this->sellerColumnName = $this->config->get('database.search_name_of_column_with_id_seller');
         $this->nameOfAmountColumnInSearchTable = $this->config->get('database.search_name_of_column_with_crypto_amount');
+        $this->nameOfCurrencyColumnInSearchTable   = $this->config->get('database.search_name_of_column_with_crypto_currency');
         $this->nameOfTermsColumnInSearchTable = $this->config->get('database.search_name_of_column_with_terms_of_deal');
         $this->timeColumnName   = $this->config->get('database.search_name_of_column_with_start_search_time');
         $this->usersTableName   = $this->config->get('database.name_of_users_table');
@@ -142,11 +144,12 @@ class UserRepository
     }
 
 
-    public function addCryptoAmountToSeacrhTable(string $amount, string $idSearchTable)
+    public function addCryptoAmountToSeacrhTable(string $amount, string $cryptoCurrency, string $idSearchTable)
     {
         $stm = $this->pdo->update($this->searchTableName,
             [
-                $this->nameOfAmountColumnInSearchTable => $amount
+                $this->nameOfAmountColumnInSearchTable => $amount,
+                $this->nameOfCurrencyColumnInSearchTable => $cryptoCurrency
             ],
             [
                 $this->searchTablePrimaryKeyName => $idSearchTable

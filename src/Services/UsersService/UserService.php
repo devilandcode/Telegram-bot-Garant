@@ -78,11 +78,15 @@ class UserService
         if ($isTimeForCreateDealIsOver) {
             $this->botMessages->showTimeIsOver();
         }else {
-            $amountOfDeal = trim($messageFromBot);
+            $cryptoCurrency = (new GetCryptoCurrencyOfDeal())->get($messageFromBot);
+            $amountOfDeal = (float)trim($messageFromBot);
+
             $this->repository->addCryptoAmountToSeacrhTable(
                 $amountOfDeal,
+                $cryptoCurrency,
                 $searchModel->id()
             );
+
             $this->askBuyerToInputTermsOfDeal();
         }
     }
