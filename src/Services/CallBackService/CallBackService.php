@@ -109,6 +109,19 @@ class CallBackService
         $this->botMessages->checkingBuyersTranssaction();
     }
 
+    public function notifyAdminAndSellerThatBuyerRefusedToPay()
+    {
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $dealModel = $this->generateDealModel($numberOfDeal);
+
+        $this->botMessages->showToAdminAndSellerThatBuyerRefusedToPay(
+            $dealModel->idSeller(),
+            $this->config->get('bot.admin_chat_id'),
+            $dealModel->id(),
+            $dealModel->idBuyer()
+        );
+    }
+
     private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
     {
         $dealModel = $this->generateDealModel($numberOfDeal);

@@ -151,7 +151,7 @@ class Messages
         );
     }
 
-    public function sendForAllThatBuyerCancelDeal(
+    public function showToAdminAndSellerThatBuyerRefusedToPay(
         string $idSeller,
         string $admin_chat_id,
         string $idSearchTable,
@@ -159,11 +159,11 @@ class Messages
     ): void
     {
         $this->bot->sendMessageToUser($idSeller,
-        sprintf("❌️ Сделка № %s\n Отменена покупателем User ID - %s", $idSearchTable, $idBuyer)
+        sprintf("❌️ Сделка № %s\n Покупатель отменил оплату на Escrow Buyer ID - %s", $idSearchTable, $idBuyer)
         );
 
         $this->bot->sendMessageToUser($admin_chat_id,
-            sprintf("❌️ Сделка № %s\n Отменена покупателем User ID - %s", $idSearchTable, $idBuyer)
+            sprintf("❌️ Сделка № %s\n Покупатель отменил оплату на Escrow Buyer ID - %s", $idSearchTable, $idBuyer)
         );
     }
 

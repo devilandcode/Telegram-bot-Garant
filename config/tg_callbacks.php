@@ -9,12 +9,13 @@ return [
     'accept' => 'acceptInvitationFromBuyer',
     'cancelInvite' => 'cancelInvitationFromBuyer',
     'paid' => 'paidToEscrowByBuyer',
+    'refused_to_pay' => 'buyerRefusedToPay',
 
 
-    'money_received' => 'adminReceivedMoney',
-    'deal_complete' => 'dealIsResolved',
-    'bulk_mailing' => 'sendMessageToBot',
-
-    'decline_invitation' => 'cancelInvitationBySeller',
-    'cancel_by_buyer' => 'cancelDealByBuyer'
+//    'money_received' => 'adminReceivedMoney',
+//    'deal_complete' => 'dealIsResolved',
+//    'bulk_mailing' => 'sendMessageToBot',
+//
+//    'decline_invitation' => 'cancelInvitationBySeller',
+//    'cancel_by_buyer' => 'cancelDealByBuyer'
 ];

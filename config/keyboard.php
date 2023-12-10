@@ -42,7 +42,7 @@ return [
   'isPaidMenu' => array(
       array(
           array('text' => 'Оплачено', 'callback_data' => 'paidToEscrowByBuyer'),
-          array('text' => 'Отмена', 'callback_data' => 'cancelDealByBuyer')
+          array('text' => 'Отмена', 'callback_data' => 'buyerRefusedToPay')
       )
   ),
 

@@ -57,6 +57,11 @@ class CallBackQueryController
         $this->service->showBuyerThatHeNotifiedAdminAdmoutPayingToEscrow();
     }
 
+    public function showAdminAndSellerThatBuyerRefusedToPay()
+    {
+        $this->service->notifyAdminAndSellerThatBuyerRefusedToPay();
+    }
+
 
 
 }
