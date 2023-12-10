@@ -92,7 +92,7 @@ class Container
 //        $this->messages = new Messages($this->botApi,$this->config);
 //        $this->cryptoApi = new CryptoApi();
 //        $this->userRepository = new UserRepository($this->DBDriver);
-//        $this->dealManager = new DealModel($this->DBDriver);
+//        $this->dealManager = new DealRepository($this->DBDriver);
 //        $this->parser = new ParserUserData(
 //            $this->botApi->getInputData(),
 //            $this->userRepository,
