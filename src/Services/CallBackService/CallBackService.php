@@ -92,6 +92,23 @@ class CallBackService
         );
     }
 
+    public function showAdminThatBuyerPaidToEscrow()
+    {
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $dealModel = $this->generateDealModel($numberOfDeal);
+
+        $this->botMessages->notifyAdminDealIsPaid(
+            $this->config->get('bot.admin_chat_id'),
+            $dealModel->id(),
+            $dealModel->idBuyer()
+        );
+    }
+
+    public function showBuyerThatHeNotifiedAdminAdmoutPayingToEscrow()
+    {
+        $this->botMessages->checkingBuyersTranssaction();
+    }
+
     private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
     {
         $dealModel = $this->generateDealModel($numberOfDeal);

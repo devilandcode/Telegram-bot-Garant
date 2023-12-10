@@ -8,9 +8,9 @@ return [
     'cancelConfirm' => 'cancelConfirmDeal',
     'accept' => 'acceptInvitationFromBuyer',
     'cancelInvite' => 'cancelInvitationFromBuyer',
-
-
     'paid' => 'paidToEscrowByBuyer',
+
+
     'money_received' => 'adminReceivedMoney',
     'deal_complete' => 'dealIsResolved',
     'bulk_mailing' => 'sendMessageToBot',

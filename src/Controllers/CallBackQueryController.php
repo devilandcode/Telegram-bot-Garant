@@ -51,6 +51,12 @@ class CallBackQueryController
         $this->service->cancelAndGoStartMenu();
     }
 
+    public function sendToAdminThatBuyerPaidToEscrow()
+    {
+        $this->service->showAdminThatBuyerPaidToEscrow();
+        $this->service->showBuyerThatHeNotifiedAdminAdmoutPayingToEscrow();
+    }
+
 
 
 }
