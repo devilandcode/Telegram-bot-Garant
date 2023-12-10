@@ -71,9 +71,7 @@ class Router
     {
         /** Reply to Telegram that the callbackQuery has been received by us.*/
         call_user_func([$this->callBackQueryController,'sendCallBackAnswerToTelegram']);
-        $cb = $this->phpInput;
-        $cb = print_r($cb, true);
-        file_put_contents('res.txt', $cb, FILE_APPEND);
+
         match ($this->phpInput->callback_query->data) {
             $this->config->get('tg_callbacks.start') => call_user_func([$this->callBackQueryController, 'askToEnterAmountOfDeal']),
             $this->config->get('tg_callbacks.cancelStart') => call_user_func([$this->callBackQueryController, 'cancelStartDeal']),
@@ -83,6 +81,7 @@ class Router
             $this->config->get('tg_callbacks.cancelInvite') => call_user_func([$this->callBackQueryController, 'cancelInvitationFromBuyer']),
             $this->config->get('tg_callbacks.paid') => call_user_func([$this->callBackQueryController, 'sendToAdminThatBuyerPaidToEscrow']),
             $this->config->get('tg_callbacks.refused_to_pay') => call_user_func([$this->callBackQueryController, 'showAdminAndSellerThatBuyerRefusedToPay']),
+            $this->config->get('tg_callbacks.money_received') => call_user_func([$this->callBackQueryController, 'showBuyerAndSellerThatAdminGotTheMoney']),
 //            $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
 //            $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
 //            $this->config->get('tg_callbacks.dont_send_deal') => call_user_func([$this->userController, 'cancelFillingDeal']),

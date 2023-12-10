@@ -57,14 +57,14 @@ return [
       )
   ),
 
-  'isCompleteByBuyer' => array(
+  'buyerDealMenu' => array(
       array(
-          array('text' => 'Подтвердить', 'callback_data' => 'completeByBuyer'),
+          array('text' => 'Успех', 'callback_data' => 'completeByBuyer'),
           array('text' => 'Открыть спор', 'callback_data' => 'openDisputeByBuyer')
       )
   ),
 
-  'isCompleteBySeller' => array(
+  'sellerDealMenu' => array(
       array(
           array('text' => 'Выполнено', 'callback_data' => 'completeBySeller'),
           array('text' => 'Открыть спор', 'callback_data' => 'openDisputeBySeller')

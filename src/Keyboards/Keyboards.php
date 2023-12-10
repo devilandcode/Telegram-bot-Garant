@@ -177,10 +177,11 @@ class Keyboards
         );
     }
 
-    public function notifyBuyerAdminRecievedMoney(
+    public function notifyBuyerAdminReceivedMoney(
         string $idBuyer,
         string $idOfDeal,
         string $amountofDeal,
+        string $currency,
         string $buyerUsername,
         string $idSeller,
         string $sellerUsername,
@@ -193,9 +194,10 @@ class Keyboards
             $idBuyer,
             sprintf(
                 "🚀 Запущена Сделка № %s\n
- 💎 Сумма сделки: %s \n______________________________\n 💥 Покупатель:\n - ID: %s\n - Username: %s\n______________________________\n 💥 Продавец:\n - ID: %s\n - Username: %s\n ______________________________\n 📌 Предмет Сделки: %s",
+ 💎 Сумма сделки: %s %s\n______________________________\n 💥 Покупатель:\n - ID: %s\n - Username: %s\n______________________________\n 💥 Продавец:\n - ID: %s\n - Username: %s\n ______________________________\n 📌 Предмет Сделки: %s",
                 $idOfDeal,
                 $amountofDeal,
+                $currency,
                 $idBuyer,
                 $buyerUsername,
                 $idSeller,
@@ -206,10 +208,11 @@ class Keyboards
         );
     }
 
-    public function notifySellerAdminRecievedMoney(
+    public function notifySellerAdminReceivedMoney(
         string $idSeller,
         string $idOfDeal,
         string $amountofDeal,
+        string $currency,
         string $idBuyer,
         string $buyerUsername,
         string $sellerUsername,
@@ -221,9 +224,10 @@ class Keyboards
             $idSeller,
             sprintf(
                 "🚀 Запущена Сделка № %s\n
- 💎 Сумма сделки: %s \n______________________________\n 💥 Покупатель:\n - ID: %s\n - Username: %s\n______________________________\n 💥 Продавец:\n - ID: %s\n - Username: %s\n ______________________________\n 📌 Предмет Сделки: %s",
+ 💎 Сумма сделки: %s %s\n______________________________\n 💥 Покупатель:\n - ID: %s\n - Username: %s\n______________________________\n 💥 Продавец:\n - ID: %s\n - Username: %s\n ______________________________\n 📌 Предмет Сделки: %s",
                 $idOfDeal,
                 $amountofDeal,
+                $currency,
                 $idBuyer,
                 $buyerUsername,
                 $idSeller,

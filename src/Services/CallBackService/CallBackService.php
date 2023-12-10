@@ -125,8 +125,42 @@ class CallBackService
     public function notifyBuyerThatHeRefusedToPay()
     {
         $this->botMessages->showBuyerThatHeRefusedToPay();
-
     }
+
+    public function showBuyerThatAdminGotMoneyAndStartedDeal()
+    {
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $dealModel = $this->generateDealModel($numberOfDeal);
+
+        $this->botKeyboard->notifyBuyerAdminReceivedMoney(
+            $dealModel->idBuyer(),
+            $dealModel->id(),
+            $dealModel->amount(),
+            $dealModel->currency(),
+            $dealModel->usernameBuyer(),
+            $dealModel->idSeller(),
+            $dealModel->usernameSeller(),
+            $dealModel->terms()
+        );
+    }
+
+    public function showSellerThatAdminGotMoneyAndStartedDeal()
+    {
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $dealModel = $this->generateDealModel($numberOfDeal);
+
+        $this->botKeyboard->notifySellerAdminReceivedMoney(
+            $dealModel->idSeller(),
+            $dealModel->id(),
+            $dealModel->amount(),
+            $dealModel->currency(),
+            $dealModel->idBuyer(),
+            $dealModel->usernameBuyer(),
+            $dealModel->usernameSeller(),
+            $dealModel->terms()
+        );
+    }
+
 
     private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
     {

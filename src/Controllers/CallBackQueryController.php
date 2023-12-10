@@ -63,6 +63,12 @@ class CallBackQueryController
         $this->service->notifyBuyerThatHeRefusedToPay();
     }
 
+    public function showBuyerAndSellerThatAdminGotTheMoney()
+    {
+        $this->service->showBuyerThatAdminGotMoneyAndStartedDeal();
+        $this->service->showSellerThatAdminGotMoneyAndStartedDeal();
+    }
+
 
 
 }

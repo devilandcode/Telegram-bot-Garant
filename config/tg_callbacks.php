@@ -10,9 +10,7 @@ return [
     'cancelInvite' => 'cancelInvitationFromBuyer',
     'paid' => 'paidToEscrowByBuyer',
     'refused_to_pay' => 'buyerRefusedToPay',
-
-
-//    'money_received' => 'adminReceivedMoney',
+    'money_received' => 'adminReceivedMoney',
 //    'deal_complete' => 'dealIsResolved',
 //    'bulk_mailing' => 'sendMessageToBot',
 //
