@@ -122,6 +122,12 @@ class CallBackService
         );
     }
 
+    public function notifyBuyerThatHeRefusedToPay()
+    {
+        $this->botMessages->showBuyerThatHeRefusedToPay();
+
+    }
+
     private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
     {
         $dealModel = $this->generateDealModel($numberOfDeal);

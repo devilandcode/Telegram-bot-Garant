@@ -60,6 +60,7 @@ class CallBackQueryController
     public function showAdminAndSellerThatBuyerRefusedToPay()
     {
         $this->service->notifyAdminAndSellerThatBuyerRefusedToPay();
+        $this->service->notifyBuyerThatHeRefusedToPay();
     }
 
 

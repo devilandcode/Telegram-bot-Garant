@@ -129,9 +129,9 @@ class Messages
         $this->bot->sendMessageCallBack("👀 чекаем вашу транзакцию - ожидайте");
     }
 
-    public function cancelDealByBuyer()
+    public function showBuyerThatHeRefusedToPay()
     {
-        $this->bot->sendMessageCallBack("❗️ Сделка отменена");
+        $this->bot->sendMessageCallBack("❗️ Вы отменили оплату");
     }
 
     public function cancelInvitationBySeller()
