@@ -22,6 +22,7 @@ use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Services\CallBackService\CallBackService;
+use App\Services\DealRepository\DealRepository;
 use App\Services\HomeService\HomeService;
 use App\Services\UsersService\Repositories\UserRepository;
 use App\Services\UsersService\UserService;
@@ -46,9 +47,9 @@ class Container
     public readonly UserService $userService;
     public readonly UserController $userController;
     public readonly UserRepository  $userRepository;
+    public readonly DealRepository  $dealRepository;
     public readonly CallBackService  $callBackService;
     public readonly CallBackQueryController $callBackQueryController;
-    public readonly Controller $adminController;
     public readonly Router $router;
 
     public function __construct()
@@ -72,6 +73,7 @@ class Container
         $this->homeService = new HomeService($this->botMessages, $this->botKeyboards);
         $this->homeController = new HomeController($this->homeService);
         $this->userRepository = new UserRepository($this->DBDriver);
+        $this->dealRepository = new DealRepository($this->DBDriver);
         $this->userService = new UserService(
             $this->botApi,
             $this->config,
@@ -84,6 +86,7 @@ class Container
             $this->botKeyboards,
             $this->botMessages,
             $this->userRepository,
+            $this->dealRepository,
             $this->config
         );
         $this->userController = new UserController($this->userService);

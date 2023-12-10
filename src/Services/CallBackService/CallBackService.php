@@ -15,6 +15,7 @@ use App\Services\CallBackService\Handlers\GetCryptoPrice;
 use App\Services\CallBackService\Handlers\GetSearchModel;
 use App\Services\CallBackService\Handlers\GetDealModel;
 use App\Services\CallBackService\Handlers\GetSellerModel;
+use App\Services\DealRepository\DealRepository;
 use App\Services\UsersService\Repositories\UserRepository;
 
 class CallBackService
@@ -23,7 +24,8 @@ class CallBackService
         private BotapiInterface $botApi,
         private Keyboards $botKeyboard,
         private Messages $botMessages,
-        private UserRepository $repository,
+        private UserRepository $userRepository,
+        private DealRepository $dealRepository,
         private ConfigInterface $config,
     )
     {
@@ -127,10 +129,41 @@ class CallBackService
         $this->botMessages->showBuyerThatHeRefusedToPay();
     }
 
-    public function showBuyerThatAdminGotMoneyAndStartedDeal()
+    public function startDealAndShowThatAdminGotMoney()
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
+
+        $this->notifyBuyerSellerAdminGotMoneyAndStartedDeal($dealModel);
+        $this->saveDataToDealTable($dealModel);
+
+    }
+
+    private function notifyBuyerSellerAdminGotMoneyAndStartedDeal(Deal $dealModel)
+    {
+        $this->showBuyerThatAdminGotMoneyAndStartedDeal($dealModel);
+        $this->showSellerThatAdminGotMoneyAndStartedDeal($dealModel);
+        $this->showAdminThatHeStartedTheDeal($dealModel);
+
+    }
+
+    private function saveDataToDealTable(Deal $dealModel)
+    {
+        $this->dealRepository->addDataToDealTable(
+          $dealModel->id(),
+          $dealModel->idBuyer(),
+          $dealModel->usernameBuyer(),
+          $dealModel->idSeller(),
+          $dealModel->usernameSeller(),
+          $dealModel->amount(),
+          $dealModel->currency(),
+          $dealModel->resultAmount(),
+          $dealModel->terms(),
+        );
+    }
+
+    private function showBuyerThatAdminGotMoneyAndStartedDeal(Deal $dealModel)
+    {
 
         $this->botKeyboard->notifyBuyerAdminReceivedMoney(
             $dealModel->idBuyer(),
@@ -144,11 +177,8 @@ class CallBackService
         );
     }
 
-    public function showSellerThatAdminGotMoneyAndStartedDeal()
+    private function showSellerThatAdminGotMoneyAndStartedDeal(Deal $dealModel)
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
-        $dealModel = $this->generateDealModel($numberOfDeal);
-
         $this->botKeyboard->notifySellerAdminReceivedMoney(
             $dealModel->idSeller(),
             $dealModel->id(),
@@ -161,16 +191,12 @@ class CallBackService
         );
     }
 
-    public function showAdminThatHeStartedTheDeal()
+    private function showAdminThatHeStartedTheDeal(Deal $dealModel)
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
-        $dealModel = $this->generateDealModel($numberOfDeal);
-
         $this->botMessages->notifyAdminThatHeStratedTheDeal(
             $this->config->get('bot.admin_chat_id'),
             $dealModel->id()
         );
-
     }
 
 
@@ -219,7 +245,7 @@ class CallBackService
         return (new GetBuyerModel())->get(
             $buyerIdTelegram,
             $this->config,
-            $this->repository
+            $this->userRepository
         );
     }
 
@@ -228,7 +254,7 @@ class CallBackService
         return (new GetSellerModel())->get(
             $sellerIdTelegram,
             $this->config,
-            $this->repository
+            $this->userRepository
         );
     }
 
@@ -236,7 +262,7 @@ class CallBackService
     {
         return (new GetSearchModel())->get(
             $numberOfDeal,
-            $this->repository,
+            $this->userRepository,
             $this->config
         );
     }

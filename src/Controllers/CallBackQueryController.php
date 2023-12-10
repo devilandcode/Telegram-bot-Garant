@@ -65,9 +65,7 @@ class CallBackQueryController
 
     public function showBuyerAndSellerThatAdminGotTheMoney()
     {
-        $this->service->showBuyerThatAdminGotMoneyAndStartedDeal();
-        $this->service->showSellerThatAdminGotMoneyAndStartedDeal();
-        $this->service->showAdminThatHeStartedTheDeal();
+        $this->service->startDealAndShowThatAdminGotMoney();
     }
 
 
