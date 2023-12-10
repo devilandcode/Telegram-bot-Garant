@@ -188,7 +188,7 @@ class Keyboards
         string $termsOfDeal,
         ): void
     {
-        $isCompleteByBuyerKeyboard = $this->config->get('keyboard.isCompleteByBuyer');
+        $isCompleteByBuyerKeyboard = $this->config->get('keyboard.buyerDealMenu');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $idBuyer,
@@ -218,7 +218,7 @@ class Keyboards
         string $sellerUsername,
         string $termsOfDeal): void
     {
-        $isCompleteBySellerKeyboard = $this->config->get('keyboard.isCompleteBySeller');
+        $isCompleteBySellerKeyboard = $this->config->get('keyboard.sellerDealMenu');
 
         $this->bot->sendMessageWithInlineKeyboardToUser(
             $idSeller,

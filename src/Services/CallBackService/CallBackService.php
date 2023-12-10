@@ -161,6 +161,18 @@ class CallBackService
         );
     }
 
+    public function showAdminThatHeStartedTheDeal()
+    {
+        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
+        $dealModel = $this->generateDealModel($numberOfDeal);
+
+        $this->botMessages->notifyAdminThatHeStratedTheDeal(
+            $this->config->get('bot.admin_chat_id'),
+            $dealModel->id()
+        );
+
+    }
+
 
     private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
     {

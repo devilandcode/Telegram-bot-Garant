@@ -178,7 +178,7 @@ class Messages
         );
     }
 
-    public function notifyAdminDealConfirmed(string $admin_chat_id, string $idOfDeal)
+    public function notifyAdminThatHeStratedTheDeal(string $admin_chat_id, string $idOfDeal)
     {
         $this->bot->sendMessageToUser($admin_chat_id, sprintf("🔥 Сделка № %s - Запущена, Оплата получена", $idOfDeal));
     }
