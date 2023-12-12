@@ -49,12 +49,12 @@ class CallBackService
         $this->botApi->sendCallBackAnswer('');
     }
 
-    public function cancelAndGoStartMenu()
+    public function cancelAndGoStartMenu(): void
     {
         $this->botKeyboard->cancelAndStartHome();
     }
 
-    public function sendInvitationToSeller()
+    public function sendInvitationToSeller(): void
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $searchModel = $this->getSearchModel($numberOfDeal);
@@ -64,17 +64,17 @@ class CallBackService
     }
 
 
-    public function notifyBuyerInvitatinWasSent()
+    public function notifyBuyerInvitatinWasSent(): void
     {
         $this->botMessages->notifyBuyerInvitatinWasSent();
     }
 
-    public function showBuyerThatHeCancledConfirm()
+    public function showBuyerThatHeCancledConfirm(): void
     {
         $this->botKeyboard->cancelAndStartHome();
     }
 
-    public function notifyBuyerAndAdminThatSellerAcceptInvitation()
+    public function notifyBuyerAndAdminThatSellerAcceptInvitation(): void
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
 
@@ -82,12 +82,12 @@ class CallBackService
         $this->sendToAdminChannelThatSellerAcceptInvitation($numberOfDeal);
     }
 
-    public function showSellerThatHeAcceptTheInvitation()
+    public function showSellerThatHeAcceptTheInvitation(): void
     {
         $this->botMessages->waitingWhenBuyerWillPay();
     }
 
-    public function showBuyerThatSellerCancelInvitation()
+    public function showBuyerThatSellerCancelInvitation(): void
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $searchModel = $this->getSearchModel($numberOfDeal);
@@ -99,7 +99,7 @@ class CallBackService
         );
     }
 
-    public function showAdminThatBuyerPaidToEscrow()
+    public function showAdminThatBuyerPaidToEscrow(): void
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
@@ -111,12 +111,12 @@ class CallBackService
         );
     }
 
-    public function showBuyerThatHeNotifiedAdminAdmoutPayingToEscrow()
+    public function showBuyerThatHeNotifiedAdminAdmoutPayingToEscrow(): void
     {
         $this->botMessages->checkingBuyersTranssaction();
     }
 
-    public function notifyAdminAndSellerThatBuyerRefusedToPay()
+    public function notifyAdminAndSellerThatBuyerRefusedToPay(): void
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
@@ -129,22 +129,25 @@ class CallBackService
         );
     }
 
-    public function notifyBuyerThatHeRefusedToPay()
+    public function notifyBuyerThatHeRefusedToPay(): void
     {
         $this->botMessages->showBuyerThatHeRefusedToPay();
     }
 
-    public function startDealAndShowThatAdminGotMoney()
+    public function startDealAndShowThatAdminGotMoney(): void
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
 
-
-        $this->notifyBuyerSellerAdminGotMoneyAndStartedDeal($dealModel);
-        $this->saveDataToDealTable($dealModel);
+        if ($this->checkIsDealExistInDealTable($numberOfDeal)) {
+            $this->notifyAdminThatDealIsAlreadyStarted();
+        } else {
+            $this->notifyBuyerSellerAdminGotMoneyAndStartedDeal($dealModel);
+            $this->saveDataToDealTable($dealModel);
+        }
     }
 
-    private function notifyBuyerSellerAdminGotMoneyAndStartedDeal(Deal $dealModel)
+    private function notifyBuyerSellerAdminGotMoneyAndStartedDeal(Deal $dealModel): void
     {
         $this->showBuyerThatAdminGotMoneyAndStartedDeal($dealModel);
         $this->showSellerThatAdminGotMoneyAndStartedDeal($dealModel);
@@ -157,7 +160,7 @@ class CallBackService
         return $this->dealRepository->checkIsDealExist($numberOfDeal);
     }
 
-    private function saveDataToDealTable(Deal $dealModel)
+    private function saveDataToDealTable(Deal $dealModel): void
     {
         $this->dealRepository->addDataToDealTable(
           $dealModel->id(),
@@ -173,7 +176,7 @@ class CallBackService
         );
     }
 
-    private function showBuyerThatAdminGotMoneyAndStartedDeal(Deal $dealModel)
+    private function showBuyerThatAdminGotMoneyAndStartedDeal(Deal $dealModel): void
     {
 
         $this->botKeyboard->notifyBuyerAdminReceivedMoney(
@@ -188,7 +191,7 @@ class CallBackService
         );
     }
 
-    private function showSellerThatAdminGotMoneyAndStartedDeal(Deal $dealModel)
+    private function showSellerThatAdminGotMoneyAndStartedDeal(Deal $dealModel): void
     {
         $this->botKeyboard->notifySellerAdminReceivedMoney(
             $dealModel->idSeller(),
@@ -202,16 +205,22 @@ class CallBackService
         );
     }
 
-    private function showAdminThatHeStartedTheDeal(Deal $dealModel)
+    private function showAdminThatHeStartedTheDeal(Deal $dealModel): void
     {
         $this->botMessages->notifyAdminThatHeStratedTheDeal(
             $this->config->get('bot.admin_chat_id'),
             $dealModel->id()
         );
     }
+    private function notifyAdminThatDealIsAlreadyStarted(): void
+    {
+        $this->botMessages->showAdminThatDealAlreadyExist(
+            $this->config->get('bot.admin_chat_id')
+        );
+    }
 
 
-    private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal)
+    private function sendToBuyerThatSellerAcceptInvitation(int $numberOfDeal): void
     {
         $dealModel = $this->generateDealModel($numberOfDeal);
 
@@ -231,7 +240,7 @@ class CallBackService
 
     }
 
-    private function sendToAdminChannelThatSellerAcceptInvitation(int $numberOfDeal)
+    private function sendToAdminChannelThatSellerAcceptInvitation(int $numberOfDeal): void
     {
         $dealModel = $this->generateDealModel($numberOfDeal);
 

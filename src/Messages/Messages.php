@@ -210,6 +210,12 @@ class Messages
       (Пример - bot: .....Ваше сообщение)");
     }
 
+    public function showAdminThatDealAlreadyExist(string $admin_chat_id)
+    {
+        $this->bot->sendMessageToUser($admin_chat_id,
+            "🔴 Сделка уже создана, больше не жми");
+    }
+
     public function mailToBot(string $id_telegram, string $messageFromBot): mixed
     {
         return $this->bot->sendMessageToUser($id_telegram, $messageFromBot);
