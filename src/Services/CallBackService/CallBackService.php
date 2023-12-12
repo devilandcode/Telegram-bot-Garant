@@ -39,6 +39,11 @@ class CallBackService
         $this->botMessages->askAmountOfDeal($btcPrice, $ethPrice, $usdtPrice);
     }
 
+    public function showStartMenu()
+    {
+        $this->botKeyboard->startMenuTriggeredOnCallBack();
+    }
+
     public function sendCallBackAnswer(): void
     {
         $this->botApi->sendCallBackAnswer('');

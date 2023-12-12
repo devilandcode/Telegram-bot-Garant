@@ -20,7 +20,7 @@ class CallBackQueryController
 
     public function goToHomeCauseSellerNotExist()
     {
-
+        $this->service->showStartMenu();
     }
 
     public function askToEnterAmountOfDeal()

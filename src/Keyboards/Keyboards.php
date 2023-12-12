@@ -23,6 +23,13 @@ class Keyboards
         $this->bot->sendMessageWithBaseKeyboard('Whats up Man', $startKeyboard);
     }
 
+    public function startMenuTriggeredOnCallBack(): void
+    {
+        $startKeyboard = $this->config->get('keyboard.start');
+
+        $this->bot->sendMessageWithBaseKeyboardCallBack('Whats up Man', $startKeyboard);
+    }
+
     public function cancelAndStartHome(): void
     {
         $startKeyboard = $this->config->get('keyboard.start');
