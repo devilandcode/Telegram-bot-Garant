@@ -157,6 +157,7 @@ class CallBackService
           $dealModel->usernameSeller(),
           $dealModel->amount(),
           $dealModel->currency(),
+          $dealModel->cryptoWallet(),
           $dealModel->resultAmount(),
           $dealModel->terms(),
         );
