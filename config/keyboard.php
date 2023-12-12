@@ -14,7 +14,7 @@ return [
 
   'goHome' => array(
       array(
-          array('text' => 'Главное Меню', 'callback_data' => 'cancel')
+          array('text' => 'Главное Меню', 'callback_data' => 'goToHome')
       )
   ),
 

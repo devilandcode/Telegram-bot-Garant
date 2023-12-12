@@ -19,6 +19,7 @@ class DealRepository
     private string $nameOfColumnOfSellerUsername;
     private string $nameOfColumnOfAmountOfDeal;
     private string $nameOfColumnOfCurrency;
+    private string $nameOfColumnOfCryptoWallet;
     private string $nameOfColumnOfResultAmount;
     private string $nameOfColumnOfTermsOfDeal;
 
@@ -37,6 +38,7 @@ class DealRepository
         $this->nameOfColumnOfCurrency = $this->config->get('database.deal_name_of_column_with_crypto_currency');
         $this->nameOfColumnOfResultAmount = $this->config->get('database.deal_name_of_column_with_result_amount');
         $this->nameOfColumnOfTermsOfDeal = $this->config->get('database.deal_name_of_column_with_terms_of_deal');
+        $this->nameOfColumnOfCryptoWallet = $this->config->get('database.deal_name_of_column_with_crypto_wallet');
 
     }
 
@@ -48,6 +50,7 @@ class DealRepository
         string $sellerUsername,
         string $amountOfDeal,
         string $currencyOfDeal,
+        string $cryptoWallet,
         string $resultAmount,
         string $termsOfDeal
     )
@@ -60,6 +63,7 @@ class DealRepository
             $this->nameOfColumnOfSellerUsername  => $sellerUsername,
             $this->nameOfColumnOfAmountOfDeal    => $amountOfDeal,
             $this->nameOfColumnOfCurrency        => $currencyOfDeal,
+            $this->nameOfColumnOfCryptoWallet    => $cryptoWallet,
             $this->nameOfColumnOfResultAmount    => $resultAmount,
             $this->nameOfColumnOfTermsOfDeal     => $termsOfDeal,
         ];

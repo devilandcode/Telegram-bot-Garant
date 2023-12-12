@@ -73,6 +73,7 @@ class Router
         call_user_func([$this->callBackQueryController,'sendCallBackAnswerToTelegram']);
 
         match ($this->phpInput->callback_query->data) {
+            $this->config->get('tg_callbacks.sellerNotExist') => call_user_func([$this->callBackQueryController, 'goToHomeCauseSellerNotExist']),
             $this->config->get('tg_callbacks.start') => call_user_func([$this->callBackQueryController, 'askToEnterAmountOfDeal']),
             $this->config->get('tg_callbacks.cancelStart') => call_user_func([$this->callBackQueryController, 'cancelStartDeal']),
             $this->config->get('tg_callbacks.confirm') => call_user_func([$this->callBackQueryController, 'sendToSellerInvitation']),

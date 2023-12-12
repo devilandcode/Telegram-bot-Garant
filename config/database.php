@@ -37,7 +37,7 @@ return [
     'deal_name_of_column_with_seller_username' => 'seller_username',
     'deal_name_of_column_with_crypto_amount' => 'amount',
     'deal_name_of_column_with_crypto_currency' => 'currency',
-    'deal_name_of_column_with_crypto_cryptowallet' => 'cryptowallet',
+    'deal_name_of_column_with_crypto_wallet' => 'crypto_wallet',
     'deal_name_of_column_with_result_amount' => 'result_amount',
     'deal_name_of_column_with_terms_of_deal' => 'text',
 

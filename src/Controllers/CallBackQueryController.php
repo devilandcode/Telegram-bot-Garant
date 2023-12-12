@@ -18,6 +18,11 @@ class CallBackQueryController
         $this->service->sendCallBackAnswer();
     }
 
+    public function goToHomeCauseSellerNotExist()
+    {
+
+    }
+
     public function askToEnterAmountOfDeal()
     {
         $this->service->askBuyerToEnterAmountOfDeal();

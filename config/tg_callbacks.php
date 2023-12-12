@@ -2,6 +2,7 @@
 
 /** Values - its callback names from inline keyboard, config/keyboard.php */
 return [
+    'sellerNotExist' => 'goToHome',
     'start' => 'startDeal',
     'cancelStart' => 'cancelStartDeal',
     'confirm' => 'confirmAndSendToSeller',
