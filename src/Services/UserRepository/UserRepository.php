@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\UsersService\Repositories;
+namespace App\Services\UserRepository;
 
 use App\Kernel\Config\Config;
 use App\Kernel\Config\ConfigInterface;

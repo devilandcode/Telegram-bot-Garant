@@ -3,9 +3,8 @@
 namespace App\Services\CallBackService\Handlers;
 
 use App\Kernel\Config\ConfigInterface;
-use App\Kernel\HTTP\BotapiInterface;
 use App\Models\Search;
-use App\Services\UsersService\Repositories\UserRepository;
+use App\Services\UserRepository\UserRepository;
 
 class GetSearchModel
 {

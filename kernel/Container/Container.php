@@ -7,24 +7,20 @@ use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Kernel\Config\Config;
 use App\Kernel\Config\ConfigInterface;
-use App\Kernel\Controller\Controller;
 use App\Kernel\Database\DBconnector;
 use App\Kernel\Database\DBDriver;
 use App\Kernel\HTTP\BotApi;
-use App\Kernel\HTTP\BotapiInterface;
 use App\Kernel\HTTP\CryptoApi;
-use App\Kernel\HTTP\CryptoapiInterface;
 use App\Kernel\Middlewares\AddIfNewUser;
 use App\Kernel\Middlewares\Repositories\NewUserRepository;
 use App\Kernel\Middlewares\StopIfUsernameNotExist;
-use App\Kernel\Parser\ParserUserData;
 use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Services\CallBackService\CallBackService;
 use App\Services\DealRepository\DealRepository;
 use App\Services\HomeService\HomeService;
-use App\Services\UsersService\Repositories\UserRepository;
+use App\Services\UserRepository\UserRepository;
 use App\Services\UsersService\UserService;
 
 class Container

@@ -12,11 +12,11 @@ use App\Models\Search;
 use App\Models\Seller;
 use App\Services\CallBackService\Handlers\GetBuyerModel;
 use App\Services\CallBackService\Handlers\GetCryptoPrice;
-use App\Services\CallBackService\Handlers\GetSearchModel;
 use App\Services\CallBackService\Handlers\GetDealModel;
+use App\Services\CallBackService\Handlers\GetSearchModel;
 use App\Services\CallBackService\Handlers\GetSellerModel;
 use App\Services\DealRepository\DealRepository;
-use App\Services\UsersService\Repositories\UserRepository;
+use App\Services\UserRepository\UserRepository;
 
 class CallBackService
 {

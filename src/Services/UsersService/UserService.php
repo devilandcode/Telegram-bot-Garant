@@ -7,12 +7,12 @@ use App\Kernel\HTTP\BotapiInterface;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
 use App\Models\Search;
+use App\Services\UserRepository\UserRepository;
+use App\Services\UsersService\Handlers\GetCryptoCurrencyOfDeal;
 use App\Services\UsersService\Handlers\GetSearchModel;
+use App\Services\UsersService\Handlers\isAmountKeywordExistInMessageFromBot;
 use App\Services\UsersService\Handlers\IsDealKeywordExistInMessageFromBot;
 use App\Services\UsersService\Handlers\IsTimeForCreateDealIsOver;
-use App\Services\UsersService\Handlers\GetCryptoCurrencyOfDeal;
-use App\Services\UsersService\Handlers\isAmountKeywordExistInMessageFromBot;
-use App\Services\UsersService\Repositories\UserRepository;
 
 class UserService
 {
