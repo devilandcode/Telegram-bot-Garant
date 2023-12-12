@@ -71,6 +71,19 @@ class DealRepository
         return $this->db->insert($this->nameOfDealTable, $params);
     }
 
+    public function checkIsDealExist(string $numberOfDeal): bool
+    {
+        $sql = sprintf('SELECT * FROM %s WHERE %s = :%s',
+            $this->nameOfDealTable,
+            $this->nameOfColumnOfDealNumber,
+            $this->nameOfColumnOfDealNumber,
+        );
+
+        $stm = $this->db->select($sql, [$this->nameOfColumnOfDealNumber => $numberOfDeal], DBDriver::FETCH_ONE);
+
+        return is_array($stm) ? true : false;
+    }
+
 //    public function getDealData(int $idDeal): ?array
 //    {
 //        $sql = sprintf('SELECT * FROM %s WHERE %s = :%s ORDER BY dt DESC LIMIT 1',

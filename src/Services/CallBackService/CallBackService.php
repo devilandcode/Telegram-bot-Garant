@@ -142,7 +142,6 @@ class CallBackService
 
         $this->notifyBuyerSellerAdminGotMoneyAndStartedDeal($dealModel);
         $this->saveDataToDealTable($dealModel);
-
     }
 
     private function notifyBuyerSellerAdminGotMoneyAndStartedDeal(Deal $dealModel)
@@ -151,6 +150,11 @@ class CallBackService
         $this->showSellerThatAdminGotMoneyAndStartedDeal($dealModel);
         $this->showAdminThatHeStartedTheDeal($dealModel);
 
+    }
+
+    private function checkIsDealExistInDealTable(string $numberOfDeal): bool
+    {
+        return $this->dealRepository->checkIsDealExist($numberOfDeal);
     }
 
     private function saveDataToDealTable(Deal $dealModel)
