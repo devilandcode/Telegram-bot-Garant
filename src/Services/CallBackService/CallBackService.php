@@ -139,6 +139,7 @@ class CallBackService
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
 
+
         $this->notifyBuyerSellerAdminGotMoneyAndStartedDeal($dealModel);
         $this->saveDataToDealTable($dealModel);
 

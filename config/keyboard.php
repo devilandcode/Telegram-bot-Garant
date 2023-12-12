@@ -49,11 +49,17 @@ return [
   'admin' => array(
       array(
           array('text' => 'Взнос получен', 'callback_data' => 'adminReceivedMoney'),
-          array('text' => 'Написать в сделку', 'callback_data' => 'sendMessageToDeal')
+          array('text' => 'Написать в бот ', 'callback_data' => 'sendMessageToBot'),
       ),
       array(
-          array('text' => 'Написать в бот ', 'callback_data' => 'sendMessageToBot'),
-          array('text' => 'Закрыть сделку', 'callback_data' => 'dealIsResolved')
+          array('text' => 'Написать продавцу', 'callback_data' => 'sendMessageToSeller'),
+          array('text' => 'Написать покупателю', 'callback_data' => 'sendMessageToBuyer'),
+      ),
+      array(
+          array('text' => 'Посмотреть все открытые сделки', 'callback_data' => 'seeAllActiveDeals'),
+      ),
+      array(
+          array('text' => 'Закрыть сделку', 'callback_data' => 'dealIsResolved'),
       )
   ),
 
