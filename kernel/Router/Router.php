@@ -82,14 +82,6 @@ class Router
             $this->config->get('tg_callbacks.paid') => call_user_func([$this->callBackQueryController, 'sendToAdminThatBuyerPaidToEscrow']),
             $this->config->get('tg_callbacks.refused_to_pay') => call_user_func([$this->callBackQueryController, 'showAdminAndSellerThatBuyerRefusedToPay']),
             $this->config->get('tg_callbacks.money_received') => call_user_func([$this->callBackQueryController, 'showBuyerAndSellerThatAdminGotTheMoney']),
-//            $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
-//            $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
-//            $this->config->get('tg_callbacks.dont_send_deal') => call_user_func([$this->userController, 'cancelFillingDeal']),
-//            $this->config->get('tg_callbacks.decline_invitation') => call_user_func([$this->userController, 'declineInvitationBySeller']),
-//            $this->config->get('tg_callbacks.cancel_by_buyer') => call_user_func([$this->userController, 'declineDealByBuyer']),
-//            $this->config->get('tg_callbacks.money_received') => call_user_func([$this->adminController, 'startByAdmin']),
-//            $this->config->get('tg_callbacks.deal_complete') => call_user_func([$this->adminController, 'markDealComplete']),
-//            $this->config->get('tg_callbacks.bulk_mailing') => call_user_func([$this->adminController, 'askWhatMessageToSend']),
         };
 
     }
@@ -126,87 +118,4 @@ class Router
         $this->isNewUser->check(compact('idTelegram', 'username', 'idChat'));
     }
 
-//
-//    public function dispatchBotMessage(string $message): void
-//    {
-//        match ($message) {
-//            $this->config->get('messages.start') => call_user_func([$this->userController, 'start']),
-//            $this->config->get('messages.profile') => call_user_func([$this->userController, 'profile']),
-//            $this->config->get('messages.userSearch') => call_user_func([$this->userController, 'search']),
-//            $this->config->get('messages.activeDeals') => call_user_func([$this->userController, 'getMyDeals']),
-//            $this->config->get('messages.supportService') => call_user_func([$this->userController, 'support']),
-//            $this->config->get('messages.message_wrong') => file_put_contents('m.txt', $message, FILE_APPEND),
-//            default => call_user_func([$this->userController, 'unknownCommand']),
-//        };
-//    }
-//
-//    public function dispatchBotMessageWithKeywords($message): void
-//    {
-//        match ($this->isKeyWordsExist($message)) {
-//            $this->config->get('messages.keyword_crypto') => call_user_func([$this->userController, 'setAmountOfDeal'], $message),
-//            $this->config->get('messages.keyword_deal') => call_user_func([$this->userController, 'setTermOfDeal'], $message),
-//            default => call_user_func([$this->botAnswer, 'uncorrectCurrency']),
-//        };
-//    }
-//
-//    public function dispatchBotNumericMessage(string $message): void
-//    {
-//        call_user_func([$this->userController, 'checkIsUserExist'], $message);
-//
-//    }
-//
-//    public function dispatchCallbackQuery(string $callBackQuery): void
-//    {
-//        call_user_func([$this->userController,'sendCallBackAnswerToTelegram']);
-//
-//        match ($callBackQuery) {
-//            $this->config->get('tg_callbacks.start') => call_user_func([$this->userController, 'askToEnterAmountOfDeal']),
-//            $this->config->get('tg_callbacks.confirm') => call_user_func([$this->userController, 'sendToSellerInvitation']),
-//            $this->config->get('tg_callbacks.accept') => call_user_func([$this->userController, 'notifyBuyerAboutAcceptionOfDeal']),
-//            $this->config->get('tg_callbacks.paid') => call_user_func([$this->userController, 'showPaidByBuyer']),
-//            $this->config->get('tg_callbacks.dont_send_deal') => call_user_func([$this->userController, 'cancelFillingDeal']),
-//            $this->config->get('tg_callbacks.decline_invitation') => call_user_func([$this->userController, 'declineInvitationBySeller']),
-//            $this->config->get('tg_callbacks.cancel_by_buyer') => call_user_func([$this->userController, 'declineDealByBuyer']),
-//            $this->config->get('tg_callbacks.money_received') => call_user_func([$this->adminController, 'startByAdmin']),
-//            $this->config->get('tg_callbacks.deal_complete') => call_user_func([$this->adminController, 'markDealComplete']),
-//            $this->config->get('tg_callbacks.bulk_mailing') => call_user_func([$this->adminController, 'askWhatMessageToSend']),
-//        };
-//    }
-//
-//    public function dispathAdminMessage(string $messageFromAdmin): void
-//    {
-//        match ($this->isKeyWordsExist($messageFromAdmin)) {
-//            $this->config->get('messages.keyword_admin') => call_user_func([$this->adminController, 'makeBulkMailing'], $messageFromAdmin),
-//            default => call_user_func([$this->botAnswer, 'unknownCommand']),
-//        };
-//    }
-//
-//    public function initBotMessage(): void
-//    {
-//        $this->botCallBackQuery = $this->botApi->getCallBackQuery();
-//    }
-//
-//    private function isKeyWordsExist(string $message): string
-//    {
-//        $cryptoWords = $this->config->getArray('crypto_keywords');
-//        foreach ($cryptoWords as $word) {
-//            if (str_contains($message, $word)) {
-//                return 'crypto';
-//            }
-//        }
-//        $dealWords = $this->config->getArray('deal_keywords');
-//        foreach ($dealWords as $word) {
-//            if (str_contains($message, $word)) {
-//                return 'deal';
-//            }
-//        }
-//
-//        $adminWords = $this->config->getArray('admin_keywords');
-//        foreach ($adminWords as $word) {
-//            if (str_contains($message, $word)) {
-//                 return 'admin';
-//            }
-//        }
-//        return 'not_exist';
-//    }
 }
