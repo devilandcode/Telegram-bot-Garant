@@ -13,7 +13,7 @@ class UserController
     {
     }
 
-    public function analyze(string $messageFromBot)
+    public function analyze(string $messageFromBot): void
     {
         if ($this->service->isTelegramId($messageFromBot)) {
             $this->service->handleSellerId($messageFromBot);

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'btc' => 'bc1qfk9qvjde2ux0lxmn4xgccdehufap9drqleksze',
-    'eth' => '0x4956343ff81E661eF1582668AbB6aC2457676f36',
-    'usdt' => 'TQCQ3ZoV5sDPBgDNxghRk628AKHYTW8RzJ',
+    'btc' => 'bc1qdhmh27y3jdeaplyrgeuew8mu7vqawg8wc7356j',
+    'eth' => '0xDb15018A09C0717F2634cF89c8a8cf1feAf5C273',
+    'usdt' => '0xDb15018A09C0717F2634cF89c8a8cf1feAf5C273',
 ];
