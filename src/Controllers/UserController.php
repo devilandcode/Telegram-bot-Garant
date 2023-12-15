@@ -32,6 +32,7 @@ class UserController
             return;
         }
 
+        $this->service->showUnknownCommand();
 
     }
 }

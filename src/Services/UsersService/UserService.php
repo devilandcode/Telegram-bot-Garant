@@ -115,6 +115,11 @@ class UserService
         }
     }
 
+    public function showUnknownCommand()
+    {
+        $this->botMessages->unknownCommand();
+    }
+
 
     private function isUserExistInUsersTable(string $telegramId): bool
     {
