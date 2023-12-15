@@ -23,9 +23,10 @@ The admin panel has the following functionality:
 ## Get started
 1) **Clone** this repository
 2) **Composer install**
-3) **Set** in config/bot.php your *bot_token* and *admin_chat_id* (u need to create private channel, your admin panel will be there)
-4) **Create Database and tables** (SQL dumps are attached to this repository, you can name the columns of the table in your own way and show their names in config/database.php.)
-3) **Set Webhook**
+3) **Database**, you need to create a database and import a dump into it, which is located in the database folder.
+4) **Set** in config/bot.php your *bot_token* and *admin_chat_id* (u need to create private channel, your admin panel will be there)
+5) **Create Database and tables** (SQL dumps are attached to this repository, you can name the columns of the table in your own way and show their names in config/database.php.)
+6) **Set Webhook**
    
    *For testing locally use ngrok*
    - Install ngrok
@@ -42,4 +43,4 @@ https://api.telegram.org/botBOT_TOKEN/setWebhook?url=https://61b2-46-53-245-38.n
     
     Done!
 
-4) 
+7)
