@@ -12,9 +12,6 @@ return [
     'paid' => 'paidToEscrowByBuyer',
     'refused_to_pay' => 'buyerRefusedToPay',
     'money_received' => 'adminReceivedMoney',
-//    'deal_complete' => 'dealIsResolved',
-//    'bulk_mailing' => 'sendMessageToBot',
-//
-//    'decline_invitation' => 'cancelInvitationBySeller',
-//    'cancel_by_buyer' => 'cancelDealByBuyer'
+    'send_to_bot' => 'sendMessageToBot'
+
 ];

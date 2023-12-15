@@ -134,6 +134,13 @@ class CallBackService
         $this->botMessages->showBuyerThatHeRefusedToPay();
     }
 
+    public function askAdminWhatMessageToSendToBot()
+    {
+        $this->botMessages->askAdminToTextHisMessageToBot(
+            $this->config->get('bot.admin_chat_id')
+        );
+    }
+
     public function startDealAndShowThatAdminGotMoney(): void
     {
         $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();

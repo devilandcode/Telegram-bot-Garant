@@ -2,6 +2,7 @@
 
 namespace App\Kernel\Router;
 
+use App\Controllers\AdminController;
 use App\Controllers\CallBackQueryController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
@@ -19,6 +20,7 @@ class Router
         private HomeController $homeController,
         private UserController $userController,
         private CallBackQueryController $callBackQueryController,
+        private AdminController $adminController,
     )
     {
     }
@@ -64,7 +66,9 @@ class Router
 
     private function dispatchTextMessageFromAdminChannel()
     {
-
+        match($this->phpInput->channel_post->text) {
+            $this->config->get('adminKeywords.message_to_bot') => call_user_func([$this->adminController, 'sendMessageToAllUsers']),
+        };
     }
 
     private function dispatchCallBackQueryFromBot()
@@ -83,6 +87,7 @@ class Router
             $this->config->get('tg_callbacks.paid') => call_user_func([$this->callBackQueryController, 'sendToAdminThatBuyerPaidToEscrow']),
             $this->config->get('tg_callbacks.refused_to_pay') => call_user_func([$this->callBackQueryController, 'showAdminAndSellerThatBuyerRefusedToPay']),
             $this->config->get('tg_callbacks.money_received') => call_user_func([$this->callBackQueryController, 'showBuyerAndSellerThatAdminGotTheMoney']),
+            $this->config->get('tg_callbacks.send_to_bot') => call_user_func([$this->callBackQueryController, 'askAdminWhatToInputMessage']),
         };
 
     }

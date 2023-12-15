@@ -2,6 +2,7 @@
 
 namespace App\Kernel\Container;
 
+use App\Controllers\AdminController;
 use App\Controllers\CallBackQueryController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
@@ -46,6 +47,7 @@ class Container
     public readonly DealRepository  $dealRepository;
     public readonly CallBackService  $callBackService;
     public readonly CallBackQueryController $callBackQueryController;
+    public readonly AdminController $adminController;
     public readonly Router $router;
 
     public function __construct()
@@ -87,37 +89,7 @@ class Container
         );
         $this->userController = new UserController($this->userService);
         $this->callBackQueryController = new CallBackQueryController($this->callBackService);
-//        $this->keyboards = new Keyboards($this->config, $botToken);
-//        $this->messages = new Messages($this->botApi,$this->config);
-//        $this->cryptoApi = new CryptoApi();
-//        $this->userRepository = new UserRepository($this->DBDriver);
-//        $this->dealManager = new DealRepository($this->DBDriver);
-//        $this->parser = new ParserUserData(
-//            $this->botApi->getInputData(),
-//            $this->userRepository,
-//            $this->dealManager
-//        );
-//
-//        $this->userController = new UserController(
-//            $this->botApi,
-//            $this->keyboards,
-//            $this->messages,
-//            $this->cryptoApi,
-//            $this->userRepository,
-//            $this->parser,
-//            $this->config,
-//            $this->dealManager
-//        );
-//        $this->adminController = new AdminController(
-//            $this->botApi,
-//            $this->keyboards,
-//            $this->messages,
-//            $this->cryptoApi,
-//            $this->userRepository,
-//            $this->parser,
-//            $this->config,
-//            $this->dealManager
-//        );
+        $this->adminController = new AdminController();
         $this->router = new Router(
             $this->botApi->phpInput(),
             $this->isUsernameExist,
@@ -125,7 +97,8 @@ class Container
             $this->config,
             $this->homeController,
             $this->userController,
-            $this->callBackQueryController
+            $this->callBackQueryController,
+            $this->adminController
         );
     }
 

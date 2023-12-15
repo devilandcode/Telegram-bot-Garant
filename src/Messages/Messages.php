@@ -206,8 +206,8 @@ class Messages
     public function askAdminToTextHisMessageToBot(string $admin_chat_id)
     {
         $this->bot->sendMessageToUser($admin_chat_id,
-            "🖍 Написать сообщение в бот\n       Начните со слова \"bot:\"
-      (Пример - bot: .....Ваше сообщение)");
+            "🖍 Написать всем в бот\n       Вначале сообщения напишите - \"bot:\"
+       Пример - bot: .....Ваше сообщение");
     }
 
     public function showAdminThatDealAlreadyExist(string $admin_chat_id)

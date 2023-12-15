@@ -73,6 +73,11 @@ class CallBackQueryController
         $this->service->startDealAndShowThatAdminGotMoney();
     }
 
+    public function askAdminWhatToInputMessage()
+    {
+        $this->service->askAdminWhatMessageToSendToBot();
+    }
+
 
 
 }
