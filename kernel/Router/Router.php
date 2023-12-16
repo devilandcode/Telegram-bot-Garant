@@ -27,9 +27,6 @@ class Router
 
     public function dispatch(): void
     {
-        $input = $this->phpInput;
-        $input = print_r($input, true);
-        file_put_contents('inputs.txt', $input, FILE_APPEND);
 
         if ($this->isTextMessageFromBot()) {
             $this->dispatchTextMessageFromBot();

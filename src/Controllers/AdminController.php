@@ -2,12 +2,19 @@
 
 namespace App\Controllers;
 
+use App\Services\AdminService\AdminService;
+
 class AdminController
 {
+    public function __construct(
+        private AdminService $adminService
+    )
+    {
+    }
 
     public function sendMessageToAllUsers()
     {
-
+        $this->adminService->messageToAllUsers();
     }
 
 

@@ -18,6 +18,7 @@ use App\Kernel\Middlewares\StopIfUsernameNotExist;
 use App\Kernel\Router\Router;
 use App\Keyboards\Keyboards;
 use App\Messages\Messages;
+use App\Services\AdminService\AdminService;
 use App\Services\CallBackService\CallBackService;
 use App\Services\DealRepository\DealRepository;
 use App\Services\HomeService\HomeService;
@@ -47,6 +48,7 @@ class Container
     public readonly DealRepository  $dealRepository;
     public readonly CallBackService  $callBackService;
     public readonly CallBackQueryController $callBackQueryController;
+    public readonly AdminService $adminService;
     public readonly AdminController $adminController;
     public readonly Router $router;
 
@@ -89,7 +91,14 @@ class Container
         );
         $this->userController = new UserController($this->userService);
         $this->callBackQueryController = new CallBackQueryController($this->callBackService);
-        $this->adminController = new AdminController();
+        $this->adminService = new AdminService(
+            $this->botApi,
+            $this->botMessages,
+            $this->userRepository,
+            $this->dealRepository,
+            $this->config
+        );
+        $this->adminController = new AdminController($this->adminService);
         $this->router = new Router(
             $this->botApi->phpInput(),
             $this->isUsernameExist,
