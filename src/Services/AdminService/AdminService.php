@@ -20,9 +20,17 @@ class AdminService
     {
     }
 
-    public function messageToAllUsers()
+    public function messageToAllUsers(array $users, string $message)
     {
+        $nameOfTelegramIdColumn = $this->config->get('database.users_name_of_column_with_id_telegram');
 
+        foreach($users as $key => $value) {
+            try {
+                $this->botMessage->mailToBot($value[$nameOfTelegramIdColumn], $message);
+            } catch (\Exception $e) {
+                $err = $e->getMessage();
+            }
+        }
     }
 
     public function getAllTelegramIdOfAllUsers(): ?array
