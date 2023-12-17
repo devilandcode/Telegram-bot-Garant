@@ -63,9 +63,7 @@ class Router
 
     private function dispatchTextMessageFromAdminChannel()
     {
-        match($this->phpInput->channel_post->text) {
-            $this->config->get('adminKeywords.message_to_bot') => call_user_func([$this->adminController, 'sendMessageToAllUsers']),
-        };
+        call_user_func([$this->adminController, 'analyze']);
     }
 
     private function dispatchCallBackQueryFromBot()

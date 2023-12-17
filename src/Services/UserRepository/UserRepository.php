@@ -63,7 +63,7 @@ class UserRepository
 
     public function getAllUsersID() : ?array
     {
-        $sql = sprintf('SELECT id FROM %s', $this->usersTableName);
+        $sql = sprintf('SELECT %s FROM %s', $this->nameOfColumnIdTelegram ,$this->usersTableName);
         $stm = $this->pdo->select($sql);
 
         return is_array($stm) ? $stm : null;

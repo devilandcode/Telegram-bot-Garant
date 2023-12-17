@@ -12,6 +12,15 @@ class AdminController
     {
     }
 
+    public function analyze()
+    {
+        if ($this->adminService->isMessageToAllUsers()) {
+            $this->sendMessageToAllUsers();
+            return;
+        }
+    }
+
+
     public function sendMessageToAllUsers()
     {
         $users = $this->adminService->getAllTelegramIdOfAllUsers();
@@ -38,21 +47,6 @@ class AdminController
 //    public function askWhatMessageToSend(): void
 //    {
 //        $this->botAnswer->askAdminToTextHisMessageToBot($this->config->get('bot.admin_chat_id'));
-//    }
-//
-//    public function makeBulkMailing(string $messageFromAdmin): void
-//    {
-//        $allUsersIdArray = $this->userDBManager->getAllUsersID();
-//        $messageFromAdmin = trim($messageFromAdmin);
-//        $messageToBot = mb_substr($messageFromAdmin, 4);
-//        foreach($allUsersIdArray as $key => $value) {
-//            try {
-//                $this->botAnswer->mailToBot($value['id_telegram'], $messageToBot);
-//            } catch (\Exception $e) {
-//                $errorData = $e->getMessage() ?? 'Not $e';
-//            }
-//        }
-//        $this->botAnswer->mailToAdminSuccess($this->config->get('bot.admin_chat_id'));
 //    }
 //
 //    private function checkIsMarkDealLikeComplete()

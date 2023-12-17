@@ -52,4 +52,12 @@ class AdminService
         );
     }
 
+    public function isMessageToAllUsers(): bool
+    {
+        $toAllUsersKeyword = $this->config->get('adminKeywords.message_to_bot');
+        $messageFromAdmin = $this->botapi->phpInput()->channel_post->text;
+
+       return str_contains($messageFromAdmin, $toAllUsersKeyword) ? true : false;
+    }
+
 }
