@@ -35,7 +35,9 @@ class CallBackQueryController
 
     public function sendToSellerInvitation()
     {
-        $this->service->sendInvitationToSeller();
+        $numberOfDeal = $this->service->getNumberOfDealFromCallBackMessage();
+
+        $this->service->sendInvitationToSeller($numberOfDeal);
         $this->service->notifyBuyerInvitatinWasSent();
     }
 
@@ -46,31 +48,41 @@ class CallBackQueryController
 
     public function acceptInvitationFromBuyer()
     {
-        $this->service->notifyBuyerAndAdminThatSellerAcceptInvitation();
+        $numberOfDeal = $this->service->getNumberOfDealFromCallBackMessage();
+
+        $this->service->notifyBuyerAndAdminThatSellerAcceptInvitation($numberOfDeal);
         $this->service->showSellerThatHeAcceptTheInvitation();
     }
 
     public function cancelInvitationFromBuyer()
     {
-        $this->service->showBuyerThatSellerCancelInvitation();
+        $numberOfDeal = $this->service->getNumberOfDealFromCallBackMessage();
+
+        $this->service->showBuyerThatSellerCancelInvitation($numberOfDeal);
         $this->service->cancelAndGoStartMenu();
     }
 
     public function sendToAdminThatBuyerPaidToEscrow()
     {
-        $this->service->showAdminThatBuyerPaidToEscrow();
+        $numberOfDeal = $this->service->getNumberOfDealFromCallBackMessage();
+
+        $this->service->showAdminThatBuyerPaidToEscrow($numberOfDeal);
         $this->service->showBuyerThatHeNotifiedAdminAdmoutPayingToEscrow();
     }
 
     public function showAdminAndSellerThatBuyerRefusedToPay()
     {
-        $this->service->notifyAdminAndSellerThatBuyerRefusedToPay();
+        $numberOfDeal = $this->service->getNumberOfDealFromCallBackMessage();
+
+        $this->service->notifyAdminAndSellerThatBuyerRefusedToPay($numberOfDeal);
         $this->service->notifyBuyerThatHeRefusedToPay();
     }
 
     public function showBuyerAndSellerThatAdminGotTheMoney()
     {
-        $this->service->startDealAndShowThatAdminGotMoney();
+        $numberOfDeal = $this->service->getNumberOfDealFromCallBackMessage();
+
+        $this->service->startDealAndShowThatAdminGotMoney($numberOfDeal);
     }
 
     public function askAdminWhatToInputMessage()

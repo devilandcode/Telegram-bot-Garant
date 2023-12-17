@@ -54,9 +54,8 @@ class CallBackService
         $this->botKeyboard->cancelAndStartHome();
     }
 
-    public function sendInvitationToSeller(): void
+    public function sendInvitationToSeller(int $numberOfDeal): void
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $searchModel = $this->getSearchModel($numberOfDeal);
         $buyerModel = $this->getBuyerModelByTelegramId($searchModel->idBuyer());
 
@@ -74,10 +73,8 @@ class CallBackService
         $this->botKeyboard->cancelAndStartHome();
     }
 
-    public function notifyBuyerAndAdminThatSellerAcceptInvitation(): void
+    public function notifyBuyerAndAdminThatSellerAcceptInvitation(int $numberOfDeal): void
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
-
         $this->sendToBuyerThatSellerAcceptInvitation($numberOfDeal);
         $this->sendToAdminChannelThatSellerAcceptInvitation($numberOfDeal);
     }
@@ -87,9 +84,8 @@ class CallBackService
         $this->botMessages->waitingWhenBuyerWillPay();
     }
 
-    public function showBuyerThatSellerCancelInvitation(): void
+    public function showBuyerThatSellerCancelInvitation(int $numberOfDeal): void
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $searchModel = $this->getSearchModel($numberOfDeal);
 
         $this->botMessages->notifyToBuyerInvitationWasCanceled(
@@ -99,9 +95,8 @@ class CallBackService
         );
     }
 
-    public function showAdminThatBuyerPaidToEscrow(): void
+    public function showAdminThatBuyerPaidToEscrow(int $numberOfDeal): void
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
 
         $this->botMessages->notifyAdminDealIsPaid(
@@ -116,9 +111,8 @@ class CallBackService
         $this->botMessages->checkingBuyersTranssaction();
     }
 
-    public function notifyAdminAndSellerThatBuyerRefusedToPay(): void
+    public function notifyAdminAndSellerThatBuyerRefusedToPay(int $numberOfDeal): void
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
 
         $this->botMessages->showToAdminAndSellerThatBuyerRefusedToPay(
@@ -141,9 +135,8 @@ class CallBackService
         );
     }
 
-    public function startDealAndShowThatAdminGotMoney(): void
+    public function startDealAndShowThatAdminGotMoney(int $numberOfDeal): void
     {
-        $numberOfDeal = $this->getNumberOfDealFromCallBackMessage();
         $dealModel = $this->generateDealModel($numberOfDeal);
 
         if ($this->checkIsDealExistInDealTable($numberOfDeal)) {
@@ -314,7 +307,7 @@ class CallBackService
         return $this->getDealModel($buyerModel, $sellerModel, $searchModel);
     }
 
-    private function getNumberOfDealFromCallBackMessage(): int
+    public function getNumberOfDealFromCallBackMessage(): int
     {
         $text = $this->botApi->phpInput()->callback_query->message->text;
         $elemPos = mb_strpos($text,'№');
