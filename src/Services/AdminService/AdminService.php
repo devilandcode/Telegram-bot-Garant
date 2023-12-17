@@ -45,4 +45,11 @@ class AdminService
         return substr($message, 4);
     }
 
+    public function showAdminThatMessageWasSent()
+    {
+        $this->botMessage->mailToAdminSuccess(
+            $this->config->get('bot.admin_chat_id')
+        );
+    }
+
 }
