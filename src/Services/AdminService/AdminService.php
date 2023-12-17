@@ -25,4 +25,9 @@ class AdminService
 
     }
 
+    public function getAllTelegramIdOfAllUsers(): ?array
+    {
+        return $this->userRepository->getAllUsersID();
+    }
+
 }

@@ -14,6 +14,8 @@ class AdminController
 
     public function sendMessageToAllUsers()
     {
+        $users = $this->adminService->getAllTelegramIdOfAllUsers();
+
         $this->adminService->messageToAllUsers();
     }
 
