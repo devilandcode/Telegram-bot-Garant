@@ -30,4 +30,11 @@ class AdminService
         return $this->userRepository->getAllUsersID();
     }
 
+    public function getMessageToAllUsers(): string
+    {
+        $message = trim($this->botapi->phpInput()->channel_post->text);
+
+        return substr($message, 4);
+    }
+
 }
